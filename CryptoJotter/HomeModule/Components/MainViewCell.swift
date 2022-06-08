@@ -130,7 +130,8 @@ private extension MainViewCell {
         ])
     }
     
-    func imageLoader(url: String) {
+    func imageLoader(url: String?) {
+        guard let url = url else { return }
         guard let url = URL(string: url) else { return }
         let request = URLRequest(url: url)
         URLSession.shared.downloadTask(with: request) { url, response, error in

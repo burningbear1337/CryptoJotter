@@ -14,6 +14,7 @@ protocol IDetailsIteractor: AnyObject {
 final class DetailsIteractor {
     
     private var presenter: IDetailsPresenter
+    private var networkManager = NetworkManager()
     
     init(presenter: IDetailsPresenter) {
         self.presenter = presenter
@@ -21,7 +22,7 @@ final class DetailsIteractor {
 }
 
 extension DetailsIteractor: IDetailsIteractor {
-     
+    
     func dataTransitionTo(view: IDetailsView, coin: CoinModel?) {
         self.presenter.setupView(data: coin, view: view)
     }

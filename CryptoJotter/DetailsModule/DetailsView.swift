@@ -13,21 +13,40 @@ protocol IDetailsView: AnyObject {
 
 final class CustomDetailsView: UIView {
     
+    private lazy var scrollView:UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+    
     private var data: CoinModel?
     
-    private lazy var label: UILabel = {
+    private lazy var coinNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.theme.greenColor
-        label.font = AppFont.semibold15.font
+        label.font = AppFont.semibold17.font
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var imageView: UIImageView = {
+    private lazy var coinImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+    
+    private lazy var low24HLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = UIColor.theme.accentColor
+        label.font = UIFont.systemFont(ofSize: 35)
+        return label
     }()
     
     init() {
@@ -44,6 +63,7 @@ final class CustomDetailsView: UIView {
 extension CustomDetailsView: IDetailsView {
     func setData(data: CoinModel?) {
         self.data = data
+        self.imageLoader(url: data?.image)
         setupElementsData()
     }
 }
@@ -51,32 +71,69 @@ extension CustomDetailsView: IDetailsView {
 private extension CustomDetailsView {
     
     func setupElementsData() {
-        self.label.text = self.data?.name
+        self.coinNameLabel.text = self.data?.name
+        imageLoader(url: self.data?.image)
     }
     
     func setupLayout() {
-        self.setupLabel()
-        self.setupIconImage()
+        self.setupScrollView()
+        self.setupCoinNameLabel()
+        self.setupCoinImage()
+        
     }
     
-    func setupLabel() {
-        self.addSubview(self.label)
+    func setupScrollView() {
+        self.addSubview(self.scrollView)
         NSLayoutConstraint.activate([
-            self.label.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            self.label.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.label.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.label.heightAnchor.constraint(equalToConstant: 55),
+            self.scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+        ])
+    }
+        
+    func setupCoinNameLabel() {
+        self.scrollView.addSubview(self.coinNameLabel)
+        NSLayoutConstraint.activate([
+            self.coinNameLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 20),
+            self.coinNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.coinNameLabel.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
         ])
     }
     
-    func setupIconImage() {
-        self.addSubview(self.imageView)
+    func setupCoinImage() {
+        self.scrollView.addSubview(self.coinImage)
         NSLayoutConstraint.activate([
-            self.imageView.heightAnchor.constraint(equalToConstant: 24),
-            self.imageView.widthAnchor.constraint(equalToConstant: 24),
-            self.imageView.centerYAnchor.constraint(equalTo: self.label.centerYAnchor),
-            self.imageView.trailingAnchor.constraint(equalTo: self.label.leadingAnchor, constant: -10),
+            self.coinImage.centerYAnchor.constraint(equalTo: self.coinNameLabel.centerYAnchor),
+            self.coinImage.trailingAnchor.constraint(equalTo: self.coinNameLabel.leadingAnchor, constant: -10),
+            self.coinImage.heightAnchor.constraint(equalToConstant: 24),
+            self.coinImage.widthAnchor.constraint(equalToConstant: 24),
         ])
+    }
+    
+    func setupLow24H() {
+        
+    }
+    
+    func imageLoader(url: String?) {
+        guard let url = url else { return }
+        guard let url = URL(string: url) else { return }
+        let request = URLRequest(url: url)
+        URLSession.shared.downloadTask(with: request) { url, response, error in
+            if let error = error {
+                print(error)
+            }
+            guard let url = url else { return }
+            
+            let data = try? Data(contentsOf: url)
+            
+            guard let data = data else { return }
+            
+            DispatchQueue.main.async {
+                let imageView = UIImageView(image: UIImage(data: data))
+                self.coinImage.image = imageView.image
+            }
+        }.resume()
     }
 }
 

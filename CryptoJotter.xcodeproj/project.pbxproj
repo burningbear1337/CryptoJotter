@@ -23,10 +23,10 @@
 		D169337F28490AA100C24B88 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D169337E28490AA100C24B88 /* ColorScheme.swift */; };
 		D169338128490D0E00C24B88 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D169338028490D0E00C24B88 /* AppFont.swift */; };
 		D1700081284CEE5700FFBF1C /* MainIteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1700080284CEE5700FFBF1C /* MainIteractor.swift */; };
+		D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D182FCA52850D17F007E5994 /* StatisticsElement.swift */; };
 		D1836992285050D000E98D64 /* PortfolioIntercator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1836991285050D000E98D64 /* PortfolioIntercator.swift */; };
 		D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369932850510100E98D64 /* PortfolioPresenter.swift */; };
 		D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369952850510700E98D64 /* PortfolioRouter.swift */; };
-		D1D44D73284E0D15008555DE /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D72284E0D15008555DE /* CustomSearchBar.swift */; };
 		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
 		D1F66483284EEE5400932153 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66482284EEE5400932153 /* PortfolioViewController.swift */; };
 		D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66484284EF8BD00932153 /* DetailsViewController.swift */; };
@@ -55,10 +55,10 @@
 		D169337E28490AA100C24B88 /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		D169338028490D0E00C24B88 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		D1700080284CEE5700FFBF1C /* MainIteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIteractor.swift; sourceTree = "<group>"; };
+		D182FCA52850D17F007E5994 /* StatisticsElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsElement.swift; sourceTree = "<group>"; };
 		D1836991285050D000E98D64 /* PortfolioIntercator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioIntercator.swift; sourceTree = "<group>"; };
 		D18369932850510100E98D64 /* PortfolioPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPresenter.swift; sourceTree = "<group>"; };
 		D18369952850510700E98D64 /* PortfolioRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRouter.swift; sourceTree = "<group>"; };
-		D1D44D72284E0D15008555DE /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
 		D1F66482284EEE5400932153 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		D1F66484284EF8BD00932153 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -153,11 +153,18 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		D182FCA42850D160007E5994 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D182FCA52850D17F007E5994 /* StatisticsElement.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		D199D6522849F4E90003615A /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				D12F4F312848DE650027B9A1 /* MainViewCell.swift */,
-				D1D44D72284E0D15008555DE /* CustomSearchBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -177,6 +184,7 @@
 		D1F66481284EEE2300932153 /* DetailsModule */ = {
 			isa = PBXGroup;
 			children = (
+				D182FCA42850D160007E5994 /* Components */,
 				D1F6648C284F1A6900932153 /* DetailsModuleBuilder.swift */,
 				D1F66484284EF8BD00932153 /* DetailsViewController.swift */,
 				D1F66488284F150A00932153 /* DetailsView.swift */,
@@ -256,7 +264,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1D44D73284E0D15008555DE /* CustomSearchBar.swift in Sources */,
 				D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */,
 				D1F66489284F150A00932153 /* DetailsView.swift in Sources */,
 				D12F4F2A2848D4D60027B9A1 /* MainRouter.swift in Sources */,
@@ -276,6 +283,7 @@
 				D13E1180284F6C8000D5EEDA /* PortfolioView.swift in Sources */,
 				D1836992285050D000E98D64 /* PortfolioIntercator.swift in Sources */,
 				D169338128490D0E00C24B88 /* AppFont.swift in Sources */,
+				D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */,
 				D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */,
 				D12F4F302848DA130027B9A1 /* MainModuleBuilder.swift in Sources */,
 				D124D4F92849CA0200E63B5A /* NetworkManager.swift in Sources */,

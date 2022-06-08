@@ -9,7 +9,7 @@ import Foundation
 
 protocol INetworkManager: AnyObject {
     func fetchArrayOfData<T:Codable>(urlsString: String, completion: @escaping (Result<[T],Error>)->())
-    func fetchDataElement<T: Codable>(urlsString: String, completion: @escaping (Result<T?,Error>)->())
+    func fetchDataElement<T: Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
 }
 
 final class NetworkManager {
@@ -44,7 +44,9 @@ extension NetworkManager: INetworkManager {
         }.resume()
     }
     
-    func fetchDataElement<T>(urlsString: String, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
+    func fetchDataElement<T: Codable>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) {
+        
+        guard let urlsString = urlsString else { return }
         
         guard let url = URL(string: urlsString) else { return }
         

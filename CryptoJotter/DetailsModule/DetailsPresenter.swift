@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol IDetailsPresenter: AnyObject {
     func setupView(data: CoinModel?, view: IDetailsView)
