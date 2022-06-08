@@ -18,7 +18,6 @@ final class DetailsPresenter {
 extension DetailsPresenter: IDetailsPresenter {
     func setupView(data: CoinModel?, view: IDetailsView) {
         self.view = view
-        print("Presenter: \(data?.symbol)")
         view.setData(data: data)
     }
 }

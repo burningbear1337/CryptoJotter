@@ -33,7 +33,7 @@ final class MainView: UIView {
         textField.rightViewMode = .always
         textField.returnKeyType = .search
         textField.autocorrectionType = .no
-        textField.layer.shadowColor = UIColor.white.cgColor
+        textField.layer.shadowColor = UIColor.theme.shadowColor?.cgColor
         textField.layer.shadowOpacity = 0.1
         textField.layer.shadowRadius = 8
         textField.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -84,19 +84,19 @@ extension MainView: IMainView {
 private extension MainView {
     
     func setupLayout() {
-        
         self.backgroundColor = UIColor.theme.backgroundColor
         setupTableViewLayout()
     }
     
     func setupTableViewLayout() {
-        
         self.addSubview(self.customSearchBar)
         self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
-        self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-        self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
-        self.customSearchBar.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        NSLayoutConstraint.activate([
+            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
+        ])
         
         self.addSubview(self.tableView)
         self.tableView.backgroundColor = .clear

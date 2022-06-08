@@ -39,7 +39,6 @@ private extension MainViewController {
     func routeToNextVC() {
         self.mainView.tapOnCell = { [weak self] coin in
             guard let self = self else { return}
-            print("MainVC: \(coin.symbol)")
             self.router.routeToDetails(self, coin: coin)
         }
     }

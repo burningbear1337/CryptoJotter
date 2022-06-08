@@ -29,7 +29,6 @@ class DetailsViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("DetailsVC: \(self.coin?.symbol)")
         self.iteractor.dataTransitionTo(view: self.customDetailsView, coin: self.coin)
         self.view.backgroundColor = UIColor.theme.backgroundColor
     }

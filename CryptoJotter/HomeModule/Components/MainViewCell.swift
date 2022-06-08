@@ -86,38 +86,48 @@ private extension MainViewCell {
     func setupCoinIndex() {
         self.contentView.addSubview(self.coinIndex)
         self.coinIndex.translatesAutoresizingMaskIntoConstraints = false
-        self.coinIndex.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        self.coinIndex.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            self.coinIndex.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            self.coinIndex.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+        ])
     }
     
     func setupCoinImage() {
         self.contentView.addSubview(self.coinImage)
         self.coinImage.translatesAutoresizingMaskIntoConstraints = false
-        self.coinImage.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        self.coinImage.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        self.coinImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        self.coinImage.leadingAnchor.constraint(equalTo: self.coinIndex.trailingAnchor, constant: 10).isActive = true
+        NSLayoutConstraint.activate([
+            self.coinImage.heightAnchor.constraint(equalToConstant: 35),
+            self.coinImage.widthAnchor.constraint(equalToConstant: 35),
+            self.coinImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.coinImage.leadingAnchor.constraint(equalTo: self.coinIndex.trailingAnchor, constant: 10),
+        ])
     }
     
     func setupCoinName() {
         self.contentView.addSubview(self.coinName)
         self.coinName.translatesAutoresizingMaskIntoConstraints = false
-        self.coinName.leadingAnchor.constraint(equalTo: self.coinImage.trailingAnchor,constant: 10).isActive = true
-        self.coinName.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            self.coinName.leadingAnchor.constraint(equalTo: self.coinImage.trailingAnchor,constant: 10),
+            self.coinName.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+        ])
     }
     
     func setupCoinPrice() {
         self.contentView.addSubview(self.coinPrice)
         self.coinPrice.translatesAutoresizingMaskIntoConstraints = false
-        self.coinPrice.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        self.coinPrice.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
+        NSLayoutConstraint.activate([
+            self.coinPrice.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            self.coinPrice.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+        ])
     }
     
     func setupCoinPriceChange24H() {
         self.contentView.addSubview(self.coinPriceChange24H)
         self.coinPriceChange24H.translatesAutoresizingMaskIntoConstraints = false
-        self.coinPriceChange24H.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        self.coinPriceChange24H.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        NSLayoutConstraint.activate([
+            self.coinPriceChange24H.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            self.coinPriceChange24H.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
+        ])
     }
     
     func imageLoader(url: String) {

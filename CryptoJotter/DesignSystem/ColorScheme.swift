@@ -18,4 +18,5 @@ struct ColorTheme {
     let greenColor = UIColor(named: "GreenColor")
     let backgroundColor = UIColor(named: "BackgroundColor")
     let secondaryBackgroundColor = UIColor(named: "SecondaryBackgroundColor")
+    let shadowColor = UIColor(named: "ShadowColor")
 }

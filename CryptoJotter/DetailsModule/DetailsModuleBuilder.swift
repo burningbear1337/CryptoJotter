@@ -20,9 +20,7 @@ final class DetailsModuleBuilder: IDetailsBuilder {
         return self
     }
     
-    
     func build() -> UIViewController {
-        print("Builder: \(self.coin?.symbol)")
         let presenter = DetailsPresenter()
         let iteractor = DetailsIteractor(presenter: presenter)
         let vc = DetailsViewController(iteractor: iteractor, coin: self.coin)
