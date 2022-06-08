@@ -8,7 +8,8 @@
 import UIKit
 
 protocol IDetailsView: AnyObject {
-    func setData(data: CoinModel?)
+    func setCoins(coin: CoinModel?)
+    func setCoinsDetailsData(coinDetails: CoinDetailsModel?)
 }
 
 final class CustomDetailsView: UIView {
@@ -21,7 +22,8 @@ final class CustomDetailsView: UIView {
         return scrollView
     }()
     
-    private var data: CoinModel?
+    private var coin: CoinModel?
+    private var coinDetails: CoinDetailsModel?
     
     private lazy var coinNameLabel: UILabel = {
         let label = UILabel()
@@ -38,16 +40,9 @@ final class CustomDetailsView: UIView {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-    private lazy var low24HLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.textColor = UIColor.theme.accentColor
-        label.font = UIFont.systemFont(ofSize: 35)
-        return label
-    }()
+        
+    private lazy var low24H = StatisticsElement()
+    private lazy var high24H = StatisticsElement()
     
     init() {
         super.init(frame: .zero)
@@ -61,9 +56,14 @@ final class CustomDetailsView: UIView {
 }
 
 extension CustomDetailsView: IDetailsView {
-    func setData(data: CoinModel?) {
-        self.data = data
-        self.imageLoader(url: data?.image)
+    func setCoinsDetailsData(coinDetails: CoinDetailsModel?) {
+        print(coinDetails?.marketCapRank)
+        self.coinDetails = coinDetails
+    }
+    
+    func setCoins(coin: CoinModel?) {
+        self.coin = coin
+        self.imageLoader(url: coin?.image)
         setupElementsData()
     }
 }
@@ -71,15 +71,19 @@ extension CustomDetailsView: IDetailsView {
 private extension CustomDetailsView {
     
     func setupElementsData() {
-        self.coinNameLabel.text = self.data?.name
-        imageLoader(url: self.data?.image)
+        self.coinNameLabel.text = self.coin?.name
+        self.imageLoader(url: self.coin?.image)
+        self.low24H.injectData(title: "Lowest 24H", price: self.coin?.low24H)
+        self.high24H.injectData(title: "Heightest 24H", price: self.coin?.high24H)
+        
     }
     
     func setupLayout() {
         self.setupScrollView()
         self.setupCoinNameLabel()
         self.setupCoinImage()
-        
+        self.setupLowest24H()
+        self.setupHugh24H()
     }
     
     func setupScrollView() {
@@ -111,9 +115,29 @@ private extension CustomDetailsView {
         ])
     }
     
-    func setupLow24H() {
-        
+    func setupLowest24H() {
+        self.scrollView.addSubview(self.low24H)
+        self.low24H.translatesAutoresizingMaskIntoConstraints = false
+        self.low24H.layer.borderWidth = 1
+        self.low24H.layer.borderColor = UIColor.theme.secondaryColor?.cgColor
+        self.low24H.layer.cornerRadius = 10
+        NSLayoutConstraint.activate([
+            self.low24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.low24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+            self.low24H.topAnchor.constraint(equalTo: self.coinImage.bottomAnchor, constant: 20)
+        ])
     }
+    
+    func setupHugh24H() {
+        self.scrollView.addSubview(self.high24H)
+        self.high24H.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.high24H.topAnchor.constraint(equalTo: self.low24H.topAnchor),
+            self.high24H.leadingAnchor.constraint(equalTo: self.low24H.trailingAnchor),
+            self.high24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+        ])
+    }
+    
     
     func imageLoader(url: String?) {
         guard let url = url else { return }

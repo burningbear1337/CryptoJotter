@@ -44,7 +44,7 @@ extension NetworkManager: INetworkManager {
         }.resume()
     }
     
-    func fetchDataElement<T: Codable>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) {
+    func fetchDataElement<T>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
         
         guard let urlsString = urlsString else { return }
         
@@ -52,17 +52,20 @@ extension NetworkManager: INetworkManager {
         
         let request = URLRequest(url: url)
         
-        URLSession.shared.downloadTask(with: request) { url, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             
             if let error = error {
                 completion(.failure(error))
             }
             
-            guard let url = url else { return }
-            
-            if let data = try? Data(contentsOf: url) {
-                completion(.success(data as? T))
+            guard let data = data else { return }
+            do {
+                let result = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(result))
             }
-        }
+            catch let error {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 }

@@ -29,7 +29,8 @@ class DetailsViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.iteractor.dataTransitionTo(view: self.customDetailsView, coin: self.coin)
+        self.iteractor.transferData(view: self.customDetailsView, coin: self.coin)
+        self.iteractor.fetchDetailsData(view: self.customDetailsView)
         self.view.backgroundColor = UIColor.theme.backgroundColor
     }
 }

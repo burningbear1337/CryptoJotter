@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 protocol IDetailsPresenter: AnyObject {
-    func setupView(data: CoinModel?, view: IDetailsView)
+    func setupView(coin: CoinModel?, view: IDetailsView)
+    func setupViewWithDetails(coinDetails: CoinDetailsModel?, view: IDetailsView)
 }
 
 final class DetailsPresenter {
@@ -17,8 +18,14 @@ final class DetailsPresenter {
 }
 
 extension DetailsPresenter: IDetailsPresenter {
-    func setupView(data: CoinModel?, view: IDetailsView) {
+
+    func setupView(coin: CoinModel?, view: IDetailsView) {
         self.view = view
-        view.setData(data: data)
+        view.setCoins(coin: coin)
+    }
+    
+    func setupViewWithDetails(coinDetails: CoinDetailsModel?, view: IDetailsView) {
+        self.view = view
+        view.setCoinsDetailsData(coinDetails: coinDetails)
     }
 }
