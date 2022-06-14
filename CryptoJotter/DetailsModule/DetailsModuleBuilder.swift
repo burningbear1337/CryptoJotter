@@ -21,9 +21,10 @@ final class DetailsModuleBuilder: IDetailsBuilder {
     }
     
     func build() -> UIViewController {
-        let presenter = DetailsPresenter()
-        let iteractor = DetailsIteractor(presenter: presenter)
-        let vc = DetailsViewController(iteractor: iteractor, coin: self.coin)
+        guard let coin = coin else { return UIViewController() }
+        let networkService = NetworkManager()
+        let presenter = DetailsPresenter(networkService: networkService, coin: coin)
+        let vc = DetailsViewController(presenter: presenter)
         return vc
     }
 }

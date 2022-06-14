@@ -34,10 +34,12 @@ final class StatisticsElement: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func injectData(title: String?, price: Double?) {
+    public func injectData(title: String?, price: String?, suffix: String) {
         self.titleLabel.text = title
         guard let price = price else { return }
-        self.infoLabel.text = "\(String(describing: price))$"
+        self.infoLabel.text = "\(String(describing: price)) "+suffix
+        guard let price = Double(price) else { return }
+        self.infoLabel.textColor = price > 0 ? UIColor.theme.accentColor : UIColor.theme.redColor
     }
 }
 

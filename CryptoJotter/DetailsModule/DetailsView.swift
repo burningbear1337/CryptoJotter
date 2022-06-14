@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IDetailsView: AnyObject {
-    func setCoins(coin: CoinModel?)
+    func setupCoins(coin: CoinModel?)
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?)
 }
 
@@ -43,6 +43,26 @@ final class CustomDetailsView: UIView {
         
     private lazy var low24H = StatisticsElement()
     private lazy var high24H = StatisticsElement()
+    private lazy var priceChange24H = StatisticsElement()
+    private lazy var priceChange24HPercantage = StatisticsElement()
+    private lazy var currentPrice = StatisticsElement()
+    private lazy var marketCapRank = StatisticsElement()
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.theme.accentColor
+        label.font = AppFont.regular13.font
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    private lazy var linkButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Home website", for: .normal)
+        button.titleLabel?.font = AppFont.semibold15.font
+        button.titleLabel?.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(openWebSite), for: .touchUpInside)
+        return button
+    }()
     
     init() {
         super.init(frame: .zero)
@@ -56,26 +76,56 @@ final class CustomDetailsView: UIView {
 }
 
 extension CustomDetailsView: IDetailsView {
+    
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?) {
-        print(coinDetails?.marketCapRank)
+        DispatchQueue.main.async {
+            self.descriptionLabel.text = coinDetails?.detailsCoinModelDescription.en.removeHTMLSymbols
+        }
         self.coinDetails = coinDetails
     }
     
-    func setCoins(coin: CoinModel?) {
+    func setupCoins(coin: CoinModel?) {
         self.coin = coin
         self.imageLoader(url: coin?.image)
-        setupElementsData()
+        self.setupElementsData()
     }
 }
 
 private extension CustomDetailsView {
-    
+        
     func setupElementsData() {
         self.coinNameLabel.text = self.coin?.name
         self.imageLoader(url: self.coin?.image)
-        self.low24H.injectData(title: "Lowest 24H", price: self.coin?.low24H)
-        self.high24H.injectData(title: "Heightest 24H", price: self.coin?.high24H)
         
+        self.low24H.injectData(
+            title: "Lowest 24H",
+            price: self.coin?.low24H?.convertToStringWith2Decimals(),
+            suffix: "$")
+        
+        self.high24H.injectData(
+            title: "Heightest 24H",
+            price: self.coin?.high24H?.convertToStringWith2Decimals(),
+            suffix: "$")
+        
+        self.priceChange24H.injectData(
+            title: "Price Change 24H",
+            price: self.coin?.priceChange24H?.convertToStringWith2Decimals(),
+            suffix: "$")
+        
+        self.priceChange24HPercantage.injectData(
+            title: "% Change 24H",
+            price: self.coin?.priceChangePercentage24H?.convertToStringWith2Decimals(),
+            suffix: "%")
+        
+        self.currentPrice.injectData(
+            title: "Current Price",
+            price: self.coin?.currentPrice.convertToStringWith2Decimals(),
+            suffix: "$")
+        
+        self.marketCapRank.injectData(
+            title: "Market Rank",
+            price: self.coin?.marketCapRank?.converToStringWith0Decimals(),
+            suffix: "#")
     }
     
     func setupLayout() {
@@ -83,11 +133,19 @@ private extension CustomDetailsView {
         self.setupCoinNameLabel()
         self.setupCoinImage()
         self.setupLowest24H()
-        self.setupHugh24H()
+        self.setupHigh24H()
+        self.setup24HPriceChange()
+        self.setup24HPriceChangePercantage()
+        self.setupCurrentPrice()
+        self.setupMarketCapRank()
+        self.setupDescription()
+        self.setupLinkButton()
     }
     
     func setupScrollView() {
         self.addSubview(self.scrollView)
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.alwaysBounceVertical = true
         NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             self.scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -101,7 +159,6 @@ private extension CustomDetailsView {
         NSLayoutConstraint.activate([
             self.coinNameLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 20),
             self.coinNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.coinNameLabel.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
         ])
     }
     
@@ -118,9 +175,6 @@ private extension CustomDetailsView {
     func setupLowest24H() {
         self.scrollView.addSubview(self.low24H)
         self.low24H.translatesAutoresizingMaskIntoConstraints = false
-        self.low24H.layer.borderWidth = 1
-        self.low24H.layer.borderColor = UIColor.theme.secondaryColor?.cgColor
-        self.low24H.layer.cornerRadius = 10
         NSLayoutConstraint.activate([
             self.low24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.low24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
@@ -128,7 +182,7 @@ private extension CustomDetailsView {
         ])
     }
     
-    func setupHugh24H() {
+    func setupHigh24H() {
         self.scrollView.addSubview(self.high24H)
         self.high24H.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -138,6 +192,66 @@ private extension CustomDetailsView {
         ])
     }
     
+    func setup24HPriceChange() {
+        self.scrollView.addSubview(self.priceChange24H)
+        self.priceChange24H.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.priceChange24H.topAnchor.constraint(equalTo: self.low24H.bottomAnchor, constant: 70),
+            self.priceChange24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.priceChange24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+        ])
+    }
+    
+    func setup24HPriceChangePercantage() {
+        self.scrollView.addSubview(self.priceChange24HPercantage)
+        self.priceChange24HPercantage.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.priceChange24HPercantage.topAnchor.constraint(equalTo: self.priceChange24H.topAnchor),
+            self.priceChange24HPercantage.leadingAnchor.constraint(equalTo: self.priceChange24H.trailingAnchor),
+            self.priceChange24HPercantage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20)
+        ])
+    }
+    
+    func setupCurrentPrice() {
+        self.scrollView.addSubview(self.currentPrice)
+        self.currentPrice.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.currentPrice.topAnchor.constraint(equalTo: self.priceChange24H.bottomAnchor, constant: 70),
+            self.currentPrice.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.currentPrice.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+        ])
+    }
+    
+    func setupMarketCapRank() {
+        self.scrollView.addSubview(self.marketCapRank)
+        self.marketCapRank.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.marketCapRank.topAnchor.constraint(equalTo: self.currentPrice.topAnchor),
+            self.marketCapRank.leadingAnchor.constraint(equalTo: self.currentPrice.trailingAnchor),
+            self.marketCapRank.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20)
+        ])
+    }
+    
+    func setupDescription() {
+        self.scrollView.addSubview(self.descriptionLabel)
+        self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.currentPrice.bottomAnchor, constant: 70),
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+        ])
+    }
+    
+    func setupLinkButton() {
+        self.scrollView.addSubview(self.linkButton)
+        self.linkButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.linkButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 30),
+            self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -20)
+        ])
+    }
+
     
     func imageLoader(url: String?) {
         guard let url = url else { return }
@@ -158,6 +272,11 @@ private extension CustomDetailsView {
                 self.coinImage.image = imageView.image
             }
         }.resume()
+    }
+    
+    @objc func openWebSite() {
+        guard let url = URL(string: coinDetails?.links.homepage.first?.replacingOccurrences(of: "http", with: "https") ?? "") else { return }
+        UIApplication.shared.open(url)
     }
 }
 

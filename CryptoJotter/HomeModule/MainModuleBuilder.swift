@@ -14,10 +14,10 @@ protocol Builder: AnyObject {
 
 final class MainModuleBuilder: Builder {
     func build() -> UIViewController {
-        let presenter = MainPresenter()
-        let iteractor = MainIteractor(presenter: presenter)
+        let networkService = NetworkManager()
         let router = MainRouter()
-        let vc = MainViewController(iteractor: iteractor, router: router)
+        let presenter = MainPresenter(networkService: networkService, router: router)
+        let vc = MainViewController(presenter: presenter)
         return vc
     }
 }

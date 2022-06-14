@@ -10,12 +10,10 @@ import UIKit
 class DetailsViewController: UIViewController {
     
     private let customDetailsView = CustomDetailsView()
-    private var iteractor: IDetailsIteractor
-    private var coin: CoinModel?
+    private var presenter: IDetailsPresenter
         
-    init(iteractor: IDetailsIteractor, coin: CoinModel?) {
-        self.iteractor = iteractor
-        self.coin = coin
+    init(presenter: IDetailsPresenter) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,8 +27,7 @@ class DetailsViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.iteractor.transferData(view: self.customDetailsView, coin: self.coin)
-        self.iteractor.fetchDetailsData(view: self.customDetailsView)
+        self.presenter.sinkDataToView(view: self.customDetailsView)
         self.view.backgroundColor = UIColor.theme.backgroundColor
     }
 }

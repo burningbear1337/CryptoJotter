@@ -10,12 +10,10 @@ import UIKit
 class MainViewController: UIViewController {
     
     private let mainView = MainView()
-    private let iteractor: IMainIteractor
-    private let router: IMainRouter
+    private let presenter: IMainPresenter
     
-    init(iteractor: IMainIteractor, router: IMainRouter) {
-        self.iteractor = iteractor
-        self.router = router
+    init(presenter: IMainPresenter) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,16 +28,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.iteractor.loadAllCoinsTo(view: mainView)
-        self.routeToNextVC()
+        self.presenter.sinkDataToView(view: self.mainView, vc: self)
     }
 }
 
-private extension MainViewController {
-    func routeToNextVC() {
-        self.mainView.tapOnCell = { [weak self] coin in
-            guard let self = self else { return}
-            self.router.routeToDetails(self, coin: coin)
-        }
-    }
-}

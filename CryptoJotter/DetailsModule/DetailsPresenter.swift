@@ -9,23 +9,40 @@ import Foundation
 import UIKit
 
 protocol IDetailsPresenter: AnyObject {
-    func setupView(coin: CoinModel?, view: IDetailsView)
-    func setupViewWithDetails(coinDetails: CoinDetailsModel?, view: IDetailsView)
+    func sinkDataToView(view: IDetailsView)
 }
 
 final class DetailsPresenter {
     weak var view: IDetailsView?
+    private var networkService: INetworkManager
+    private var coin: CoinModel
+    
+    init(networkService: INetworkManager, coin: CoinModel) {
+        self.networkService = networkService
+        self.coin = coin
+    }
 }
 
 extension DetailsPresenter: IDetailsPresenter {
 
-    func setupView(coin: CoinModel?, view: IDetailsView) {
+    func sinkDataToView(view: IDetailsView) {
         self.view = view
-        view.setCoins(coin: coin)
+        view.setupCoins(coin: self.coin)
+        let urlString = urlForCoin(coin: self.coin)
+        self.networkService.fetchCoinData(urlsString: urlString) { (result: Result<CoinDetailsModel?, Error>) in
+            switch result {
+            case .success(let details):
+                view.setCoinsDetailsData(coinDetails: details)
+            case .failure(_):
+                break
+            }
+        }
     }
-    
-    func setupViewWithDetails(coinDetails: CoinDetailsModel?, view: IDetailsView) {
-        self.view = view
-        view.setCoinsDetailsData(coinDetails: coinDetails)
+}
+
+private extension DetailsPresenter {
+    func urlForCoin(coin: CoinModel?) -> String {
+        guard let coin = coin else { return ""}
+        return "https://api.coingecko.com/api/v3/coins/\(coin.name.lowercased())?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
     }
 }

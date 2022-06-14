@@ -20,10 +20,10 @@
 		D12F4F302848DA130027B9A1 /* MainModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F2F2848DA130027B9A1 /* MainModuleBuilder.swift */; };
 		D12F4F322848DE650027B9A1 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F312848DE650027B9A1 /* MainViewCell.swift */; };
 		D13E1180284F6C8000D5EEDA /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13E117F284F6C8000D5EEDA /* PortfolioView.swift */; };
+		D1584F2328571F7100D6A069 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1584F2228571F7100D6A069 /* Converters.swift */; };
 		D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D161425A2851053200CE22D9 /* CoinDetailsModel.swift */; };
 		D169337F28490AA100C24B88 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D169337E28490AA100C24B88 /* ColorScheme.swift */; };
 		D169338128490D0E00C24B88 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D169338028490D0E00C24B88 /* AppFont.swift */; };
-		D1700081284CEE5700FFBF1C /* MainIteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1700080284CEE5700FFBF1C /* MainIteractor.swift */; };
 		D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D182FCA52850D17F007E5994 /* StatisticsElement.swift */; };
 		D1836992285050D000E98D64 /* PortfolioIntercator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1836991285050D000E98D64 /* PortfolioIntercator.swift */; };
 		D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369932850510100E98D64 /* PortfolioPresenter.swift */; };
@@ -31,7 +31,6 @@
 		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
 		D1F66483284EEE5400932153 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66482284EEE5400932153 /* PortfolioViewController.swift */; };
 		D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66484284EF8BD00932153 /* DetailsViewController.swift */; };
-		D1F66487284F146600932153 /* DetailsIteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66486284F146600932153 /* DetailsIteractor.swift */; };
 		D1F66489284F150A00932153 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66488284F150A00932153 /* DetailsView.swift */; };
 		D1F6648B284F164300932153 /* DetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F6648A284F164300932153 /* DetailsPresenter.swift */; };
 		D1F6648D284F1A6900932153 /* DetailsModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F6648C284F1A6900932153 /* DetailsModuleBuilder.swift */; };
@@ -53,10 +52,10 @@
 		D12F4F2F2848DA130027B9A1 /* MainModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModuleBuilder.swift; sourceTree = "<group>"; };
 		D12F4F312848DE650027B9A1 /* MainViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
 		D13E117F284F6C8000D5EEDA /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
+		D1584F2228571F7100D6A069 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		D161425A2851053200CE22D9 /* CoinDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailsModel.swift; sourceTree = "<group>"; };
 		D169337E28490AA100C24B88 /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		D169338028490D0E00C24B88 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
-		D1700080284CEE5700FFBF1C /* MainIteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIteractor.swift; sourceTree = "<group>"; };
 		D182FCA52850D17F007E5994 /* StatisticsElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsElement.swift; sourceTree = "<group>"; };
 		D1836991285050D000E98D64 /* PortfolioIntercator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioIntercator.swift; sourceTree = "<group>"; };
 		D18369932850510100E98D64 /* PortfolioPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPresenter.swift; sourceTree = "<group>"; };
@@ -64,7 +63,6 @@
 		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
 		D1F66482284EEE5400932153 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		D1F66484284EF8BD00932153 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
-		D1F66486284F146600932153 /* DetailsIteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsIteractor.swift; sourceTree = "<group>"; };
 		D1F66488284F150A00932153 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		D1F6648A284F164300932153 /* DetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPresenter.swift; sourceTree = "<group>"; };
 		D1F6648C284F1A6900932153 /* DetailsModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModuleBuilder.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				D199D6522849F4E90003615A /* Components */,
 				D12F4F102848C8130027B9A1 /* MainViewController.swift */,
 				D12F4F212848D4B20027B9A1 /* MainView.swift */,
-				D1700080284CEE5700FFBF1C /* MainIteractor.swift */,
 				D12F4F252848D4C20027B9A1 /* MainPresenter.swift */,
 				D12F4F292848D4D60027B9A1 /* MainRouter.swift */,
 			);
@@ -139,6 +136,7 @@
 			children = (
 				D169337E28490AA100C24B88 /* ColorScheme.swift */,
 				D169338028490D0E00C24B88 /* AppFont.swift */,
+				D1584F2228571F7100D6A069 /* Converters.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -186,12 +184,11 @@
 		D1F66481284EEE2300932153 /* DetailsModule */ = {
 			isa = PBXGroup;
 			children = (
+				D1F6648C284F1A6900932153 /* DetailsModuleBuilder.swift */,
 				D161425A2851053200CE22D9 /* CoinDetailsModel.swift */,
 				D182FCA42850D160007E5994 /* Components */,
-				D1F6648C284F1A6900932153 /* DetailsModuleBuilder.swift */,
 				D1F66484284EF8BD00932153 /* DetailsViewController.swift */,
 				D1F66488284F150A00932153 /* DetailsView.swift */,
-				D1F66486284F146600932153 /* DetailsIteractor.swift */,
 				D1F6648A284F164300932153 /* DetailsPresenter.swift */,
 			);
 			path = DetailsModule;
@@ -270,7 +267,6 @@
 				D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */,
 				D1F66489284F150A00932153 /* DetailsView.swift in Sources */,
 				D12F4F2A2848D4D60027B9A1 /* MainRouter.swift in Sources */,
-				D1F66487284F146600932153 /* DetailsIteractor.swift in Sources */,
 				D12F4F262848D4C20027B9A1 /* MainPresenter.swift in Sources */,
 				D12F4F112848C8130027B9A1 /* MainViewController.swift in Sources */,
 				D12F4F282848D4CD0027B9A1 /* CoinModel.swift in Sources */,
@@ -287,10 +283,10 @@
 				D1836992285050D000E98D64 /* PortfolioIntercator.swift in Sources */,
 				D169338128490D0E00C24B88 /* AppFont.swift in Sources */,
 				D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */,
+				D1584F2328571F7100D6A069 /* Converters.swift in Sources */,
 				D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */,
 				D12F4F302848DA130027B9A1 /* MainModuleBuilder.swift in Sources */,
 				D124D4F92849CA0200E63B5A /* NetworkManager.swift in Sources */,
-				D1700081284CEE5700FFBF1C /* MainIteractor.swift in Sources */,
 				D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */,
 				D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */,
 			);

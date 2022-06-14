@@ -63,10 +63,8 @@ extension MainViewCell {
         self.imageLoader(url: data.image)
         
         self.coinName.text = data.symbol.uppercased()
-        
-        self.coinPrice.text = "$\(doubleConverterTo6(data.currentPrice))"
-        
-        self.coinPriceChange24H.text = "\(doubleConverterTo2(data.priceChangePercentage24H))%"
+        self.coinPrice.text = "$\(data.currentPrice.convertToStringWith2Decimals())"
+        self.coinPriceChange24H.text = "\(data.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
         
         self.coinPriceChange24H.textColor = setColor(data: data)
     }
@@ -151,16 +149,16 @@ private extension MainViewCell {
         }.resume()
     }
     
-    func doubleConverterTo2(_ num: Double?) -> Double {
-        guard let num = num else { return 0.0}
-        return Double(round(100*num)/100)
-    }
-    
-    func doubleConverterTo6(_ num: Double?) -> Double {
-        guard let num = num else { return 0.0}
-        return Double(round(1_000_000*num)/1_000_000)
-    }
-    
+//    func doubleConverterTo2(_ num: Double?) -> Double {
+//        guard let num = num else { return 0.0}
+//        return Double(round(100*num)/100)
+//    }
+//
+//    func doubleConverterTo6(_ num: Double?) -> Double {
+//        guard let num = num else { return 0.0}
+//        return Double(round(1_000_000*num)/1_000_000)
+//    }
+//
     func setColor(data: CoinModel) -> UIColor {
         guard let priceChange24H = data.priceChange24H else { return UIColor.clear}
         if priceChange24H > 0 {

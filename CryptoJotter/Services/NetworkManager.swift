@@ -8,17 +8,15 @@
 import Foundation
 
 protocol INetworkManager: AnyObject {
-    func fetchArrayOfData<T:Codable>(urlsString: String, completion: @escaping (Result<[T],Error>)->())
-    func fetchDataElement<T: Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
+    func fetchCoinsList<T:Codable>(urlsString: String, completion: @escaping (Result<[T],Error>)->())
+    func fetchCoinData<T: Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
 }
 
-final class NetworkManager {
-    
-}
+final class NetworkManager {}
 
 extension NetworkManager: INetworkManager {
     
-    func fetchArrayOfData<T>(urlsString: String, completion: @escaping (Result<[T], Error>) -> ()) where T : Decodable, T : Encodable {
+    func fetchCoinsList<T>(urlsString: String, completion: @escaping (Result<[T], Error>) -> ()) where T : Decodable, T : Encodable {
         
         guard let url = URL(string: urlsString) else { return }
         
@@ -44,7 +42,7 @@ extension NetworkManager: INetworkManager {
         }.resume()
     }
     
-    func fetchDataElement<T>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
+    func fetchCoinData<T>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
         
         guard let urlsString = urlsString else { return }
         
