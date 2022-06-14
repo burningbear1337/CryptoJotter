@@ -8,39 +8,11 @@
 import Foundation
 import UIKit
 
-protocol IFileManagerService: AnyObject {
-    func fetchImage(imageName: String, folderName: String) -> UIImage?
-    func saveImage(image: UIImage, imageName: String, folderName: String)
-}
-
-final class FileManagerService { //}: IFileManagerService {
+final class FileManagerService {
     
     static let shared = FileManagerService()
     
     private init() { }
-    
-    private func urlForFolder(folderName: String) -> URL? {
-        guard let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
-        return url.appendingPathComponent(folderName)
-    }
-
-    private func urlForImage(imageName: String, folderName: String) -> URL? {
-        guard let url = self.urlForFolder(folderName: folderName) else { return nil}
-        return url.appendingPathComponent(imageName+".png")
-    }
-    
-    private func createFolder(folderName: String) {
-        guard let url = urlForFolder(folderName: folderName) else { return }
-        
-        if !FileManager.default.fileExists(atPath: url.path) {
-            do {
-                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-            }
-            catch {
-                print("Error creating folder with name: \(folderName)")
-            }
-        }
-    }
     
     func fetchImage(imageName: String, folderName: String) -> UIImage? {
         guard
@@ -67,4 +39,30 @@ final class FileManagerService { //}: IFileManagerService {
             print("Can't save image \(imageName)")
         }
     }
+}
+
+private extension FileManagerService {
+    func urlForFolder(folderName: String) -> URL? {
+        guard let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
+        return url.appendingPathComponent(folderName)
+    }
+    
+    func urlForImage(imageName: String, folderName: String) -> URL? {
+        guard let url = self.urlForFolder(folderName: folderName) else { return nil}
+        return url.appendingPathComponent(imageName+".png")
+    }
+    
+    func createFolder(folderName: String) {
+        guard let url = urlForFolder(folderName: folderName) else { return }
+        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            do {
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+            }
+            catch {
+                print("Error creating folder with name: \(folderName)")
+            }
+        }
+    }
+    
 }

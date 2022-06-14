@@ -86,17 +86,23 @@ extension CustomDetailsView: IDetailsView {
     
     func setupCoins(coin: CoinModel?) {
         self.coin = coin
-        self.imageLoader(url: coin?.image)
+        self.setupImage(coin)
         self.setupElementsData()
     }
 }
 
 private extension CustomDetailsView {
+    
+    func setupImage(_ coin: CoinModel?) {
+        guard let coin = coin else { return }
+        let coinImageService = CoinImageService(coin: coin)
+        coinImageService.setCoinImage { [weak self] image in
+            self?.coinImage.image = image
+        }
+    }
         
     func setupElementsData() {
         self.coinNameLabel.text = self.coin?.name
-        self.imageLoader(url: self.coin?.image)
-        
         self.low24H.injectData(
             title: "Lowest 24H",
             price: self.coin?.low24H?.convertToStringWith2Decimals(),
@@ -257,28 +263,6 @@ private extension CustomDetailsView {
             self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -20)
         ])
-    }
-
-    
-    func imageLoader(url: String?) {
-        guard let url = url else { return }
-        guard let url = URL(string: url) else { return }
-        let request = URLRequest(url: url)
-        URLSession.shared.downloadTask(with: request) { url, response, error in
-            if let error = error {
-                print(error)
-            }
-            guard let url = url else { return }
-            
-            let data = try? Data(contentsOf: url)
-            
-            guard let data = data else { return }
-            
-            DispatchQueue.main.async {
-                let imageView = UIImageView(image: UIImage(data: data))
-                self.coinImage.image = imageView.image
-            }
-        }.resume()
     }
     
     @objc func openWebSite() {

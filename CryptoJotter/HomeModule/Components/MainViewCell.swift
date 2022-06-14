@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainViewCell: UITableViewCell {
-    
+        
     private lazy var coinIndex: UILabel = {
         let label = UILabel()
         label.font = AppFont.regular13.font
@@ -48,7 +48,7 @@ final class MainViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupLayout()
     }
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,6 +57,7 @@ final class MainViewCell: UITableViewCell {
 extension MainViewCell {
     func injectData(data: CoinModel, index: Int) {
         self.coinIndex.text = "\(index+1)"
+        
         let coinImageService = CoinImageService(coin: data)
         coinImageService.setCoinImage { image in
             DispatchQueue.main.async {

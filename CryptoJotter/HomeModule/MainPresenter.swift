@@ -35,8 +35,8 @@ extension MainPresenter: IMainPresenter {
                 print(error.localizedDescription)
             }
         }
-        view.tapOnCell = { coinModel in
-            self.router.routeToDetails(vc, coin: coinModel)
+        view.tapOnCell = { [weak self] coinModel in
+            self?.router.routeToDetails(vc, coin: coinModel)
         }
     }
 }
