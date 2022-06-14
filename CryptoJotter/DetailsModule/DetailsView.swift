@@ -57,7 +57,7 @@ final class CustomDetailsView: UIView {
     }()
     private lazy var linkButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Home website", for: .normal)
+        //button.setTitle("Home website", for: .normal)
         button.titleLabel?.font = AppFont.semibold15.font
         button.titleLabel?.tintColor = UIColor.white
         button.addTarget(self, action: #selector(openWebSite), for: .touchUpInside)
@@ -243,6 +243,13 @@ private extension CustomDetailsView {
     }
     
     func setupLinkButton() {
+        DispatchQueue.main.async {
+            if self.coinDetails?.links.homepage == nil {
+                self.linkButton.setTitle("", for: .normal)
+            } else {
+                self.linkButton.setTitle("Home website", for: .normal)
+            }
+        }
         self.scrollView.addSubview(self.linkButton)
         self.linkButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

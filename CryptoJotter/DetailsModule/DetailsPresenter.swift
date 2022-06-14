@@ -14,10 +14,10 @@ protocol IDetailsPresenter: AnyObject {
 
 final class DetailsPresenter {
     weak var view: IDetailsView?
-    private var networkService: INetworkManager
+    private var networkService: INetworkService
     private var coin: CoinModel
     
-    init(networkService: INetworkManager, coin: CoinModel) {
+    init(networkService: INetworkService, coin: CoinModel) {
         self.networkService = networkService
         self.coin = coin
     }

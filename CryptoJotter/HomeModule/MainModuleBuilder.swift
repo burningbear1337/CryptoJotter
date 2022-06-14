@@ -14,7 +14,7 @@ protocol Builder: AnyObject {
 
 final class MainModuleBuilder: Builder {
     func build() -> UIViewController {
-        let networkService = NetworkManager()
+        let networkService = NetworkService()
         let router = MainRouter()
         let presenter = MainPresenter(networkService: networkService, router: router)
         let vc = MainViewController(presenter: presenter)

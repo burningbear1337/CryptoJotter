@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D124D4F92849CA0200E63B5A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D124D4F82849CA0200E63B5A /* NetworkManager.swift */; };
+		D124D4F92849CA0200E63B5A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D124D4F82849CA0200E63B5A /* NetworkService.swift */; };
 		D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F0C2848C8130027B9A1 /* AppDelegate.swift */; };
 		D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F0E2848C8130027B9A1 /* SceneDelegate.swift */; };
 		D12F4F112848C8130027B9A1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F102848C8130027B9A1 /* MainViewController.swift */; };
@@ -29,6 +29,8 @@
 		D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369932850510100E98D64 /* PortfolioPresenter.swift */; };
 		D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369952850510700E98D64 /* PortfolioRouter.swift */; };
 		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
+		D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF72858B17E009FA900 /* FileManagerService.swift */; };
+		D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF92858BA99009FA900 /* CoinImageService.swift */; };
 		D1F66483284EEE5400932153 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66482284EEE5400932153 /* PortfolioViewController.swift */; };
 		D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66484284EF8BD00932153 /* DetailsViewController.swift */; };
 		D1F66489284F150A00932153 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66488284F150A00932153 /* DetailsView.swift */; };
@@ -37,7 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D124D4F82849CA0200E63B5A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		D124D4F82849CA0200E63B5A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D12F4F092848C8130027B9A1 /* CryptoJotter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoJotter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12F4F0C2848C8130027B9A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D12F4F0E2848C8130027B9A1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,8 @@
 		D18369932850510100E98D64 /* PortfolioPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPresenter.swift; sourceTree = "<group>"; };
 		D18369952850510700E98D64 /* PortfolioRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRouter.swift; sourceTree = "<group>"; };
 		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
+		D1EE1DF72858B17E009FA900 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
+		D1EE1DF92858BA99009FA900 /* CoinImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinImageService.swift; sourceTree = "<group>"; };
 		D1F66482284EEE5400932153 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		D1F66484284EF8BD00932153 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		D1F66488284F150A00932153 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
@@ -82,7 +86,9 @@
 		D124D4F72849C9F200E63B5A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				D124D4F82849CA0200E63B5A /* NetworkManager.swift */,
+				D124D4F82849CA0200E63B5A /* NetworkService.swift */,
+				D1EE1DF72858B17E009FA900 /* FileManagerService.swift */,
+				D1EE1DF92858BA99009FA900 /* CoinImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -280,13 +286,15 @@
 				D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */,
 				D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */,
 				D13E1180284F6C8000D5EEDA /* PortfolioView.swift in Sources */,
+				D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */,
 				D1836992285050D000E98D64 /* PortfolioIntercator.swift in Sources */,
 				D169338128490D0E00C24B88 /* AppFont.swift in Sources */,
 				D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */,
 				D1584F2328571F7100D6A069 /* Converters.swift in Sources */,
 				D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */,
 				D12F4F302848DA130027B9A1 /* MainModuleBuilder.swift in Sources */,
-				D124D4F92849CA0200E63B5A /* NetworkManager.swift in Sources */,
+				D124D4F92849CA0200E63B5A /* NetworkService.swift in Sources */,
+				D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */,
 				D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */,
 				D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */,
 			);

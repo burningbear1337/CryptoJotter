@@ -9,8 +9,6 @@ import UIKit
 
 final class MainViewCell: UITableViewCell {
     
-    static let id = MainViewCell.description()
-    
     private lazy var coinIndex: UILabel = {
         let label = UILabel()
         label.font = AppFont.regular13.font
@@ -59,8 +57,12 @@ final class MainViewCell: UITableViewCell {
 extension MainViewCell {
     func injectData(data: CoinModel, index: Int) {
         self.coinIndex.text = "\(index+1)"
-        
-        self.imageLoader(url: data.image)
+        let coinImageService = CoinImageService(coin: data)
+        coinImageService.setCoinImage { image in
+            DispatchQueue.main.async {
+                self.coinImage.image = image
+            }
+        }
         
         self.coinName.text = data.symbol.uppercased()
         self.coinPrice.text = "$\(data.currentPrice.convertToStringWith2Decimals())"
@@ -127,38 +129,7 @@ private extension MainViewCell {
             self.coinPriceChange24H.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
         ])
     }
-    
-    func imageLoader(url: String?) {
-        guard let url = url else { return }
-        guard let url = URL(string: url) else { return }
-        let request = URLRequest(url: url)
-        URLSession.shared.downloadTask(with: request) { url, response, error in
-            if let error = error {
-                print(error)
-            }
-            guard let url = url else { return }
-            
-            let data = try? Data(contentsOf: url)
-            
-            guard let data = data else { return }
-            
-            DispatchQueue.main.async {
-                let imageView = UIImageView(image: UIImage(data: data))
-                self.coinImage.image = imageView.image
-            }
-        }.resume()
-    }
-    
-//    func doubleConverterTo2(_ num: Double?) -> Double {
-//        guard let num = num else { return 0.0}
-//        return Double(round(100*num)/100)
-//    }
-//
-//    func doubleConverterTo6(_ num: Double?) -> Double {
-//        guard let num = num else { return 0.0}
-//        return Double(round(1_000_000*num)/1_000_000)
-//    }
-//
+        
     func setColor(data: CoinModel) -> UIColor {
         guard let priceChange24H = data.priceChange24H else { return UIColor.clear}
         if priceChange24H > 0 {

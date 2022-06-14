@@ -14,11 +14,11 @@ protocol IMainPresenter: AnyObject {
 
 final class MainPresenter {
     private weak var view: IMainView?
-    private var networkService: INetworkManager
+    private var networkService: INetworkService
     private var router: IMainRouter
     private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h"
     
-    init(networkService: INetworkManager, router: IMainRouter) {
+    init(networkService: INetworkService, router: IMainRouter) {
         self.networkService = networkService
         self.router = router
     }

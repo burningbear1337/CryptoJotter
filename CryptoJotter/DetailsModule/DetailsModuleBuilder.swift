@@ -22,7 +22,7 @@ final class DetailsModuleBuilder: IDetailsBuilder {
     
     func build() -> UIViewController {
         guard let coin = coin else { return UIViewController() }
-        let networkService = NetworkManager()
+        let networkService = NetworkService()
         let presenter = DetailsPresenter(networkService: networkService, coin: coin)
         let vc = DetailsViewController(presenter: presenter)
         return vc
