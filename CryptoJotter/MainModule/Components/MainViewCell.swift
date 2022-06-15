@@ -55,21 +55,21 @@ final class MainViewCell: UITableViewCell {
 }
 
 extension MainViewCell {
-    func injectData(data: CoinModel, index: Int) {
-        self.coinIndex.text = "\(index+1)"
+    func injectData(coin: CoinModel, index: Int) {
+        self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
         
-        let coinImageService = CoinImageService(coin: data)
+        let coinImageService = CoinImageService(coin: coin)
         coinImageService.setCoinImage { image in
             DispatchQueue.main.async {
                 self.coinImage.image = image
             }
         }
         
-        self.coinName.text = data.symbol.uppercased()
-        self.coinPrice.text = "$\(data.currentPrice.convertToStringWith2Decimals())"
-        self.coinPriceChange24H.text = "\(data.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
+        self.coinName.text = coin.symbol.uppercased()
+        self.coinPrice.text = "$\(coin.currentPrice.convertToStringWith2Decimals())"
+        self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
         
-        self.coinPriceChange24H.textColor = setColor(data: data)
+        self.coinPriceChange24H.textColor = setColor(data: coin)
     }
 }
 

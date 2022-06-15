@@ -10,6 +10,8 @@ import UIKit
 protocol IMainView: AnyObject {
     func setupCoinsList(coins: [CoinModel]?)
     var tapOnCell: ((CoinModel)->())? { get set }
+    var sortByRank: (()->())? { get set }
+    var sortByPrice: (()->())? { get set }
 }
 
 final class MainView: UIView {
@@ -52,6 +54,27 @@ final class MainView: UIView {
         return tableView
     }()
     
+    private lazy var filterByRankButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Rank", for: .normal)
+        button.titleLabel?.font = AppFont.regular13.font
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var filterByPriceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Price", for: .normal)
+        button.titleLabel?.font = AppFont.regular13.font
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.addTarget(self, action: #selector(sortByPriceTapped), for: .touchUpInside)
+        return button
+    }()
+
+    
     private var coins: [CoinModel]? {
         didSet {
             DispatchQueue.main.async {
@@ -62,7 +85,13 @@ final class MainView: UIView {
     
     private var coinsBuffer: [CoinModel] = []
     
+    private var increaseByRank: Bool = true
+    private var increaseByPrice: Bool = true
+    
     var tapOnCell: ((CoinModel)->())?
+    var sortByRank: (()->())?
+    var sortByPrice: (()->())?
+
     
     init() {
         super.init(frame: .zero)
@@ -81,33 +110,6 @@ extension MainView: IMainView {
     }
 }
 
-private extension MainView {
-    
-    func setupLayout() {
-        self.backgroundColor = UIColor.theme.backgroundColor
-        setupTableViewLayout()
-    }
-    
-    func setupTableViewLayout() {
-        self.addSubview(self.customSearchBar)
-        self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
-        ])
-        
-        self.addSubview(self.tableView)
-        self.tableView.backgroundColor = .clear
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.tableView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor,constant: 20).isActive = true
-        self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
-}
-
 extension MainView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,7 +119,7 @@ extension MainView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MainViewCell else { print("failed load cell"); return UITableViewCell()}
         guard let coins = self.coins else { return UITableViewCell()}
-        cell.injectData(data: coins[indexPath.row], index: indexPath.row)
+        cell.injectData(coin: coins[indexPath.row], index: indexPath.row)
         return cell
     }
     
@@ -159,3 +161,64 @@ extension MainView: UITextFieldDelegate {
     }
 }
 
+private extension MainView {
+    func setupLayout() {
+        self.backgroundColor = UIColor.theme.backgroundColor
+        setupTableViewLayout()
+    }
+    
+    func setupTableViewLayout() {
+        self.addSubview(self.customSearchBar)
+        self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
+        ])
+        
+        self.addSubview(self.filterByRankButton)
+        NSLayoutConstraint.activate([
+            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10),
+        ])
+        
+        self.addSubview(self.filterByPriceButton)
+        NSLayoutConstraint.activate([
+            self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor),
+            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+        ])
+        
+        self.addSubview(self.tableView)
+        self.tableView.backgroundColor = .clear
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.tableView.topAnchor.constraint(equalTo: self.filterByRankButton.bottomAnchor),
+            self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    @objc func sortByRankTapped() {
+        self.sortByRank?()
+//        if self.increaseByRank {
+//            self.coins = self.coins?.sorted(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
+//            self.increaseByRank.toggle()
+//        } else if !self.increaseByRank {
+//            self.coins = self.coins?.sorted(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
+//            self.increaseByRank.toggle()
+//        }
+    }
+    
+    @objc func sortByPriceTapped() {
+        self.sortByPrice?()
+//        if self.increaseByPrice {
+//            self.coins = self.coins?.sorted(by: {$0.currentPrice > $1.currentPrice })
+//            self.increaseByPrice.toggle()
+//        } else if !self.increaseByPrice {
+//            self.coins = self.coins?.sorted(by: {$0.currentPrice < $1.currentPrice })
+//            self.increaseByPrice.toggle()
+//        }
+    }
+}

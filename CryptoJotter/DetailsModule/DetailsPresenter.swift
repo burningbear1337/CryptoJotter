@@ -33,8 +33,8 @@ extension DetailsPresenter: IDetailsPresenter {
             switch result {
             case .success(let details):
                 view.setCoinsDetailsData(coinDetails: details)
-            case .failure(_):
-                break
+            case .failure(let error):
+                print(error)
             }
         }
     }

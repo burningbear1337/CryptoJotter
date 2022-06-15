@@ -8,14 +8,13 @@
 import Foundation
 
 struct CoinDetailsModel: Codable {
-    let id, symbol, name, hashingAlgorithm: String
+    let name: String
     let detailsCoinModelDescription: Description
     let links: Links
-    let marketCapRank: Int
+    let marketCapRank: Int?
 
     enum CodingKeys: String, CodingKey {
-        case id, symbol, name
-        case hashingAlgorithm = "hashing_algorithm"
+        case name
         case detailsCoinModelDescription = "description"
         case links
         case marketCapRank = "market_cap_rank"

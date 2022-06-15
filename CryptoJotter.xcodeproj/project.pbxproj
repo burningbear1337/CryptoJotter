@@ -115,7 +115,7 @@
 				D12F4F2E2848D50B0027B9A1 /* SupportingFiles */,
 				D124D4F72849C9F200E63B5A /* Services */,
 				D12F4F2D2848D5040027B9A1 /* DesignSystem */,
-				D12F4F202848D4500027B9A1 /* HomeModule */,
+				D12F4F202848D4500027B9A1 /* MainModule */,
 				D1F66481284EEE2300932153 /* DetailsModule */,
 				D1F66480284EEE0700932153 /* PortfolioModule */,
 				D12F4F1A2848C8140027B9A1 /* Info.plist */,
@@ -123,7 +123,7 @@
 			path = CryptoJotter;
 			sourceTree = "<group>";
 		};
-		D12F4F202848D4500027B9A1 /* HomeModule */ = {
+		D12F4F202848D4500027B9A1 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
 				D12F4F2F2848DA130027B9A1 /* MainModuleBuilder.swift */,
@@ -134,7 +134,7 @@
 				D12F4F252848D4C20027B9A1 /* MainPresenter.swift */,
 				D12F4F292848D4D60027B9A1 /* MainRouter.swift */,
 			);
-			path = HomeModule;
+			path = MainModule;
 			sourceTree = "<group>";
 		};
 		D12F4F2D2848D5040027B9A1 /* DesignSystem */ = {

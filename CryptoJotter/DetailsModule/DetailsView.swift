@@ -10,6 +10,8 @@ import UIKit
 protocol IDetailsView: AnyObject {
     func setupCoins(coin: CoinModel?)
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?)
+    var sortByCoinName: (()->())? { get set }
+    var sortByCoinPrice: (()->())? { get set }
 }
 
 final class CustomDetailsView: UIView {
@@ -57,12 +59,14 @@ final class CustomDetailsView: UIView {
     }()
     private lazy var linkButton: UIButton = {
         let button = UIButton()
-        //button.setTitle("Home website", for: .normal)
         button.titleLabel?.font = AppFont.semibold15.font
-        button.titleLabel?.tintColor = UIColor.white
+        button.titleLabel?.tintColor = UIColor.theme.accentColor
         button.addTarget(self, action: #selector(openWebSite), for: .touchUpInside)
         return button
     }()
+    
+    var sortByCoinName: (()->())?
+    var sortByCoinPrice: (()->())?
     
     init() {
         super.init(frame: .zero)
@@ -79,6 +83,7 @@ extension CustomDetailsView: IDetailsView {
     
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?) {
         DispatchQueue.main.async {
+            print("Description: \(coinDetails?.detailsCoinModelDescription.en)")
             self.descriptionLabel.text = coinDetails?.detailsCoinModelDescription.en.removeHTMLSymbols
         }
         self.coinDetails = coinDetails
