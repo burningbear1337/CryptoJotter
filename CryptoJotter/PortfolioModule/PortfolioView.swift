@@ -25,6 +25,8 @@ final class PortfolioView: UIView {
         return tableView
     }()
     
+    private lazy var customSearchBar = CustomSearchBar()
+    
     private var vc: UIViewController?
     
     private var coins: [CoinItem]? {
@@ -70,25 +72,37 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
 private extension PortfolioView {
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
-        self.setupHoldingsLabel()
+        self.setupSearchBar()
         self.setupTableView()
     }
     
-    func setupHoldingsLabel() {
-//        self.addSubview(self.holdingsLabel)
-//        NSLayoutConstraint.activate([
-//            self.holdingsLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-//            self.holdingsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-//        ])
+    
+    func setupSearchBar() {
+        self.customSearchBar.textField.delegate = self
+        self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.customSearchBar)
+        NSLayoutConstraint.activate([
+            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
+        ])
     }
     
     func setupTableView() {
         self.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.tableView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor),
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+}
+
+extension PortfolioView: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print(#function)
     }
 }

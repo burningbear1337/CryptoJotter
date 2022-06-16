@@ -18,32 +18,7 @@ protocol IHomeView: AnyObject {
 
 final class HomeView: UIView {
     
-    lazy var customSearchBar: UITextField = {
-        let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(
-            string: "Type coin name...",
-            attributes: [
-                NSAttributedString.Key.font : AppFont.semibold15.font as Any,
-                NSAttributedString.Key.foregroundColor: UIColor.theme.secondaryColor as Any
-            ]
-        )
-        textField.backgroundColor = UIColor.theme.backgroundColor
-        textField.layer.cornerRadius = 10
-        
-        let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 16, height: .zero))
-        textField.clearButtonMode = .always
-        textField.leftViewMode = .always
-        textField.leftView = emptyView
-        textField.rightViewMode = .always
-        textField.returnKeyType = .search
-        textField.autocorrectionType = .no
-        textField.layer.shadowColor = UIColor.theme.shadowColor?.cgColor
-        textField.layer.shadowOpacity = 0.1
-        textField.layer.shadowRadius = 8
-        textField.layer.shadowOffset = CGSize(width: 0, height: 0)
-        textField.delegate = self
-        return textField
-    }()
+    private var customSearchBar = CustomSearchBar()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -145,6 +120,7 @@ extension HomeView: UITextFieldDelegate {
         
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.coinsBuffer = self.coins ?? []
+        print("Buffer \(self.coinsBuffer.count)")
     }
         
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -155,6 +131,15 @@ extension HomeView: UITextFieldDelegate {
             self.coins = self.coinsBuffer
         }
         return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.textFieldDataWorkflow?(textField.text ?? "")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return false
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -176,6 +161,7 @@ private extension HomeView {
     }
     
     func setupTableViewLayout() {
+        self.customSearchBar.textField.delegate = self
         self.addSubview(self.customSearchBar)
         self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -10,7 +10,6 @@ import UIKit
 
 protocol IHomePresenter: AnyObject {
     func sinkDataToView(view: IHomeView, vc: UIViewController)
-    var triggerLoadingView: ((Bool) -> ())? { get set }
 }
 
 final class HomePresenter {
@@ -19,7 +18,6 @@ final class HomePresenter {
     private weak var view: IHomeView?
     private var networkService: INetworkService
     private var router: IHomeRouter
-    var triggerLoadingView: ((Bool) -> ())?
     
     private let mainPublisher = CoinsPublisher()
     
@@ -72,9 +70,7 @@ private extension HomePresenter {
             case .success(let coins):
                 self.mainPublisher.newData = coins
                 self.coins = coins
-                self.triggerLoadingView?(true)
                 view.sortByRank = {
-                    
                     let sortedCoins = (self.sortByRank == true ?
                                        self.sortCoins(sort: .rankRevers, coins: self.mainPublisher.newData ?? []) :
                                         self.sortCoins(sort: .rank, coins: self.mainPublisher.newData ?? []))
