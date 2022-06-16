@@ -10,8 +10,8 @@ import UIKit
 enum TabbarAssembly {
     static func build() -> UITabBarController {
         
-        let allCoinsList = UINavigationController(rootViewController: MainModuleBuilder().build())
-        let portfolio = UINavigationController(rootViewController: PortfolioViewController())
+        let allCoinsList = UINavigationController(rootViewController: HomeModuleBuilder().build())
+        let portfolio = UINavigationController(rootViewController: PortfolioBuilder().build())
         
         let tabBar = UITabBarController()
         tabBar.tabBar.backgroundColor = .clear

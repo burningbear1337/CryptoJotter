@@ -7,12 +7,12 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class HomeViewController: UIViewController {
     
-    private let mainView = MainView()
-    private let presenter: IMainPresenter
+    private let mainView = HomeView()
+    private let presenter: IHomePresenter
     
-    init(presenter: IMainPresenter) {
+    init(presenter: IHomePresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }

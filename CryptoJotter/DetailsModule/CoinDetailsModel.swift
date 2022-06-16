@@ -8,9 +8,9 @@
 import Foundation
 
 struct CoinDetailsModel: Codable {
-    let name: String
-    let detailsCoinModelDescription: Description
-    let links: Links
+    let name: String?
+    let detailsCoinModelDescription: Description?
+    let links: Links?
     let marketCapRank: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -22,12 +22,12 @@ struct CoinDetailsModel: Codable {
 }
 
 struct Description: Codable {
-    let en: String
+    let en: String?
 }
 
 struct Links: Codable {
-    let homepage: [String]
-    let blockchainSite: [String]
+    let homepage: [String]?
+    let blockchainSite: [String]?
 
     enum CodingKeys: String, CodingKey {
         case homepage

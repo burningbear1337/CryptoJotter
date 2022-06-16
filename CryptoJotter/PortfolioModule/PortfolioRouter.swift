@@ -5,16 +5,14 @@
 //  Created by Miroslav Berezovsky on 08.06.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol IPortfolioRouter: AnyObject {
-
+    func presentVC(vc: UIViewController)
 }
 
-final class PortfolioRouter {
-    
-}
-
-extension PortfolioRouter: IPortfolioRouter {
-    
+final class PortfolioRouter: IPortfolioRouter {
+    func presentVC(vc: UIViewController) {
+        vc.present(AddCoinViewController(), animated: true)
+    }
 }

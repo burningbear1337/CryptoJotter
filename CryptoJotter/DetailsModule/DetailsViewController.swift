@@ -24,10 +24,14 @@ class DetailsViewController: UIViewController {
     override func loadView() {
         self.view = self.customDetailsView
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.sinkDataToView(view: self.customDetailsView)
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.presenter.sinkDataToView(view: self.customDetailsView)
         self.view.backgroundColor = UIColor.theme.backgroundColor
     }
 }

@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol IMainRouter: AnyObject {
+protocol IHomeRouter: AnyObject {
     func routeToDetails(_ vc: UIViewController, coin: CoinModel)
 }
 
-final class MainRouter: IMainRouter {
+final class HomeRouter: IHomeRouter {
     func routeToDetails(_ vc: UIViewController, coin: CoinModel) {
         vc.present(DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build(), animated: true)
     }

@@ -5,19 +5,34 @@
 //  Created by Miroslav Berezovsky on 08.06.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol IPortfolioPresenter: AnyObject {
-    func setData(coins: [CoinModel], view: IPortfolioView)
+    func sinkDataToView(view: IPortfolioView)
+    func addNewCoin(vc: UIViewController)
 }
 
 final class PortfolioPresenter {
+    
     private weak var view: IPortfolioView?
+    private var router: IPortfolioRouter
+    private var coreDataUtility: ICoreDataUtility
+    
+    var addNewCoin: (()->())?
+    
+    init(router: IPortfolioRouter, coreDataUtility: ICoreDataUtility) {
+        self.router = router
+        self.coreDataUtility = coreDataUtility
+    }
 }
 
 extension PortfolioPresenter: IPortfolioPresenter {
-    func setData(coins: [CoinModel], view: IPortfolioView) {
+    
+    func sinkDataToView(view: IPortfolioView) {
         self.view = view
-        view.setData(coins: coins)
+    }
+    
+    func addNewCoin(vc: UIViewController) {
+        self.router.presentVC(vc: vc)
     }
 }

@@ -7,14 +7,16 @@
 
 import UIKit
 
-protocol IMainView: AnyObject {
+protocol IHomeView: AnyObject {
     func setupCoinsList(coins: [CoinModel]?)
     var tapOnCell: ((CoinModel)->())? { get set }
     var sortByRank: (()->())? { get set }
     var sortByPrice: (()->())? { get set }
+    var reloadData: (()->())? { get set }
+    var textFieldDataWorkflow: ((String) -> ())? { get set }
 }
 
-final class MainView: UIView {
+final class HomeView: UIView {
     
     lazy var customSearchBar: UITextField = {
         let textField = UITextField()
@@ -42,7 +44,6 @@ final class MainView: UIView {
         textField.delegate = self
         return textField
     }()
-
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -74,6 +75,13 @@ final class MainView: UIView {
         return button
     }()
 
+    private lazy var reloadDataButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath"), for: .normal)
+        button.addTarget(self, action: #selector(reloadDataTapped), for: .touchUpInside)
+        return button
+    }()
     
     private var coins: [CoinModel]? {
         didSet {
@@ -82,7 +90,6 @@ final class MainView: UIView {
             }
         }
     }
-    
     private var coinsBuffer: [CoinModel] = []
     
     private var increaseByRank: Bool = true
@@ -91,7 +98,8 @@ final class MainView: UIView {
     var tapOnCell: ((CoinModel)->())?
     var sortByRank: (()->())?
     var sortByPrice: (()->())?
-
+    var reloadData: (()->())?
+    var textFieldDataWorkflow: ((String) -> ())?
     
     init() {
         super.init(frame: .zero)
@@ -103,14 +111,14 @@ final class MainView: UIView {
     }
 }
 
-extension MainView: IMainView {
+extension HomeView: IHomeView {
     
     func setupCoinsList(coins: [CoinModel]?) {
         self.coins = coins
     }
 }
 
-extension MainView: UITableViewDataSource, UITableViewDelegate {
+extension HomeView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.coins?.count ?? 0
@@ -133,22 +141,17 @@ extension MainView: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension MainView: UITextFieldDelegate {
+extension HomeView: UITextFieldDelegate {
         
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.coinsBuffer = self.coins ?? []
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
-            self.coins = self.coinsBuffer
-            self.coins = self.coins?.filter({
-                guard let text = textField.text?.uppercased() else { return true }
-                let symbol = $0.symbol.uppercased()
-                let name = $0.name.uppercased()
-                return ((symbol.contains(text)) || (name.contains(text)))
-            })
-        } else {
+        
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let previousText:NSString = textField.text! as NSString
+        let updatedText = previousText.replacingCharacters(in: range, with: string)
+        self.textFieldDataWorkflow?(updatedText)
+        if updatedText == "" {
             self.coins = self.coinsBuffer
         }
         return true
@@ -156,12 +159,17 @@ extension MainView: UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.coins = self.coinsBuffer
-        print(self.coins?.count as Any)
         return true
     }
 }
 
-private extension MainView {
+extension HomeView: IMainSubscriber {
+    func update(newData: [CoinModel]) {
+        self.coins = newData
+    }
+}
+
+private extension HomeView {
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
         setupTableViewLayout()
@@ -182,12 +190,18 @@ private extension MainView {
             self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10),
         ])
-        
+                
         self.addSubview(self.filterByPriceButton)
         NSLayoutConstraint.activate([
             self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor),
             self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
+        
+        self.addSubview(self.reloadDataButton)
+                NSLayoutConstraint.activate([
+                    self.reloadDataButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor),
+                    self.reloadDataButton.trailingAnchor.constraint(equalTo: self.filterByPriceButton.leadingAnchor, constant: -10)
+                ])
         
         self.addSubview(self.tableView)
         self.tableView.backgroundColor = .clear
@@ -202,23 +216,13 @@ private extension MainView {
     
     @objc func sortByRankTapped() {
         self.sortByRank?()
-//        if self.increaseByRank {
-//            self.coins = self.coins?.sorted(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
-//            self.increaseByRank.toggle()
-//        } else if !self.increaseByRank {
-//            self.coins = self.coins?.sorted(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
-//            self.increaseByRank.toggle()
-//        }
     }
     
     @objc func sortByPriceTapped() {
         self.sortByPrice?()
-//        if self.increaseByPrice {
-//            self.coins = self.coins?.sorted(by: {$0.currentPrice > $1.currentPrice })
-//            self.increaseByPrice.toggle()
-//        } else if !self.increaseByPrice {
-//            self.coins = self.coins?.sorted(by: {$0.currentPrice < $1.currentPrice })
-//            self.increaseByPrice.toggle()
-//        }
+    }
+    
+    @objc func reloadDataTapped() {
+        self.reloadData?()
     }
 }

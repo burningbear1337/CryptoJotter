@@ -83,8 +83,7 @@ extension CustomDetailsView: IDetailsView {
     
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?) {
         DispatchQueue.main.async {
-            print("Description: \(coinDetails?.detailsCoinModelDescription.en)")
-            self.descriptionLabel.text = coinDetails?.detailsCoinModelDescription.en.removeHTMLSymbols
+            self.descriptionLabel.text = coinDetails?.detailsCoinModelDescription?.en?.removeHTMLSymbols
         }
         self.coinDetails = coinDetails
     }
@@ -255,12 +254,12 @@ private extension CustomDetailsView {
     
     func setupLinkButton() {
         DispatchQueue.main.async {
-            if self.coinDetails?.links.homepage == nil {
+            if self.coinDetails?.links?.homepage == nil {
                 self.linkButton.setTitle("", for: .normal)
             } else {
                 self.linkButton.setTitle("Home website", for: .normal)
             }
-        }
+        
         self.scrollView.addSubview(self.linkButton)
         self.linkButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -268,10 +267,11 @@ private extension CustomDetailsView {
             self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -20)
         ])
+        }
     }
     
     @objc func openWebSite() {
-        guard let url = URL(string: coinDetails?.links.homepage.first?.replacingOccurrences(of: "http", with: "https") ?? "") else { return }
+        guard let url = URL(string: coinDetails?.links?.homepage?.first?.replacingOccurrences(of: "http", with: "https") ?? "") else { return }
         UIApplication.shared.open(url)
     }
 }

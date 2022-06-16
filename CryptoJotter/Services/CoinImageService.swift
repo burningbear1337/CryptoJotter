@@ -26,11 +26,9 @@ final class CoinImageService {
 extension CoinImageService: ICoinImageService {
     func setCoinImage(completion: @escaping (UIImage)->()) {
         if let savedImage = self.filemanager.fetchImage(imageName: self.imageName, folderName: self.folderName) {
-            print("loaded image form File Manager")
             completion(savedImage)
         } else {
             self.fetchCoinImage { image in
-                print("Downloading image for Internet")
                 completion(image)
             }
         }

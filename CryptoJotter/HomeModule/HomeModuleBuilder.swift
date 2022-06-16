@@ -8,16 +8,16 @@
 
 import UIKit
 
-protocol Builder: AnyObject {
+protocol IBuilder: AnyObject {
     func build() -> UIViewController
 }
 
-final class MainModuleBuilder: Builder {
+final class HomeModuleBuilder: IBuilder {
     func build() -> UIViewController {
         let networkService = NetworkService()
-        let router = MainRouter()
-        let presenter = MainPresenter(networkService: networkService, router: router)
-        let vc = MainViewController(presenter: presenter)
+        let router = HomeRouter()
+        let presenter = HomePresenter(networkService: networkService, router: router)
+        let vc = HomeViewController(presenter: presenter)
         return vc
     }
 }
