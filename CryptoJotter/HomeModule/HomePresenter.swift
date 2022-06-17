@@ -10,6 +10,7 @@ import UIKit
 
 protocol IHomePresenter: AnyObject {
     func sinkDataToView(view: IHomeView, vc: UIViewController)
+    func emergencyReloadData(view: IHomeView)
 }
 
 final class HomePresenter {
@@ -57,18 +58,29 @@ extension HomePresenter: IHomePresenter {
                 })
                 self?.mainPublisher.newData = filteredCoins
             }
+            if text == "" {
+                self?.mainPublisher.newData = self?.coins
+            }
         }
+    }
+    
+    func emergencyReloadData(view: IHomeView) {
+        
     }
 }
 
 private extension HomePresenter {
     func fetchData(view : IHomeView) {
-        self.mainPublisher.subscribe(view as! IMainSubscriber)
+        self.view = view
+        if !self.mainPublisher.subscribers.contains(where: { $0 === view}) {
+            self.mainPublisher.subscribe(view as! ISubscriber)
+        }
         self.networkService.fetchCoinsList(urlsString: self.urlString) { [weak self] (result: Result<[CoinModel], Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let coins):
                 self.mainPublisher.newData = coins
+                print(coins.count)
                 self.coins = coins
                 view.sortByRank = {
                     let sortedCoins = (self.sortByRank == true ?

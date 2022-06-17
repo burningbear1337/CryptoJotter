@@ -7,16 +7,16 @@
 
 import Foundation
 
-protocol IMainSubscriber: AnyObject {
+protocol ISubscriber: AnyObject {
     func update(newData: [CoinModel])
 }
 
-protocol IMainViewPublisher: AnyObject {
+protocol IPublisher: AnyObject {
     var newData: [CoinModel]? { get }
-    var subscribers: [IMainSubscriber] { get set }
+    var subscribers: [ISubscriber] { get set }
     
-    func subscribe(_ subscriber: IMainSubscriber)
-    func unsubscriber(_ subscriber: IMainSubscriber)
+    func subscribe(_ subscriber: ISubscriber)
+    func unsubscriber(_ subscriber: ISubscriber)
     
     func notify(_ newData: [CoinModel])
 }
@@ -28,16 +28,16 @@ final class CoinsPublisher {
         }
     }
     
-    var subscribers = [IMainSubscriber]()
+    var subscribers = [ISubscriber]()
 }
 
-extension CoinsPublisher: IMainViewPublisher{
+extension CoinsPublisher: IPublisher{
     
-    func subscribe(_ subscriber: IMainSubscriber) {
+    func subscribe(_ subscriber: ISubscriber) {
         self.subscribers.append(subscriber)
     }
     
-    func unsubscriber(_ subscriber: IMainSubscriber) {
+    func unsubscriber(_ subscriber: ISubscriber) {
         self.subscribers = self.subscribers.filter({$0 !== subscriber})
     }
     

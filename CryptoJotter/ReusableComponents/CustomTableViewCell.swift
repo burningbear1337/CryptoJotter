@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewCell: UITableViewCell {
+final class CustomTableViewCell: UITableViewCell {
         
     private lazy var coinIndex: UILabel = {
         let label = UILabel()
@@ -54,8 +54,8 @@ final class MainViewCell: UITableViewCell {
     }
 }
 
-extension MainViewCell {
-    func injectData(coin: CoinModel, index: Int) {
+extension CustomTableViewCell {
+    func injectData(coin: CoinModel) {
         self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
         
         let coinImageService = CoinImageService(coin: coin)
@@ -73,7 +73,7 @@ extension MainViewCell {
     }
 }
 
-private extension MainViewCell {
+private extension CustomTableViewCell {
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
         self.selectionStyle = .none

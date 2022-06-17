@@ -21,6 +21,11 @@ class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.presenter.emergencyReloadData(view: self.mainView)
+    }
+    
     override func loadView() {
         self.view = self.mainView
         self.title = "Live Prices"

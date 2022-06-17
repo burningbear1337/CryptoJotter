@@ -13,6 +13,6 @@ protocol IPortfolioRouter: AnyObject {
 
 final class PortfolioRouter: IPortfolioRouter {
     func presentVC(vc: UIViewController) {
-        vc.present(AddCoinViewController(), animated: true)
+        vc.present(AddCoinModuleBuilder().build(), animated: true)
     }
 }

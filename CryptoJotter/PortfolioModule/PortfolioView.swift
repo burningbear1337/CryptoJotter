@@ -65,7 +65,18 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print("tapped on cell")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
+    }
+}
+
+extension PortfolioView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print(#function)
     }
 }
 
@@ -97,12 +108,5 @@ private extension PortfolioView {
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
-    }
-}
-
-extension PortfolioView: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(#function)
     }
 }

@@ -26,7 +26,7 @@ final class HomeView: UIView {
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .singleLine
-        tableView.register(MainViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
     
@@ -65,7 +65,6 @@ final class HomeView: UIView {
             }
         }
     }
-    private var coinsBuffer: [CoinModel] = []
     
     private var increaseByRank: Bool = true
     private var increaseByPrice: Bool = true
@@ -100,9 +99,9 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MainViewCell else { print("failed load cell"); return UITableViewCell()}
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomTableViewCell else { print("failed load cell"); return UITableViewCell()}
         guard let coins = self.coins else { return UITableViewCell()}
-        cell.injectData(coin: coins[indexPath.row], index: indexPath.row)
+        cell.injectData(coin: coins[indexPath.row])
         return cell
     }
     
@@ -118,23 +117,15 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeView: UITextFieldDelegate {
         
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.coinsBuffer = self.coins ?? []
-        print("Buffer \(self.coinsBuffer.count)")
-    }
-        
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let previousText:NSString = textField.text! as NSString
         let updatedText = previousText.replacingCharacters(in: range, with: string)
         self.textFieldDataWorkflow?(updatedText)
-        if updatedText == "" {
-            self.coins = self.coinsBuffer
-        }
         return true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.textFieldDataWorkflow?(textField.text ?? "")
+        self.textFieldDataWorkflow?("")
         return true
     }
     
@@ -143,12 +134,12 @@ extension HomeView: UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        self.coins = self.coinsBuffer
+        self.textFieldDataWorkflow?("")
         return true
     }
 }
 
-extension HomeView: IMainSubscriber {
+extension HomeView: ISubscriber {
     func update(newData: [CoinModel]) {
         self.coins = newData
     }
