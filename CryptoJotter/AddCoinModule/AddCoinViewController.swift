@@ -18,6 +18,7 @@ class AddCoinViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
+        
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -29,5 +30,6 @@ class AddCoinViewController: UIViewController {
         super.viewDidLoad()
         self.presenter.sinkDataToView(view: self.customView)
         self.view.backgroundColor = UIColor.theme.backgroundColor
+        self.hideKeyboardWhenTappedAround()
     }
 }

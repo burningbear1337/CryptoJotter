@@ -144,7 +144,7 @@ private extension CustomDetailsView {
         
         self.currentPrice.injectData(
             title: "Current Price",
-            price: self.coin?.currentPrice.convertToStringWith2Decimals(),
+            price: self.coin?.currentPrice?.convertToStringWith2Decimals(),
             suffix: "$")
         
         self.marketCapRank.injectData(

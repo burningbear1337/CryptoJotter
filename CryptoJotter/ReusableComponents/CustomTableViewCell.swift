@@ -66,7 +66,8 @@ extension CustomTableViewCell {
         }
         
         self.coinName.text = coin.symbol.uppercased()
-        self.coinPrice.text = "$\(coin.currentPrice.convertToStringWith2Decimals())"
+        guard let currentPrice = coin.currentPrice?.convertToStringWith2Decimals() else { return }
+        self.coinPrice.text = "$\(currentPrice)"
         self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
         
         self.coinPriceChange24H.textColor = setColor(data: coin)

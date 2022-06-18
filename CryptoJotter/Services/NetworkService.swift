@@ -34,7 +34,7 @@ final class NetworkService: INetworkService {
             }
             catch let error {
                 completion(.failure(error))
-                print(error.localizedDescription)
+                print(error)
             }
             
         }.resume()

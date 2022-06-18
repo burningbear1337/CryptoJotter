@@ -33,5 +33,6 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.theme.backgroundColor
+        self.hideKeyboardWhenTappedAround()
     }
 }

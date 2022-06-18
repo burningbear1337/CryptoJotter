@@ -10,7 +10,8 @@ import UIKit
 final class AddCoinModuleBuilder: IBuilder {
     func build() -> UIViewController {
         let networkService = NetworkService()
-        let presenter = AddCoinPresenter(networkService: networkService)
+        let coreDataUtility = CoreDataUtility()
+        let presenter = AddCoinPresenter(networkService: networkService, coreDataUtility: coreDataUtility)
         let vc = AddCoinViewController(presenter: presenter)
         return vc
     }

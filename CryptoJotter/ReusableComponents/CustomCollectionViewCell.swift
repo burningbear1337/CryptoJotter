@@ -34,7 +34,7 @@ final class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func injectData(coin: CoinModel) {
+    public func injectData(coin: CoinModel) {
         let coinImageService = CoinImageService(coin: coin)
         coinImageService.setCoinImage { image in
             DispatchQueue.main.async {
@@ -46,6 +46,7 @@ final class CustomCollectionViewCell: UICollectionViewCell {
 }
 
 private extension CustomCollectionViewCell {
+    
     func setupLayout() {
         self.coinImage.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.coinImage)

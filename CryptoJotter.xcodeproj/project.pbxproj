@@ -42,6 +42,7 @@
 		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
 		D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF72858B17E009FA900 /* FileManagerService.swift */; };
 		D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF92858BA99009FA900 /* CoinImageService.swift */; };
+		D1EEE704285CC1AE00651E67 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */; };
 		D1F66483284EEE5400932153 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66482284EEE5400932153 /* PortfolioViewController.swift */; };
 		D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66484284EF8BD00932153 /* DetailsViewController.swift */; };
 		D1F66489284F150A00932153 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66488284F150A00932153 /* DetailsView.swift */; };
@@ -87,6 +88,7 @@
 		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
 		D1EE1DF72858B17E009FA900 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		D1EE1DF92858BA99009FA900 /* CoinImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinImageService.swift; sourceTree = "<group>"; };
+		D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
 		D1F66482284EEE5400932153 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		D1F66484284EF8BD00932153 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		D1F66488284F150A00932153 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,8 @@
 				D1EE1DF72858B17E009FA900 /* FileManagerService.swift */,
 				D1EE1DF92858BA99009FA900 /* CoinImageService.swift */,
 				D11B16BA285A0363001D181F /* CoreDataUtility.swift */,
+				D1584F2228571F7100D6A069 /* Converters.swift */,
+				D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -179,7 +183,6 @@
 			children = (
 				D169337E28490AA100C24B88 /* ColorScheme.swift */,
 				D169338028490D0E00C24B88 /* AppFont.swift */,
-				D1584F2228571F7100D6A069 /* Converters.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				D124D4F92849CA0200E63B5A /* NetworkService.swift in Sources */,
 				D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */,
 				D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */,
+				D1EEE704285CC1AE00651E67 /* HideKeyboardExtension.swift in Sources */,
 				D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */,
 				D11B16BD285A45E8001D181F /* CoinsPublisher.swift in Sources */,
 				D11B16B92859FCD1001D181F /* AddCoinViewController.swift in Sources */,

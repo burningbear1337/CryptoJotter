@@ -10,7 +10,6 @@ import UIKit
 
 protocol IHomePresenter: AnyObject {
     func sinkDataToView(view: IHomeView, vc: UIViewController)
-    func emergencyReloadData(view: IHomeView)
 }
 
 final class HomePresenter {
@@ -63,10 +62,6 @@ extension HomePresenter: IHomePresenter {
             }
         }
     }
-    
-    func emergencyReloadData(view: IHomeView) {
-        
-    }
 }
 
 private extension HomePresenter {
@@ -118,10 +113,10 @@ private extension HomePresenter {
             sortedCoins.sort(by: {$0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
             return sortedCoins
         case .price:
-            sortedCoins.sort(by: {$0.currentPrice > $1.currentPrice})
+            sortedCoins.sort(by: {$0.currentPrice ?? 0 > $1.currentPrice ?? 0})
             return sortedCoins
         case .priceRevers:
-            sortedCoins.sort(by: {$0.currentPrice < $1.currentPrice})
+            sortedCoins.sort(by: {$0.currentPrice ?? 0 < $1.currentPrice ?? 0})
             return sortedCoins
         }
     }

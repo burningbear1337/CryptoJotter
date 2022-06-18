@@ -9,7 +9,9 @@ import UIKit
 
 protocol IAddCoinView: AnyObject {
     func sinkDataToView(coins: [CoinModel])
+    func fecthDataFromCoreData(coinItems: [CoinItem])
     var textFieldDataWorkflow: ((String) -> ())? { get set }
+    var saveButtonTap:((CoinModel, Double)->())? { get set }
 }
 
 final class AddCoinView: UIView {
@@ -17,8 +19,98 @@ final class AddCoinView: UIView {
     private lazy var customSearchBar = CustomSearchBar()
     private lazy var collectionView = UICollectionView()
     
-    var textFieldDataWorkflow: ((String) -> ())?
+    private lazy var currentPriceTitle: UILabel = {
+        let label = UILabel()
+        label.text = "Current Price:"
+        label.font = AppFont.semibold17.font
+        label.textAlignment = .left
+        label.textColor = UIColor.theme.accentColor
+        label.layer.opacity = 0
+        return label
+    }()
     
+    private lazy var currentPriceValue: UILabel = {
+        let label = UILabel()
+        label.font = AppFont.semibold17.font
+        label.textAlignment = .right
+        label.textColor = UIColor.theme.accentColor
+        label.layer.opacity = 0
+        return label
+    }()
+    
+    private lazy var coinHoldingsTitle: UILabel = {
+        let label = UILabel()
+        label.text = "Your holdings:"
+        label.font = AppFont.semibold17.font
+        label.textAlignment = .left
+        label.textColor = UIColor.theme.accentColor
+        label.layer.opacity = 0
+        return label
+    }()
+    
+    private lazy var coinDepositTitle: UILabel = {
+        let label = UILabel()
+        label.text = "Your deposit:"
+        label.font = AppFont.semibold17.font
+        label.textAlignment = .left
+        label.textColor = UIColor.theme.accentColor
+        label.layer.opacity = 0
+        return label
+    }()
+    
+    private lazy var coinsAmount: UITextField = {
+        let textField = UITextField()
+        textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
+        textField.keyboardType = .decimalPad
+        textField.textAlignment = .right
+        textField.layer.backgroundColor = UIColor.clear.cgColor
+        let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 0, height: .zero))
+        textField.leftViewMode = .always
+        textField.leftView = emptyView
+        textField.rightViewMode = .always
+        textField.rightView = emptyView
+        textField.delegate = self
+        return textField
+    }()
+    
+    private lazy var coinDepositValue: UILabel = {
+        let label = UILabel()
+        label.font = AppFont.semibold17.font
+        label.textAlignment = .right
+        label.text = "$0.00"
+        label.textColor = UIColor.theme.accentColor
+        label.layer.opacity = 0
+        return label
+    }()
+    
+    private var currentPrice: Double?
+    private var holdings: Double? {
+        didSet {
+            DispatchQueue.main.async { [self] in
+                self.coinDepositValue.text = "$" + (((self.coin?.currentPrice ?? 0) * (holdings ?? 0)).convertToStringWith2Decimals())
+            }
+        }
+    }
+    
+    private lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.layer.backgroundColor = UIColor.theme.secondaryBackgroundColor?.cgColor
+        button.setTitle("save", for: .normal)
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.layer.borderColor = UIColor.theme.greenColor?.cgColor
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.opacity = 0
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    var textFieldDataWorkflow: ((String) -> ())?
+    var saveButtonTap:((CoinModel, Double)->())?
+    
+    private var coin: CoinModel?
     private var coins: [CoinModel]? {
         didSet {
             DispatchQueue.main.async {
@@ -26,6 +118,9 @@ final class AddCoinView: UIView {
             }
         }
     }
+    
+    private var coinItem: CoinItem?
+    private var coinItems: [CoinItem]?
     
     init() {
         super.init(frame: .zero)
@@ -38,6 +133,10 @@ final class AddCoinView: UIView {
 }
 
 extension AddCoinView: IAddCoinView {
+    func fecthDataFromCoreData(coinItems: [CoinItem]) {
+        self.coinItems = coinItems
+    }
+    
     func sinkDataToView(coins: [CoinModel]) {
         self.coins = coins
     }
@@ -56,16 +155,30 @@ extension AddCoinView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function)
+        guard let coin = self.coins?[indexPath.row] else { return }
+        DispatchQueue.main.async {
+            self.coin = coin
+            self.injectDataToInterface(coin: coin)
+        }
     }
 }
 
 extension AddCoinView: UITextFieldDelegate {
-        
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let previousText:NSString = textField.text! as NSString
-        let updatedText = previousText.replacingCharacters(in: range, with: string)
-        self.textFieldDataWorkflow?(updatedText)
+        switch textField {
+        case coinsAmount:
+            let previous:NSString = textField.text! as NSString
+            let updated = previous.replacingCharacters(in: range, with: string)
+            self.holdings = Double(updated)
+        default:
+            let previousText:NSString = textField.text! as NSString
+            let updatedText = previousText.replacingCharacters(in: range, with: string)
+            self.textFieldDataWorkflow?(updatedText)
+            if updatedText == "" {
+                self.opactityControll(value: 0)
+            }
+        }
         return true
     }
     
@@ -79,9 +192,9 @@ extension AddCoinView: UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.textFieldDataWorkflow?("")
+        self.opactityControll(value: 0)
         return true
     }
-
 }
 
 extension AddCoinView: ISubscriber {
@@ -91,10 +204,19 @@ extension AddCoinView: ISubscriber {
 }
 
 private extension AddCoinView {
+    
+    func injectDataToInterface(coin: CoinModel) {
+        self.opactityControll(value: 1)
+        self.currentPriceValue.text = "$\(self.coin?.currentPrice?.convertToStringWith2Decimals() ?? "0.00")"
+        print(self.coinItems)
+    }
+    
     func setupLayout() {
         self.setupSearchBar()
         self.setupCollectionView()
         self.setupCollectionLayout()
+        self.setupAddCoinInterface()
+        self.setupSaveButton()
     }
     
     func setupSearchBar() {
@@ -131,5 +253,87 @@ private extension AddCoinView {
             self.collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.collectionView.heightAnchor.constraint(equalToConstant: 120)
         ])
+    }
+        
+    func setupAddCoinInterface() {
+        self.addSubview(self.currentPriceTitle)
+        self.currentPriceTitle.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.currentPriceTitle.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 40),
+            self.currentPriceTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
+        ])
+        
+        self.addSubview(self.currentPriceValue)
+        self.currentPriceValue.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.currentPriceValue.centerYAnchor.constraint(equalTo: self.currentPriceTitle.centerYAnchor),
+            self.currentPriceValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 )
+        ])
+        
+        self.addSubview(self.coinHoldingsTitle)
+        self.coinHoldingsTitle.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.coinHoldingsTitle.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 40),
+            self.coinHoldingsTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+        ])
+        
+        self.addSubview(self.coinsAmount)
+        self.coinsAmount.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.coinsAmount.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 40),
+            self.coinsAmount.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.coinsAmount.widthAnchor.constraint(equalToConstant: 55)
+
+        ])
+        
+        self.addSubview(self.coinDepositTitle)
+        self.coinDepositTitle.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.coinDepositTitle.topAnchor.constraint(equalTo: self.coinHoldingsTitle.bottomAnchor, constant: 40),
+            self.coinDepositTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+        ])
+        
+        self.addSubview(self.coinDepositValue)
+        self.coinDepositValue.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.coinDepositValue.centerYAnchor.constraint(equalTo: self.coinDepositTitle.centerYAnchor),
+            self.coinDepositValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 ),
+        ])
+    }
+    
+    func setupSaveButton() {
+        self.saveButton.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.saveButton)
+        NSLayoutConstraint.activate([
+            self.saveButton.topAnchor.constraint(equalTo: self.coinDepositTitle.bottomAnchor, constant: 40),
+            self.saveButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.saveButton.heightAnchor.constraint(equalToConstant: 55),
+            self.saveButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.saveButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    func opactityControll(value: Float ) {
+        self.currentPriceTitle.layer.opacity = value
+        self.currentPriceValue.layer.opacity = value
+        self.coinHoldingsTitle.layer.opacity = value
+        self.coinDepositTitle.layer.opacity = value
+        self.coinDepositValue.layer.opacity = value
+        self.coinsAmount.layer.opacity = value
+        self.saveButton.layer.opacity = value
+        self.coinsAmount.attributedPlaceholder = NSAttributedString(
+            string: "Try 3.1",
+            attributes: [
+                NSAttributedString.Key.font : AppFont.semibold17.font as Any,
+                NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(CGFloat(value)),
+            ]
+        )
+    }
+    
+    @objc func saveButtonTapped() {
+        guard
+            let coin = self.coin,
+            let holdings = self.holdings else { return }
+        self.saveButtonTap?(coin, holdings)
     }
 }

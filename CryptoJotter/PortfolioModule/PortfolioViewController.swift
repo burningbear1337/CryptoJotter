@@ -31,6 +31,7 @@ class PortfolioViewController: UIViewController {
         self.title = "Your Portfolio"
         self.setupLayout()
         self.presenter.sinkDataToView(view: self.portfolioView)
+        self.hideKeyboardWhenTappedAround()
     }
 }
 

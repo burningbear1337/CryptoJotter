@@ -30,6 +30,9 @@ extension PortfolioPresenter: IPortfolioPresenter {
     
     func sinkDataToView(view: IPortfolioView) {
         self.view = view
+        self.coreDataUtility.fetchPortfolio { coinItems in
+            view.fetchCoins(coins: coinItems)
+        }
     }
     
     func addNewCoin(vc: UIViewController) {

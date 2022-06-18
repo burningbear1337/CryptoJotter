@@ -59,7 +59,7 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath)
-        cell.textLabel?.text = "Some coins"
+        cell.textLabel?.text = self.coins?[indexPath.row].name
         cell.backgroundColor = .clear
         return cell
     }

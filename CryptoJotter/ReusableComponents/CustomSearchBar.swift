@@ -26,13 +26,6 @@ final class CustomSearchBar: UIView, UITextFieldDelegate {
 private extension CustomSearchBar {
     func setuptextField() {
         self.textField.translatesAutoresizingMaskIntoConstraints = false
-        self.textField.attributedPlaceholder = NSAttributedString(
-            string: "Type coin name...",
-            attributes: [
-                NSAttributedString.Key.font : AppFont.semibold15.font as Any,
-                NSAttributedString.Key.foregroundColor: UIColor.theme.secondaryColor as Any
-            ]
-        )
         self.textField.backgroundColor = UIColor.theme.backgroundColor
         self.textField.layer.cornerRadius = 10
         let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 16, height: .zero))
@@ -40,7 +33,7 @@ private extension CustomSearchBar {
         self.textField.leftViewMode = .always
         self.textField.leftView = emptyView
         self.textField.rightViewMode = .always
-        self.textField.returnKeyType = .search
+        self.textField.returnKeyType = .done
         self.textField.autocorrectionType = .no
         self.textField.layer.shadowColor = UIColor.theme.shadowColor?.cgColor
         self.textField.layer.shadowOpacity = 0.1

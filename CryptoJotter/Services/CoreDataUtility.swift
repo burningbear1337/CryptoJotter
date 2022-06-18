@@ -10,9 +10,9 @@ import UIKit
 
 protocol ICoreDataUtility: AnyObject {
     func fetchPortfolio(completion: @escaping ([CoinItem])->())
-    func addCoinToPortfolio(coinName: String, amount: Int)
+    func addCoinToPortfolio(coinName: String, amount: Double)
     func deleteCoinFromPortfolio(coin: CoinItem)
-    func updateCoinInPortfolio(coin: CoinItem, amount: Int)
+    func updateCoinInPortfolio(coin: CoinItem, amount: Double)
 }
 
 final class CoreDataUtility: ICoreDataUtility {
@@ -21,17 +21,17 @@ final class CoreDataUtility: ICoreDataUtility {
     
     func fetchPortfolio(completion: @escaping ([CoinItem]) -> ()) {
         let fetchRequest = CoinItem.fetchRequest()
-        let sort = NSSortDescriptor(key: "amout", ascending: true)
+        let sort = NSSortDescriptor(key: "amount", ascending: true)
         fetchRequest.sortDescriptors = [sort]
         
         guard let coinItems = try? context.fetch(fetchRequest) else { return }
         completion(coinItems)
     }
     
-    func addCoinToPortfolio(coinName: String, amount: Int) {
+    func addCoinToPortfolio(coinName: String, amount: Double) {
         let coin = CoinItem(context: self.context)
-        coin.name = coinName
-        coin.amount = Int64(amount)
+        coin.name = coinName.lowercased()
+        coin.amount = amount
         try? self.context.save()
     }
     
@@ -40,8 +40,8 @@ final class CoreDataUtility: ICoreDataUtility {
         try? self.context.save()
     }
     
-    func updateCoinInPortfolio(coin: CoinItem, amount: Int) {
-        coin.amount = Int64(amount)
+    func updateCoinInPortfolio(coin: CoinItem, amount: Double) {
+        coin.amount = amount
         try? self.context.save()
     }
 }
