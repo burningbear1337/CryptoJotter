@@ -37,6 +37,12 @@ final class CustomTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var holdings: UILabel = {
+        let label = UILabel()
+        label.font = AppFont.semibold15.font
+        return label
+    }()
+    
     private lazy var coinPriceChange24H: UILabel = {
         let label = UILabel()
         label.font = AppFont.regular13.font
@@ -55,7 +61,7 @@ final class CustomTableViewCell: UITableViewCell {
 }
 
 extension CustomTableViewCell {
-    func injectData(coin: CoinModel) {
+    func injectCoinModel(coin: CoinModel, holdings: String?) {
         self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
         
         let coinImageService = CoinImageService(coin: coin)
@@ -65,13 +71,32 @@ extension CustomTableViewCell {
             }
         }
         
-        self.coinName.text = coin.symbol.uppercased()
+        self.coinName.text = coin.symbol?.uppercased()
         guard let currentPrice = coin.currentPrice?.convertToStringWith2Decimals() else { return }
         self.coinPrice.text = "$\(currentPrice)"
         self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
         
         self.coinPriceChange24H.textColor = setColor(data: coin)
+        self.holdings.text = holdings
     }
+    
+//    func injectCoinModelForPortfolio(coin: CoinModel) {
+//        self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
+//
+//        let coinImageService = CoinImageService(coin: coin)
+//        coinImageService.setCoinImage { image in
+//            DispatchQueue.main.async {
+//                self.coinImage.image = image
+//            }
+//        }
+//
+//        self.coinName.text = coin.symbol?.uppercased()
+//        guard let currentPrice = coin.currentPrice?.convertToStringWith2Decimals() else { return }
+//        self.coinPrice.text = "$\(currentPrice)"
+//        self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
+//
+//        self.coinPriceChange24H.textColor = setColor(data: coin)
+//    }
 }
 
 private extension CustomTableViewCell {
@@ -81,6 +106,7 @@ private extension CustomTableViewCell {
         self.setupCoinIndex()
         self.setupCoinImage()
         self.setupCoinName()
+        self.setupHoldings()
         self.setupCoinPrice()
         self.setupCoinPriceChange24H()
     }
@@ -111,6 +137,15 @@ private extension CustomTableViewCell {
         NSLayoutConstraint.activate([
             self.coinName.leadingAnchor.constraint(equalTo: self.coinImage.trailingAnchor,constant: 10),
             self.coinName.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+        ])
+    }
+    
+    func setupHoldings() {
+        self.contentView.addSubview(self.holdings)
+        self.holdings.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.holdings.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+            self.holdings.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     

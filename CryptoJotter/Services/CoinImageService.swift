@@ -20,7 +20,7 @@ final class CoinImageService {
     
     init(coin: CoinModel) {
         self.coin = coin
-        self.imageName = coin.name
+        self.imageName = coin.name ?? ""
     }
 }
 extension CoinImageService: ICoinImageService {
@@ -37,7 +37,7 @@ extension CoinImageService: ICoinImageService {
 
 private extension CoinImageService {
     private func fetchCoinImage(completion: @escaping (UIImage)->()){
-        guard let url = URL(string: self.coin.image) else { return }
+        guard let url = URL(string: self.coin.image ?? "") else { return }
         let request = URLRequest(url: url)
         URLSession.shared.downloadTask(with: request) { url, response, error in
             if let error = error {
@@ -52,7 +52,7 @@ private extension CoinImageService {
             
             guard let image = UIImage(data: data) else { return }
             
-            self.filemanager.saveImage(image: image, imageName: self.coin.name, folderName: self.folderName)
+            self.filemanager.saveImage(image: image, imageName: self.coin.name ?? "", folderName: self.folderName)
             
             completion(image)
         }.resume()

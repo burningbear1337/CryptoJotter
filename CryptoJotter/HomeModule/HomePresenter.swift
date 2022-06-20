@@ -19,7 +19,7 @@ final class HomePresenter {
     private var networkService: INetworkService
     private var router: IHomeRouter
     
-    private let mainPublisher = CoinsPublisher()
+    private let mainPublisher = CoinsPublisherManager()
     
     private var sortByRank: Bool = true
     private var sortByPrice: Bool = true
@@ -34,7 +34,6 @@ final class HomePresenter {
 
 extension HomePresenter: IHomePresenter {
     func sinkDataToView(view: IHomeView, vc: UIViewController) {
-        self.view = view
         
         self.fetchData(view: view)
         
@@ -51,8 +50,8 @@ extension HomePresenter: IHomePresenter {
                 let publishedCoins = self?.coins
                 let filteredCoins = publishedCoins?.filter({
                     let text = text.uppercased()
-                    let symbol = $0.symbol.uppercased()
-                    let name = $0.name.uppercased()
+                    guard let symbol = $0.symbol?.uppercased() else { return false }
+                    guard let name = $0.name?.uppercased() else { return false}
                     return (symbol.contains(text) || (name.contains(text)))
                 })
                 self?.mainPublisher.newData = filteredCoins
@@ -75,7 +74,6 @@ private extension HomePresenter {
             switch result {
             case .success(let coins):
                 self.mainPublisher.newData = coins
-                print(coins.count)
                 self.coins = coins
                 view.sortByRank = {
                     let sortedCoins = (self.sortByRank == true ?

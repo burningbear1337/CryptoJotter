@@ -21,6 +21,11 @@ class PortfolioViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.sinkDataToView(view: self.portfolioView)
+    }
+    
     override func loadView() {
         self.view = self.portfolioView
     }

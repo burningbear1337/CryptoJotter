@@ -22,11 +22,11 @@ final class HomeView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .singleLine
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     
@@ -101,7 +101,7 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomTableViewCell else { print("failed load cell"); return UITableViewCell()}
         guard let coins = self.coins else { return UITableViewCell()}
-        cell.injectData(coin: coins[indexPath.row])
+        cell.injectCoinModel(coin: coins[indexPath.row], holdings: nil)
         return cell
     }
     

@@ -11,7 +11,7 @@
 		D11B16B62859F0E5001D181F /* PortfolioModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */; };
 		D11B16B92859FCD1001D181F /* AddCoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B82859FCD1001D181F /* AddCoinViewController.swift */; };
 		D11B16BB285A0363001D181F /* CoreDataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16BA285A0363001D181F /* CoreDataUtility.swift */; };
-		D11B16BD285A45E8001D181F /* CoinsPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16BC285A45E8001D181F /* CoinsPublisher.swift */; };
+		D11B16BD285A45E8001D181F /* CoinsPublisherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16BC285A45E8001D181F /* CoinsPublisherManager.swift */; };
 		D124D4F92849CA0200E63B5A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D124D4F82849CA0200E63B5A /* NetworkService.swift */; };
 		D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F0C2848C8130027B9A1 /* AppDelegate.swift */; };
 		D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F0E2848C8130027B9A1 /* SceneDelegate.swift */; };
@@ -55,7 +55,7 @@
 		D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioModuleBuilder.swift; sourceTree = "<group>"; };
 		D11B16B82859FCD1001D181F /* AddCoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinViewController.swift; sourceTree = "<group>"; };
 		D11B16BA285A0363001D181F /* CoreDataUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtility.swift; sourceTree = "<group>"; };
-		D11B16BC285A45E8001D181F /* CoinsPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsPublisher.swift; sourceTree = "<group>"; };
+		D11B16BC285A45E8001D181F /* CoinsPublisherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsPublisherManager.swift; sourceTree = "<group>"; };
 		D124D4F82849CA0200E63B5A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D12F4F092848C8130027B9A1 /* CryptoJotter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoJotter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12F4F0C2848C8130027B9A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +127,7 @@
 				D11B16BA285A0363001D181F /* CoreDataUtility.swift */,
 				D1584F2228571F7100D6A069 /* Converters.swift */,
 				D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */,
+				D11B16BC285A45E8001D181F /* CoinsPublisherManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -168,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				D12F4F272848D4CD0027B9A1 /* CoinModel.swift */,
-				D11B16BC285A45E8001D181F /* CoinsPublisher.swift */,
 				D12F4F2F2848DA130027B9A1 /* HomeModuleBuilder.swift */,
 				D12F4F102848C8130027B9A1 /* HomeViewController.swift */,
 				D12F4F212848D4B20027B9A1 /* HomeView.swift */,
@@ -359,7 +359,7 @@
 				D12F4F0F2848C8130027B9A1 /* SceneDelegate.swift in Sources */,
 				D1EEE704285CC1AE00651E67 /* HideKeyboardExtension.swift in Sources */,
 				D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */,
-				D11B16BD285A45E8001D181F /* CoinsPublisher.swift in Sources */,
+				D11B16BD285A45E8001D181F /* CoinsPublisherManager.swift in Sources */,
 				D11B16B92859FCD1001D181F /* AddCoinViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

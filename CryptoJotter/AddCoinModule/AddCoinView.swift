@@ -12,6 +12,7 @@ protocol IAddCoinView: AnyObject {
     func fecthDataFromCoreData(coinItems: [CoinItem])
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var saveButtonTap:((CoinModel, Double)->())? { get set }
+    var clickedOnCoin: ((CoinModel)->(String))? { get set }
 }
 
 final class AddCoinView: UIView {
@@ -58,7 +59,7 @@ final class AddCoinView: UIView {
         return label
     }()
     
-    private lazy var coinsAmount: UITextField = {
+    private lazy var coinsAmountTextField: UITextField = {
         let textField = UITextField()
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
@@ -96,8 +97,9 @@ final class AddCoinView: UIView {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.layer.backgroundColor = UIColor.theme.secondaryBackgroundColor?.cgColor
-        button.setTitle("save", for: .normal)
+        button.setTitle("SAVE", for: .normal)
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.titleLabel?.font = AppFont.semibold17.font
         button.layer.borderColor = UIColor.theme.greenColor?.cgColor
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 1
@@ -109,6 +111,7 @@ final class AddCoinView: UIView {
     
     var textFieldDataWorkflow: ((String) -> ())?
     var saveButtonTap:((CoinModel, Double)->())?
+    var clickedOnCoin: ((CoinModel)->(String))?
     
     private var coin: CoinModel?
     private var coins: [CoinModel]? {
@@ -119,7 +122,6 @@ final class AddCoinView: UIView {
         }
     }
     
-    private var coinItem: CoinItem?
     private var coinItems: [CoinItem]?
     
     init() {
@@ -167,7 +169,7 @@ extension AddCoinView: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
-        case coinsAmount:
+        case coinsAmountTextField:
             let previous:NSString = textField.text! as NSString
             let updated = previous.replacingCharacters(in: range, with: string)
             self.holdings = Double(updated)
@@ -176,14 +178,10 @@ extension AddCoinView: UITextFieldDelegate {
             let updatedText = previousText.replacingCharacters(in: range, with: string)
             self.textFieldDataWorkflow?(updatedText)
             if updatedText == "" {
-                self.opactityControll(value: 0)
+                self.opactityControl(value: 0)
             }
         }
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.textFieldDataWorkflow?("")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -192,7 +190,7 @@ extension AddCoinView: UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.textFieldDataWorkflow?("")
-        self.opactityControll(value: 0)
+        self.opactityControl(value: 0)
         return true
     }
 }
@@ -206,9 +204,9 @@ extension AddCoinView: ISubscriber {
 private extension AddCoinView {
     
     func injectDataToInterface(coin: CoinModel) {
-        self.opactityControll(value: 1)
+        self.opactityControl(value: 1)
         self.currentPriceValue.text = "$\(self.coin?.currentPrice?.convertToStringWith2Decimals() ?? "0.00")"
-        print(self.coinItems)
+        self.coinsAmountTextField.placeholder = self.clickedOnCoin?(coin)
     }
     
     func setupLayout() {
@@ -248,10 +246,10 @@ private extension AddCoinView {
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.collectionView)
         NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 20),
+            self.collectionView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10),
             self.collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.collectionView.heightAnchor.constraint(equalToConstant: 120)
+            self.collectionView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
         
@@ -259,7 +257,7 @@ private extension AddCoinView {
         self.addSubview(self.currentPriceTitle)
         self.currentPriceTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.currentPriceTitle.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 40),
+            self.currentPriceTitle.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 20),
             self.currentPriceTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
         ])
         
@@ -273,23 +271,23 @@ private extension AddCoinView {
         self.addSubview(self.coinHoldingsTitle)
         self.coinHoldingsTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinHoldingsTitle.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 40),
+            self.coinHoldingsTitle.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 30),
             self.coinHoldingsTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
         ])
         
-        self.addSubview(self.coinsAmount)
-        self.coinsAmount.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.coinsAmountTextField)
+        self.coinsAmountTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinsAmount.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 40),
-            self.coinsAmount.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            self.coinsAmount.widthAnchor.constraint(equalToConstant: 55)
+            self.coinsAmountTextField.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 30),
+            self.coinsAmountTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.coinsAmountTextField.widthAnchor.constraint(equalToConstant: 105)
 
         ])
         
         self.addSubview(self.coinDepositTitle)
         self.coinDepositTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinDepositTitle.topAnchor.constraint(equalTo: self.coinHoldingsTitle.bottomAnchor, constant: 40),
+            self.coinDepositTitle.topAnchor.constraint(equalTo: self.coinHoldingsTitle.bottomAnchor, constant: 30),
             self.coinDepositTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
         ])
         
@@ -297,7 +295,7 @@ private extension AddCoinView {
         self.coinDepositValue.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.coinDepositValue.centerYAnchor.constraint(equalTo: self.coinDepositTitle.centerYAnchor),
-            self.coinDepositValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 ),
+            self.coinDepositValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 )
         ])
     }
     
@@ -305,7 +303,7 @@ private extension AddCoinView {
         self.saveButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.saveButton)
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.coinDepositTitle.bottomAnchor, constant: 40),
+            self.saveButton.topAnchor.constraint(equalTo: self.coinDepositTitle.bottomAnchor, constant: 20),
             self.saveButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.saveButton.heightAnchor.constraint(equalToConstant: 55),
             self.saveButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -313,15 +311,15 @@ private extension AddCoinView {
         ])
     }
     
-    func opactityControll(value: Float ) {
+    func opactityControl(value: Float ) {
         self.currentPriceTitle.layer.opacity = value
         self.currentPriceValue.layer.opacity = value
         self.coinHoldingsTitle.layer.opacity = value
         self.coinDepositTitle.layer.opacity = value
         self.coinDepositValue.layer.opacity = value
-        self.coinsAmount.layer.opacity = value
+        self.coinsAmountTextField.layer.opacity = value
         self.saveButton.layer.opacity = value
-        self.coinsAmount.attributedPlaceholder = NSAttributedString(
+        self.coinsAmountTextField.attributedPlaceholder = NSAttributedString(
             string: "Try 3.1",
             attributes: [
                 NSAttributedString.Key.font : AppFont.semibold17.font as Any,
@@ -335,5 +333,11 @@ private extension AddCoinView {
             let coin = self.coin,
             let holdings = self.holdings else { return }
         self.saveButtonTap?(coin, holdings)
+        self.saveButton.setTitle("UPDATED ✅", for: .normal)
+        self.coinsAmountTextField.placeholder = self.clickedOnCoin?(coin)
+        self.coinsAmountTextField.text = ""
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.saveButton.setTitle("SAVE", for: .normal)
+        }
     }
 }

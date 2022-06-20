@@ -21,7 +21,7 @@ protocol IPublisher: AnyObject {
     func notify(_ newData: [CoinModel])
 }
 
-final class CoinsPublisher {
+final class CoinsPublisherManager {
     var newData: [CoinModel]? {
         didSet {
             self.notify(self.newData ?? [])
@@ -31,7 +31,7 @@ final class CoinsPublisher {
     var subscribers = [ISubscriber]()
 }
 
-extension CoinsPublisher: IPublisher{
+extension CoinsPublisherManager: IPublisher{
     
     func subscribe(_ subscriber: ISubscriber) {
         self.subscribers.append(subscriber)

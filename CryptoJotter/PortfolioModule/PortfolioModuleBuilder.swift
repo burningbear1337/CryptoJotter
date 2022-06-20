@@ -11,7 +11,8 @@ final class PortfolioBuilder: IBuilder {
     func build() -> UIViewController {
         let router = PortfolioRouter()
         let coreDataUtility = CoreDataUtility()
-        let presenter = PortfolioPresenter(router: router, coreDataUtility: coreDataUtility)
+        let networkService = NetworkService()
+        let presenter = PortfolioPresenter(router: router, coreDataUtility: coreDataUtility, networkService: networkService)
         let vc = PortfolioViewController(presenter: presenter)
         return vc
     }

@@ -10,9 +10,9 @@ import UIKit
 
 protocol ICoreDataUtility: AnyObject {
     func fetchPortfolio(completion: @escaping ([CoinItem])->())
-    func addCoinToPortfolio(coinName: String, amount: Double)
+    func addCoinToPortfolio(coin: CoinModel, amount: Double)
     func deleteCoinFromPortfolio(coin: CoinItem)
-    func updateCoinInPortfolio(coin: CoinItem, amount: Double)
+    func updateCoinInPortfolio(coinItem: CoinItem, amount: Double)
 }
 
 final class CoreDataUtility: ICoreDataUtility {
@@ -28,10 +28,14 @@ final class CoreDataUtility: ICoreDataUtility {
         completion(coinItems)
     }
     
-    func addCoinToPortfolio(coinName: String, amount: Double) {
-        let coin = CoinItem(context: self.context)
-        coin.name = coinName.lowercased()
-        coin.amount = amount
+    func addCoinToPortfolio(coin: CoinModel, amount: Double) {
+        let newCoin = CoinItem(context: self.context)
+        newCoin.symbol = coin.symbol?.lowercased()
+        newCoin.currentPrice = coin.currentPrice ?? 0.00
+        newCoin.image = coin.image
+        newCoin.priceChange24H = coin.priceChangePercentage24H ?? 0.00
+        newCoin.rank = coin.marketCapRank ?? 0
+        newCoin.amount = amount
         try? self.context.save()
     }
     
@@ -40,8 +44,9 @@ final class CoreDataUtility: ICoreDataUtility {
         try? self.context.save()
     }
     
-    func updateCoinInPortfolio(coin: CoinItem, amount: Double) {
-        coin.amount = amount
+    func updateCoinInPortfolio(coinItem: CoinItem, amount: Double) {
+        //let holdings = coinItem.amount
+        coinItem.amount = amount
         try? self.context.save()
     }
 }

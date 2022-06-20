@@ -43,6 +43,6 @@ extension DetailsPresenter: IDetailsPresenter {
 private extension DetailsPresenter {
     func urlForCoin(coin: CoinModel?) -> String {
         guard let coin = coin else { return ""}
-        return "https://api.coingecko.com/api/v3/coins/\(coin.name.lowercased())?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
+        return "https://api.coingecko.com/api/v3/coins/\(String(describing: coin.name?.lowercased()))?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
     }
 }

@@ -30,6 +30,6 @@ class AddCoinViewController: UIViewController {
         super.viewDidLoad()
         self.presenter.sinkDataToView(view: self.customView)
         self.view.backgroundColor = UIColor.theme.backgroundColor
-        self.hideKeyboardWhenTappedAround()
+        //self.hideKeyboardWhenTappedAround()
     }
 }

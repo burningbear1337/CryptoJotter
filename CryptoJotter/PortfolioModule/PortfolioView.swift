@@ -8,7 +8,9 @@
 import UIKit
 
 protocol IPortfolioView: AnyObject {
-    func fetchCoins(coins: [CoinItem]?)
+    func fetchCoins(coins: [CoinModel]?)
+    var textFieldDataWorkflow: ((String) -> ())? { get set }
+    var coinItemHoldings: ((CoinModel)->(String?))? { get set }
 }
 
 final class PortfolioView: UIView {
@@ -16,8 +18,7 @@ final class PortfolioView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "portfolioCell")
-        tableView.separatorStyle = .none
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "portfolioCell")
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.delegate = self
@@ -25,15 +26,18 @@ final class PortfolioView: UIView {
         return tableView
     }()
     
-    private lazy var customSearchBar = CustomSearchBar()
+    private var customSearchBar = CustomSearchBar()
     
     private var vc: UIViewController?
     
-    private var coins: [CoinItem]? {
+    private var coins: [CoinModel]? {
         didSet {
             self.tableView.reloadData()
         }
     }
+    
+    var textFieldDataWorkflow: ((String) -> ())?
+    var coinItemHoldings: ((CoinModel)->(String?))?
         
     init(vc: UIViewController) {
         self.vc = vc
@@ -47,8 +51,14 @@ final class PortfolioView: UIView {
 }
 
 extension PortfolioView: IPortfolioView {
-    func fetchCoins(coins: [CoinItem]?) {
+    func fetchCoins(coins: [CoinModel]?) {
         self.coins = coins
+    }
+}
+
+extension PortfolioView: ISubscriber {
+    func update(newData: [CoinModel]) {
+        self.coins = newData
     }
 }
 
@@ -58,14 +68,14 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath)
-        cell.textLabel?.text = self.coins?[indexPath.row].name
-        cell.backgroundColor = .clear
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as? CustomTableViewCell else { return UITableViewCell()}
+        guard let coin = coins?[indexPath.row] else { return UITableViewCell()}
+        
+        cell.injectCoinModel(coin: coin, holdings: self.coinItemHoldings?(coin))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         print("tapped on cell")
     }
     
@@ -75,12 +85,30 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension PortfolioView: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(#function)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let previousText:NSString = textField.text! as NSString
+        let updatedText = previousText.replacingCharacters(in: range, with: string)
+        self.textFieldDataWorkflow?(updatedText)
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.textFieldDataWorkflow?("")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return false
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        self.textFieldDataWorkflow?("")
+        return true
     }
 }
 
 private extension PortfolioView {
+    
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
         self.setupSearchBar()
@@ -103,10 +131,12 @@ private extension PortfolioView {
     func setupTableView() {
         self.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor),
+            self.tableView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 20),
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 }
+
+
