@@ -34,10 +34,11 @@ final class StatisticsElement: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func injectData(title: String?, price: String?, suffix: String) {
+    public func injectData(title: String?, price: String?, suffix: String, isGrowing: UIColor? = nil) {
         self.titleLabel.text = title
         guard let price = price else { return }
         self.infoLabel.text = "\(String(describing: price)) "+suffix
+        self.infoLabel.textColor = isGrowing ?? UIColor.theme.accentColor
         guard let price = Double(price) else { return }
         self.infoLabel.textColor = price > 0 ? UIColor.theme.accentColor : UIColor.theme.redColor
     }

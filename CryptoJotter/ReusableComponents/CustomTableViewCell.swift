@@ -40,6 +40,14 @@ final class CustomTableViewCell: UITableViewCell {
     private lazy var holdings: UILabel = {
         let label = UILabel()
         label.font = AppFont.semibold15.font
+        label.textColor = UIColor.theme.secondaryColor
+        return label
+    }()
+    
+    private lazy var amountOfCoins: UILabel = {
+        let label = UILabel()
+        label.font = AppFont.regular13.font
+        label.textColor = UIColor.theme.secondaryColor
         return label
     }()
     
@@ -72,31 +80,19 @@ extension CustomTableViewCell {
         }
         
         self.coinName.text = coin.symbol?.uppercased()
+        
         guard let currentPrice = coin.currentPrice?.convertToStringWith2Decimals() else { return }
         self.coinPrice.text = "$\(currentPrice)"
-        self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
+        
+        let suffix = ((coin.priceChange24H ?? 0) > 0) ? "▲" : "▼"
+        self.coinPriceChange24H.text = "\(suffix) \(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
         
         self.coinPriceChange24H.textColor = setColor(data: coin)
-        self.holdings.text = holdings
+        
+        guard let holdings = holdings else { return }
+        self.holdings.text = "$" + holdings
+        self.amountOfCoins.text = ((Double(holdings) ?? 0.00)/(coin.currentPrice ?? 0.01)).convertToStringWith2Decimals()
     }
-    
-//    func injectCoinModelForPortfolio(coin: CoinModel) {
-//        self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
-//
-//        let coinImageService = CoinImageService(coin: coin)
-//        coinImageService.setCoinImage { image in
-//            DispatchQueue.main.async {
-//                self.coinImage.image = image
-//            }
-//        }
-//
-//        self.coinName.text = coin.symbol?.uppercased()
-//        guard let currentPrice = coin.currentPrice?.convertToStringWith2Decimals() else { return }
-//        self.coinPrice.text = "$\(currentPrice)"
-//        self.coinPriceChange24H.text = "\(coin.priceChangePercentage24H?.convertToStringWith2Decimals() ?? "N/A")%"
-//
-//        self.coinPriceChange24H.textColor = setColor(data: coin)
-//    }
 }
 
 private extension CustomTableViewCell {
@@ -107,6 +103,7 @@ private extension CustomTableViewCell {
         self.setupCoinImage()
         self.setupCoinName()
         self.setupHoldings()
+        self.setupAmountOfCoins()
         self.setupCoinPrice()
         self.setupCoinPriceChange24H()
     }
@@ -145,7 +142,16 @@ private extension CustomTableViewCell {
         self.holdings.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.holdings.leadingAnchor.constraint(equalTo: self.centerXAnchor),
-            self.holdings.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            self.holdings.topAnchor.constraint(equalTo: self.topAnchor, constant: 8)
+        ])
+    }
+    
+    func setupAmountOfCoins() {
+        self.contentView.addSubview(self.amountOfCoins)
+        self.amountOfCoins.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.amountOfCoins.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+            self.amountOfCoins.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8)
         ])
     }
     

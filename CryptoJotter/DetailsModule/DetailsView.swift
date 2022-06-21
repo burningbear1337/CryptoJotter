@@ -122,6 +122,8 @@ private extension CustomDetailsView {
         
     func setupElementsData() {
         self.coinNameLabel.text = self.coin?.name
+        let prefix = ((self.coin?.priceChangePercentage24H ?? 0) > 0) ? "▲ " : "▼ "
+        let isGrowing = ((self.coin?.priceChangePercentage24H ?? 0) > 0) ? UIColor.theme.greenColor : UIColor.theme.redColor
         self.low24H.injectData(
             title: "Lowest 24H",
             price: self.coin?.low24H?.convertToStringWith2Decimals(),
@@ -134,13 +136,15 @@ private extension CustomDetailsView {
         
         self.priceChange24H.injectData(
             title: "Price Change 24H",
-            price: self.coin?.priceChange24H?.convertToStringWith2Decimals(),
-            suffix: "$")
+            price: prefix + (self.coin?.priceChange24H?.convertToStringWith2Decimals() ?? ""),
+            suffix: "$",
+            isGrowing: isGrowing)
         
         self.priceChange24HPercantage.injectData(
             title: "% Change 24H",
-            price: self.coin?.priceChangePercentage24H?.convertToStringWith2Decimals(),
-            suffix: "%")
+            price: prefix + (self.coin?.priceChangePercentage24H?.convertToStringWith2Decimals() ?? ""),
+            suffix: "%",
+            isGrowing: isGrowing)
         
         self.currentPrice.injectData(
             title: "Current Price",

@@ -8,7 +8,6 @@
 import UIKit
 
 protocol IHomeView: AnyObject {
-    func setupCoinsList(coins: [CoinModel]?)
     var tapOnCell: ((CoinModel)->())? { get set }
     var sortByRank: (()->())? { get set }
     var sortByPrice: (()->())? { get set }
@@ -16,9 +15,9 @@ protocol IHomeView: AnyObject {
     var textFieldDataWorkflow: ((String) -> ())? { get set }
 }
 
-final class HomeView: UIView {
+final class HomeView: UIView, IHomeView {
     
-    private var customSearchBar = CustomSearchBar()
+    private var customSearchBar = CustomSearchBarView()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -66,9 +65,6 @@ final class HomeView: UIView {
         }
     }
     
-    private var increaseByRank: Bool = true
-    private var increaseByPrice: Bool = true
-    
     var tapOnCell: ((CoinModel)->())?
     var sortByRank: (()->())?
     var sortByPrice: (()->())?
@@ -85,12 +81,12 @@ final class HomeView: UIView {
     }
 }
 
-extension HomeView: IHomeView {
-    
-    func setupCoinsList(coins: [CoinModel]?) {
-        self.coins = coins
+extension HomeView: ISubscriber {
+    func update(newData: [CoinModel]) {
+        self.coins = newData
     }
 }
+
 
 extension HomeView: UITableViewDataSource, UITableViewDelegate {
     
@@ -124,11 +120,6 @@ extension HomeView: UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.textFieldDataWorkflow?("")
-        return true
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return false
     }
@@ -139,16 +130,11 @@ extension HomeView: UITextFieldDelegate {
     }
 }
 
-extension HomeView: ISubscriber {
-    func update(newData: [CoinModel]) {
-        self.coins = newData
-    }
-}
 
 private extension HomeView {
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
-        setupTableViewLayout()
+        self.setupTableViewLayout()
     }
     
     func setupTableViewLayout() {

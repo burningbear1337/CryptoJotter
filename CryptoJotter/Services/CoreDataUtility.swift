@@ -31,6 +31,7 @@ final class CoreDataUtility: ICoreDataUtility {
     func addCoinToPortfolio(coin: CoinModel, amount: Double) {
         let newCoin = CoinItem(context: self.context)
         newCoin.symbol = coin.symbol?.lowercased()
+        newCoin.name = coin.name?.lowercased()
         newCoin.currentPrice = coin.currentPrice ?? 0.00
         newCoin.image = coin.image
         newCoin.priceChange24H = coin.priceChangePercentage24H ?? 0.00
@@ -45,7 +46,6 @@ final class CoreDataUtility: ICoreDataUtility {
     }
     
     func updateCoinInPortfolio(coinItem: CoinItem, amount: Double) {
-        //let holdings = coinItem.amount
         coinItem.amount = amount
         try? self.context.save()
     }

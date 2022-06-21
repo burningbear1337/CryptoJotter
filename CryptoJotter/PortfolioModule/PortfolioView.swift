@@ -8,12 +8,17 @@
 import UIKit
 
 protocol IPortfolioView: AnyObject {
-    func fetchCoins(coins: [CoinModel]?)
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var coinItemHoldings: ((CoinModel)->(String?))? { get set }
+    var deleteCoinFromPortfolio: ((CoinModel)->())? { get set }
+    var sortByRank: (()->())? { get set }
+    var sortByHoldings: (()->())? { get set }
+    var sortByPrice: (()->())? { get set }
 }
 
-final class PortfolioView: UIView {
+final class PortfolioView: UIView, IPortfolioView {
+    
+    private var customSearchBar = CustomSearchBarView()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -26,19 +31,54 @@ final class PortfolioView: UIView {
         return tableView
     }()
     
-    private var customSearchBar = CustomSearchBar()
-    
     private var vc: UIViewController?
+    
+    private lazy var filterByRankButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Rank", for: .normal)
+        button.titleLabel?.font = AppFont.regular13.font
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var filterByHoldingsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Holdings", for: .normal)
+        button.titleLabel?.font = AppFont.regular13.font
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.addTarget(self, action: #selector(sortByHoldingsTapped), for: .touchUpInside)
+        return button
+    }()
+
+    
+    private lazy var filterByPriceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Price", for: .normal)
+        button.titleLabel?.font = AppFont.regular13.font
+        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
+        button.addTarget(self, action: #selector(sortByPriceTapped), for: .touchUpInside)
+        return button
+    }()
     
     private var coins: [CoinModel]? {
         didSet {
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
     var textFieldDataWorkflow: ((String) -> ())?
     var coinItemHoldings: ((CoinModel)->(String?))?
-        
+    var deleteCoinFromPortfolio: ((CoinModel)->())?
+    var sortByRank: (()->())?
+    var sortByHoldings: (()->())?
+    var sortByPrice: (()->())?
+    
     init(vc: UIViewController) {
         self.vc = vc
         super.init(frame: .zero)
@@ -50,12 +90,6 @@ final class PortfolioView: UIView {
     }
 }
 
-extension PortfolioView: IPortfolioView {
-    func fetchCoins(coins: [CoinModel]?) {
-        self.coins = coins
-    }
-}
-
 extension PortfolioView: ISubscriber {
     func update(newData: [CoinModel]) {
         self.coins = newData
@@ -64,7 +98,7 @@ extension PortfolioView: ISubscriber {
 
 extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.coins?.count ?? 10
+        self.coins?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +116,13 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let coin = self.coins?[indexPath.row] else { return }
+            self.deleteCoinFromPortfolio?(coin)
+        }
+    }
 }
 
 extension PortfolioView: UITextFieldDelegate {
@@ -89,11 +130,6 @@ extension PortfolioView: UITextFieldDelegate {
         let previousText:NSString = textField.text! as NSString
         let updatedText = previousText.replacingCharacters(in: range, with: string)
         self.textFieldDataWorkflow?(updatedText)
-        return true
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.textFieldDataWorkflow?("")
         return true
     }
     
@@ -112,6 +148,7 @@ private extension PortfolioView {
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
         self.setupSearchBar()
+        self.setupFilters()
         self.setupTableView()
     }
     
@@ -128,14 +165,46 @@ private extension PortfolioView {
         ])
     }
     
+    func setupFilters() {
+        self.addSubview(self.filterByRankButton)
+        NSLayoutConstraint.activate([
+            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10)
+        ])
+        
+        self.addSubview(self.filterByHoldingsButton)
+        NSLayoutConstraint.activate([
+            self.filterByHoldingsButton.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+            self.filterByHoldingsButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor)
+        ])
+        
+        self.addSubview(self.filterByPriceButton)
+        NSLayoutConstraint.activate([
+            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor)
+        ])
+    }
+    
     func setupTableView() {
         self.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 20),
+            self.tableView.topAnchor.constraint(equalTo: self.filterByRankButton.bottomAnchor),
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    @objc func sortByRankTapped() {
+        self.sortByRank?()
+    }
+    
+    @objc func sortByPriceTapped() {
+        self.sortByPrice?()
+    }
+    
+    @objc func sortByHoldingsTapped() {
+        self.sortByHoldings?()
     }
 }
 

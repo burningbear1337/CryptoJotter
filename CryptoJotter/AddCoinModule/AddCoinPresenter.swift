@@ -41,37 +41,39 @@ extension AddCoinPresenter: IAddCoinPresenter {
                 self?.addCoinPublisher.newData = filteredCoins
             }
             if text == "" {
-                self?.addCoinPublisher.newData = self?.coins
+                self?.addCoinPublisher.newData = self?.coinItemsMapped
             }
         }
         
         view.saveButtonTap = { [weak self] coin, holdings in
             guard let self = self else { return }
-            
-            if self.coinItemsMapped.isEmpty {
-                self.coreDataUtility.addCoinToPortfolio(coin: coin, amount: holdings)
-            }
-            if !self.coinItemsMapped.isEmpty {
-                if let index = self.coinItemsMapped.firstIndex(where: {
-                    $0.symbol == coin.symbol
-                }) {
-                    let coin = self.coinItems[index]
-                    self.coreDataUtility.updateCoinInPortfolio(coinItem: coin, amount: holdings)
-                } else {
-                    self.coreDataUtility.addCoinToPortfolio(coin: coin, amount: holdings)
-                }
-            }
-        }
-        
-        view.clickedOnCoin = { [ weak self] coin in
-            guard let self = self else { return "Try 3.1"}
             if let index = self.coinItemsMapped.firstIndex(where: {
                 $0.symbol == coin.symbol
             }) {
                 let coin = self.coinItems[index]
-                return coin.amount.convertToStringWith2Decimals()
+                if holdings > 0 {
+                    self.coreDataUtility.updateCoinInPortfolio(coinItem: coin, amount: holdings)
+                } else if holdings < 0 {
+                    return
+                }
+                else {
+                    self.coreDataUtility.deleteCoinFromPortfolio(coin: coin)
+                }
+                self.fetchData(view: view)
             } else {
-                return "Try 3.1"
+                self.coreDataUtility.addCoinToPortfolio(coin: coin, amount: holdings)
+                self.fetchData(view: view)
+            }
+        }
+        
+        view.clickedOnCoin = { [ weak self] coin in
+            if let index = self?.coinItemsMapped.firstIndex(where: {
+                $0.symbol == coin.symbol
+            }) {
+                let coin = self?.coinItems[index]
+                return coin?.amount.convertToStringWith2Decimals() ?? "Try: 3.1"
+            } else {
+                return "Try: 3.1"
             }
         }
     }
@@ -79,11 +81,13 @@ extension AddCoinPresenter: IAddCoinPresenter {
 
 private extension AddCoinPresenter {
     func fetchData(view: IAddCoinView) {
+        
         self.addCoinPublisher.subscribe(view as! ISubscriber)
-        self.networkService.fetchCoinsList(urlsString: urlString) { (result: Result<[CoinModel], Error>) in
+        
+        self.networkService.fetchCoinsList(urlsString: urlString) { [weak self] (result: Result<[CoinModel], Error>) in
+            guard let self = self else { return }
             switch result {
             case .success(let coins):
-                self.addCoinPublisher.newData = coins
                 self.coins = coins
             case .failure(let error):
                 print(error)
@@ -94,13 +98,14 @@ private extension AddCoinPresenter {
             self?.coinItems = coinItems
             guard let data = self?.converterFromItemToModel(coinItems: coinItems) else { return }
             self?.coinItemsMapped = data
+            self?.addCoinPublisher.newData = data
         }
     }
     
     func converterFromItemToModel(coinItems: [CoinItem]) -> [CoinModel]
     {
         coinItems.map { coinItem in
-            CoinModel(id: "1", symbol: coinItem.symbol ?? "", name: coinItem.symbol ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: 1, marketCapRank: coinItem.rank, fullyDilutedValuation: 1, totalVolume: 1, high24H: 1, low24H: 1, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: 1, marketCapChangePercentage24H: 1, circulatingSupply: 1, totalSupply: 1, maxSupply: 1, ath: 1, athChangePercentage: 1, athDate: "1", atl: 1, atlChangePercentage: 1, atlDate: "1", lastUpdated: "1", priceChangePercentage24HInCurrency: 1)
+            CoinModel(id: nil, symbol: coinItem.symbol ?? "", name: coinItem.symbol ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: nil, marketCapRank: coinItem.rank, fullyDilutedValuation: nil, totalVolume: nil, high24H: nil, low24H: nil, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: nil, marketCapChangePercentage24H: nil, circulatingSupply: nil, totalSupply: nil, maxSupply: nil, ath: nil, athChangePercentage: nil, athDate: nil, atl: nil, atlChangePercentage: nil, atlDate: nil, lastUpdated: nil, priceChangePercentage24HInCurrency: nil)
         }
     }
 }

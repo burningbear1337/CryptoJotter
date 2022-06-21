@@ -65,10 +65,13 @@ extension HomePresenter: IHomePresenter {
 
 private extension HomePresenter {
     func fetchData(view : IHomeView) {
+        
         self.view = view
+        
         if !self.mainPublisher.subscribers.contains(where: { $0 === view}) {
             self.mainPublisher.subscribe(view as! ISubscriber)
         }
+        
         self.networkService.fetchCoinsList(urlsString: self.urlString) { [weak self] (result: Result<[CoinModel], Error>) in
             guard let self = self else { return }
             switch result {
@@ -76,46 +79,21 @@ private extension HomePresenter {
                 self.mainPublisher.newData = coins
                 self.coins = coins
                 view.sortByRank = {
-                    let sortedCoins = (self.sortByRank == true ?
-                                       self.sortCoins(sort: .rankRevers, coins: self.mainPublisher.newData ?? []) :
-                                        self.sortCoins(sort: .rank, coins: self.mainPublisher.newData ?? []))
-                    self.mainPublisher.newData = sortedCoins
+                    self.sortByRank == true ?
+                    self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0}) :
+                    self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
                     self.sortByRank.toggle()
                 }
                 
                 view.sortByPrice = {
-                    let sortedCoins = (self.sortByPrice == true ?
-                                       self.sortCoins(sort: .priceRevers, coins: self.mainPublisher.newData ?? []) :
-                                        self.sortCoins(sort: .price, coins: self.mainPublisher.newData ?? []))
-                    self.mainPublisher.newData = sortedCoins
+                    self.sortByPrice == true ?
+                    self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0}) :
+                    self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0})
                     self.sortByPrice.toggle()
                 }
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }
-        }
-    }
-    
-    enum SortByOption {
-        case rank, rankRevers, price, priceRevers
-    }
-    
-    private func sortCoins(sort: SortByOption, coins: [CoinModel]) -> [CoinModel] {
-        var sortedCoins = coins
-        switch sort {
-        case .rank:
-            sortedCoins.sort(by: {$0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
-            return sortedCoins
-        case .rankRevers:
-            sortedCoins.sort(by: {$0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
-            return sortedCoins
-        case .price:
-            sortedCoins.sort(by: {$0.currentPrice ?? 0 > $1.currentPrice ?? 0})
-            return sortedCoins
-        case .priceRevers:
-            sortedCoins.sort(by: {$0.currentPrice ?? 0 < $1.currentPrice ?? 0})
-            return sortedCoins
         }
     }
 }

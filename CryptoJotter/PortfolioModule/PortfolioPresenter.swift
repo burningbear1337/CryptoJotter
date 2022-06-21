@@ -19,9 +19,16 @@ final class PortfolioPresenter {
     private var coreDataUtility: ICoreDataUtility
     private var networkService: INetworkService
     var addNewCoin: (()->())?
+    
     private let portfolioPublisher = CoinsPublisherManager()
+    
     private var coins: [CoinModel] = []
     private var coinItems: [CoinItem] = []
+    
+    private var increaseByRank: Bool = true
+    private var increaseByPrice: Bool = true
+    private var increaseByHoldings: Bool = true
+
     
     init(router: IPortfolioRouter, coreDataUtility: ICoreDataUtility, networkService: INetworkService) {
         self.router = router
@@ -38,14 +45,12 @@ extension PortfolioPresenter: IPortfolioPresenter {
         
         view.textFieldDataWorkflow = { [weak self] text in
             if text != "" {
-                let publishedCoins = self?.coins
-                let filteredCoins = publishedCoins?.filter({
+                self?.portfolioPublisher.newData = self?.portfolioPublisher.newData?.filter({
                     let text = text.uppercased()
                     guard let symbol = $0.symbol?.uppercased() else { return false }
                     guard let name = $0.name?.uppercased() else { return false }
                     return (symbol.contains(text) || name.contains(text))
                 })
-                self?.portfolioPublisher.newData = filteredCoins
             }
             if text == "" {
                 self?.portfolioPublisher.newData = self?.coins
@@ -54,10 +59,35 @@ extension PortfolioPresenter: IPortfolioPresenter {
         
         view.coinItemHoldings = { coin in
             if let index = self.coinItems.firstIndex(where: { $0.symbol == coin.symbol }) {
-                return "$" + (self.coinItems[index].amount * (coin.currentPrice ?? 0.00)).convertToStringWith2Decimals()
+                return (self.coinItems[index].amount * (coin.currentPrice ?? 0.00)).convertToStringWith2Decimals()
             } else {
                 return nil
             }
+        }
+        
+        view.deleteCoinFromPortfolio = { coin in
+            if let index = self.coinItems.firstIndex(where: { $0.symbol == coin.symbol}) {
+                self.coreDataUtility.deleteCoinFromPortfolio(coin: self.coinItems[index])
+                self.fetchData(view: view)
+            }
+        }
+        
+        view.sortByRank = {
+            self.increaseByRank == true ?
+            self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0 }) :
+            self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0 })
+            self.increaseByRank.toggle()
+        }
+        
+        view.sortByPrice = {
+            self.increaseByPrice == true ?
+            self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0 }) :
+            self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0 })
+            self.increaseByPrice.toggle()
+        }
+        
+        view.sortByHoldings = {
+            self.increaseByHoldings.toggle()
         }
     }
     
@@ -69,7 +99,9 @@ extension PortfolioPresenter: IPortfolioPresenter {
 private extension PortfolioPresenter {
     
     func fetchData(view: IPortfolioView) {
+        
         self.view = view
+        
         if !self.portfolioPublisher.subscribers.contains(where: { $0 === view }) {
             self.portfolioPublisher.subscribe(view as! ISubscriber)
         }
@@ -80,14 +112,13 @@ private extension PortfolioPresenter {
             
             self?.portfolioPublisher.newData = data
             self?.coins = data
-            view.fetchCoins(coins: data)
         }
     }
     
     func converterFromItemToModel(coinItems: [CoinItem]) -> [CoinModel]
     {
         coinItems.map { coinItem in
-            CoinModel(id: "1", symbol: coinItem.symbol ?? "", name: coinItem.symbol ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: 1, marketCapRank: coinItem.rank, fullyDilutedValuation: 1, totalVolume: 1, high24H: 1, low24H: 1, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: 1, marketCapChangePercentage24H: 1, circulatingSupply: 1, totalSupply: 1, maxSupply: 1, ath: 1, athChangePercentage: 1, athDate: "1", atl: 1, atlChangePercentage: 1, atlDate: "1", lastUpdated: "1", priceChangePercentage24HInCurrency: 1)
+            CoinModel(id: nil, symbol: coinItem.symbol ?? "", name: coinItem.name ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: nil, marketCapRank: coinItem.rank, fullyDilutedValuation: nil, totalVolume: nil, high24H: nil, low24H: nil, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: nil, marketCapChangePercentage24H: nil, circulatingSupply: nil, totalSupply: nil, maxSupply: nil, ath: nil, athChangePercentage: nil, athDate: nil, atl: nil, atlChangePercentage: nil, atlDate: nil, lastUpdated: nil, priceChangePercentage24HInCurrency: nil)
         }
     }
 }

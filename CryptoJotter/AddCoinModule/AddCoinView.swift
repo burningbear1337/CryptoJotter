@@ -8,16 +8,14 @@
 import UIKit
 
 protocol IAddCoinView: AnyObject {
-    func sinkDataToView(coins: [CoinModel])
-    func fecthDataFromCoreData(coinItems: [CoinItem])
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var saveButtonTap:((CoinModel, Double)->())? { get set }
     var clickedOnCoin: ((CoinModel)->(String))? { get set }
 }
 
-final class AddCoinView: UIView {
+final class AddCoinView: UIView, IAddCoinView {
     
-    private lazy var customSearchBar = CustomSearchBar()
+    private lazy var customSearchBar = CustomSearchBarView()
     private lazy var collectionView = UICollectionView()
     
     private lazy var currentPriceTitle: UILabel = {
@@ -85,11 +83,11 @@ final class AddCoinView: UIView {
         return label
     }()
     
-    private var currentPrice: Double?
-    private var holdings: Double? {
+    private var holdings: Double?
+    {
         didSet {
-            DispatchQueue.main.async { [self] in
-                self.coinDepositValue.text = "$" + (((self.coin?.currentPrice ?? 0) * (holdings ?? 0)).convertToStringWith2Decimals())
+            DispatchQueue.main.async { [weak self] in
+                self?.coinDepositValue.text = "$" + (((self?.coin?.currentPrice ?? 0) * (self?.holdings ?? 0)).convertToStringWith2Decimals())
             }
         }
     }
@@ -121,9 +119,7 @@ final class AddCoinView: UIView {
             }
         }
     }
-    
-    private var coinItems: [CoinItem]?
-    
+
     init() {
         super.init(frame: .zero)
         self.setupLayout()
@@ -134,13 +130,9 @@ final class AddCoinView: UIView {
     }
 }
 
-extension AddCoinView: IAddCoinView {
-    func fecthDataFromCoreData(coinItems: [CoinItem]) {
-        self.coinItems = coinItems
-    }
-    
-    func sinkDataToView(coins: [CoinModel]) {
-        self.coins = coins
+extension AddCoinView: ISubscriber {
+    func update(newData: [CoinModel]) {
+        self.coins = newData
     }
 }
 
@@ -195,17 +187,12 @@ extension AddCoinView: UITextFieldDelegate {
     }
 }
 
-extension AddCoinView: ISubscriber {
-    func update(newData: [CoinModel]) {
-        self.coins = newData
-    }
-}
-
 private extension AddCoinView {
     
     func injectDataToInterface(coin: CoinModel) {
         self.opactityControl(value: 1)
         self.currentPriceValue.text = "$\(self.coin?.currentPrice?.convertToStringWith2Decimals() ?? "0.00")"
+        self.coinDepositValue.text = "$" + ((self.coin?.currentPrice ?? 0) * (Double(self.clickedOnCoin?(coin) ?? "") ?? 0.00)).convertToStringWith2Decimals()
         self.coinsAmountTextField.placeholder = self.clickedOnCoin?(coin)
     }
     
@@ -320,7 +307,7 @@ private extension AddCoinView {
         self.coinsAmountTextField.layer.opacity = value
         self.saveButton.layer.opacity = value
         self.coinsAmountTextField.attributedPlaceholder = NSAttributedString(
-            string: "Try 3.1",
+            string: "",
             attributes: [
                 NSAttributedString.Key.font : AppFont.semibold17.font as Any,
                 NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(CGFloat(value)),
@@ -333,10 +320,10 @@ private extension AddCoinView {
             let coin = self.coin,
             let holdings = self.holdings else { return }
         self.saveButtonTap?(coin, holdings)
+        self.injectDataToInterface(coin: coin)
         self.saveButton.setTitle("UPDATED ✅", for: .normal)
-        self.coinsAmountTextField.placeholder = self.clickedOnCoin?(coin)
         self.coinsAmountTextField.text = ""
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.saveButton.setTitle("SAVE", for: .normal)
         }
     }

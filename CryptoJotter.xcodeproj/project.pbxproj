@@ -35,7 +35,7 @@
 		D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D182FCA52850D17F007E5994 /* StatisticsElement.swift */; };
 		D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369932850510100E98D64 /* PortfolioPresenter.swift */; };
 		D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369952850510700E98D64 /* PortfolioRouter.swift */; };
-		D1A48F89285B3C7F002FE5FA /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F88285B3C7F002FE5FA /* CustomSearchBar.swift */; };
+		D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */; };
 		D1A48F8B285B8792002FE5FA /* AddCoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8A285B8792002FE5FA /* AddCoinView.swift */; };
 		D1A48F8D285B886E002FE5FA /* AddCoinPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8C285B886E002FE5FA /* AddCoinPresenter.swift */; };
 		D1A48F8F285B8988002FE5FA /* AddCoinModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8E285B8988002FE5FA /* AddCoinModuleBuilder.swift */; };
@@ -81,7 +81,7 @@
 		D182FCA52850D17F007E5994 /* StatisticsElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsElement.swift; sourceTree = "<group>"; };
 		D18369932850510100E98D64 /* PortfolioPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPresenter.swift; sourceTree = "<group>"; };
 		D18369952850510700E98D64 /* PortfolioRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRouter.swift; sourceTree = "<group>"; };
-		D1A48F88285B3C7F002FE5FA /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBarView.swift; sourceTree = "<group>"; };
 		D1A48F8A285B8792002FE5FA /* AddCoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinView.swift; sourceTree = "<group>"; };
 		D1A48F8C285B886E002FE5FA /* AddCoinPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinPresenter.swift; sourceTree = "<group>"; };
 		D1A48F8E285B8988002FE5FA /* AddCoinModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinModuleBuilder.swift; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 			children = (
 				D12F4F312848DE650027B9A1 /* CustomTableViewCell.swift */,
 				D1813736285C1016000334DA /* CustomCollectionViewCell.swift */,
-				D1A48F88285B3C7F002FE5FA /* CustomSearchBar.swift */,
+				D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */,
 			);
 			path = ReusableComponents;
 			sourceTree = "<group>";
@@ -340,7 +340,7 @@
 				D169337F28490AA100C24B88 /* ColorScheme.swift in Sources */,
 				D12F4F222848D4B20027B9A1 /* HomeView.swift in Sources */,
 				D138A4CA285B235E0054E455 /* LaunchViewController.swift in Sources */,
-				D1A48F89285B3C7F002FE5FA /* CustomSearchBar.swift in Sources */,
+				D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */,
 				D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */,
 				D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */,
 				D11B16B42859F075001D181F /* Portfolio.xcdatamodeld in Sources */,

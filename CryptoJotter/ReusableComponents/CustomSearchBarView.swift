@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CustomSearchBar: UIView, UITextFieldDelegate {
+final class CustomSearchBarView: UIView, UITextFieldDelegate {
     
     lazy var textField = UITextField()
     
@@ -23,12 +23,13 @@ final class CustomSearchBar: UIView, UITextFieldDelegate {
     }
 }
 
-private extension CustomSearchBar {
+private extension CustomSearchBarView {
     func setuptextField() {
         self.textField.translatesAutoresizingMaskIntoConstraints = false
         self.textField.backgroundColor = UIColor.theme.backgroundColor
         self.textField.layer.cornerRadius = 10
         let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 16, height: .zero))
+        self.textField.placeholder = "Type in coin name or symbol..."
         self.textField.clearButtonMode = .always
         self.textField.leftViewMode = .always
         self.textField.leftView = emptyView
