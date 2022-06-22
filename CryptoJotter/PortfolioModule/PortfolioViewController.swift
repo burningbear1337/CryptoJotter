@@ -23,7 +23,7 @@ class PortfolioViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.sinkDataToView(view: self.portfolioView)
+        self.presenter.sinkDataToView(view: self.portfolioView, vc: self)
     }
     
     override func loadView() {
@@ -35,7 +35,7 @@ class PortfolioViewController: UIViewController {
         self.view.backgroundColor = UIColor.theme.backgroundColor
         self.title = "Your Portfolio"
         self.setupLayout()
-        self.presenter.sinkDataToView(view: self.portfolioView)
+        self.presenter.sinkDataToView(view: self.portfolioView, vc: self)
         self.hideKeyboardWhenTappedAround()
     }
 }

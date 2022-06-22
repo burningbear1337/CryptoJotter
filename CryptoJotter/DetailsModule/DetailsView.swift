@@ -97,7 +97,7 @@ private extension CustomDetailsView {
     
     func showHomepageLink(_ coinDetails: CoinDetailsModel?) {
         DispatchQueue.main.async {
-            self.descriptionLabel.text = coinDetails?.detailsCoinModelDescription?.en?.removeHTMLSymbols
+            self.descriptionLabel.text = coinDetails?.description?.en?.removeHTMLSymbols
             if coinDetails?.links?.homepage == nil {
                 self.linkButton.setTitle("", for: .normal)
             } else {
@@ -122,8 +122,10 @@ private extension CustomDetailsView {
         
     func setupElementsData() {
         self.coinNameLabel.text = self.coin?.name
+        
         let prefix = ((self.coin?.priceChangePercentage24H ?? 0) > 0) ? "▲ " : "▼ "
         let isGrowing = ((self.coin?.priceChangePercentage24H ?? 0) > 0) ? UIColor.theme.greenColor : UIColor.theme.redColor
+        
         self.low24H.injectData(
             title: "Lowest 24H",
             price: self.coin?.low24H?.convertToStringWith2Decimals(),

@@ -9,13 +9,13 @@ import Foundation
 
 struct CoinDetailsModel: Codable {
     let name: String?
-    let detailsCoinModelDescription: Description?
+    let description: Description?
     let links: Links?
     let marketCapRank: Int?
 
     enum CodingKeys: String, CodingKey {
         case name
-        case detailsCoinModelDescription = "description"
+        case description = "description"
         case links
         case marketCapRank = "market_cap_rank"
     }

@@ -20,17 +20,19 @@ final class CoinImageService {
     
     init(coin: CoinModel) {
         self.coin = coin
-        self.imageName = coin.name ?? ""
+        self.imageName = coin.name?.lowercased() ?? ""
     }
 }
 extension CoinImageService: ICoinImageService {
     func setCoinImage(completion: @escaping (UIImage)->()) {
-        if let savedImage = self.filemanager.fetchImage(imageName: self.imageName, folderName: self.folderName) {
+        if let savedImage = self.filemanager.fetchImage(imageName: self.imageName, folderName: self.folderName){
             completion(savedImage)
         } else {
             self.fetchCoinImage { image in
                 completion(image)
+                self.filemanager.saveImage(image: image, imageName: self.imageName, folderName: self.folderName)
             }
+            
         }
     }
 }
@@ -51,9 +53,6 @@ private extension CoinImageService {
             guard let data = data else { return }
             
             guard let image = UIImage(data: data) else { return }
-            
-            self.filemanager.saveImage(image: image, imageName: self.coin.name ?? "", folderName: self.folderName)
-            
             completion(image)
         }.resume()
     }

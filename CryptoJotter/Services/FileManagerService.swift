@@ -25,7 +25,6 @@ final class FileManagerService {
     
     func saveImage(image: UIImage, imageName: String, folderName: String) {
         self.createFolder(folderName: folderName)
-        
         guard
             let data = image.pngData(),
             let url = urlForImage(imageName: imageName, folderName: folderName) else {
@@ -36,7 +35,7 @@ final class FileManagerService {
             try data.write(to: url)
         }
         catch {
-            print("Can't save image \(imageName)")
+            print("Can't save image \(imageName) - \(error.localizedDescription)")
         }
     }
 }

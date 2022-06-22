@@ -96,8 +96,8 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomTableViewCell else { print("failed load cell"); return UITableViewCell()}
-        guard let coins = self.coins else { return UITableViewCell()}
-        cell.injectCoinModel(coin: coins[indexPath.row], holdings: nil)
+        guard let coin = coins?[indexPath.row] else { return UITableViewCell()}
+        cell.injectCoinModel(coin: coin, holdings: nil)
         return cell
     }
     

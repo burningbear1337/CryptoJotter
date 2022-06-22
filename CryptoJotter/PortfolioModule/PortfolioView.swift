@@ -11,6 +11,7 @@ protocol IPortfolioView: AnyObject {
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var coinItemHoldings: ((CoinModel)->(String?))? { get set }
     var deleteCoinFromPortfolio: ((CoinModel)->())? { get set }
+    var routeToDetails: ((CoinModel)->())? { get set }
     var sortByRank: (()->())? { get set }
     var sortByHoldings: (()->())? { get set }
     var sortByPrice: (()->())? { get set }
@@ -75,6 +76,7 @@ final class PortfolioView: UIView, IPortfolioView {
     var textFieldDataWorkflow: ((String) -> ())?
     var coinItemHoldings: ((CoinModel)->(String?))?
     var deleteCoinFromPortfolio: ((CoinModel)->())?
+    var routeToDetails: ((CoinModel)->())?
     var sortByRank: (()->())?
     var sortByHoldings: (()->())?
     var sortByPrice: (()->())?
@@ -104,13 +106,13 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as? CustomTableViewCell else { return UITableViewCell()}
         guard let coin = coins?[indexPath.row] else { return UITableViewCell()}
-        
         cell.injectCoinModel(coin: coin, holdings: self.coinItemHoldings?(coin))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tapped on cell")
+        guard let coin = coins?[indexPath.row] else { return }
+        self.routeToDetails?(coin)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

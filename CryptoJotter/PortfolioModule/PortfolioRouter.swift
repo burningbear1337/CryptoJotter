@@ -8,11 +8,18 @@
 import UIKit
 
 protocol IPortfolioRouter: AnyObject {
-    func presentVC(vc: UIViewController)
+    func routeToAddCoinViewController(vc: UIViewController)
+    func routeToDetailsViewController(vc: UIViewController, coin: CoinModel)
 }
 
 final class PortfolioRouter: IPortfolioRouter {
-    func presentVC(vc: UIViewController) {
+    func routeToDetailsViewController(vc: UIViewController, coin: CoinModel) {
+        vc.present(DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build(), animated: true)
+    }
+    
+    func routeToAddCoinViewController(vc: UIViewController) {
         vc.navigationController?.pushViewController(AddCoinModuleBuilder().build(), animated: true)
     }
+    
+    
 }

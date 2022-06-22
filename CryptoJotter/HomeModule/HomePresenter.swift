@@ -47,14 +47,13 @@ extension HomePresenter: IHomePresenter {
         
         view.textFieldDataWorkflow = { [weak self] text in
             if text != "" {
-                let publishedCoins = self?.coins
-                let filteredCoins = publishedCoins?.filter({
+                self?.mainPublisher.newData = self?.mainPublisher.newData?.filter({
                     let text = text.uppercased()
                     guard let symbol = $0.symbol?.uppercased() else { return false }
-                    guard let name = $0.name?.uppercased() else { return false}
-                    return (symbol.contains(text) || (name.contains(text)))
+                    guard let name = $0.name?.uppercased() else { return false }
+                    return (symbol.contains(text) || name.contains(text))
                 })
-                self?.mainPublisher.newData = filteredCoins
+
             }
             if text == "" {
                 self?.mainPublisher.newData = self?.coins

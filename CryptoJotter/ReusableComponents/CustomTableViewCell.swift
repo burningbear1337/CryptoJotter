@@ -70,6 +70,7 @@ final class CustomTableViewCell: UITableViewCell {
 
 extension CustomTableViewCell {
     func injectCoinModel(coin: CoinModel, holdings: String?) {
+        
         self.coinIndex.text = coin.marketCapRank?.converToStringWith0Decimals()
         
         let coinImageService = CoinImageService(coin: coin)

@@ -143,8 +143,9 @@ extension AddCoinView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell()}
-        guard let coins = self.coins else { return UICollectionViewCell()}
-        cell.injectData(coin: coins[indexPath.row])
+        guard let coin = self.coins?[indexPath.row] else { return UICollectionViewCell()}
+        
+        cell.injectData(coin: coin)
         return cell
     }
     

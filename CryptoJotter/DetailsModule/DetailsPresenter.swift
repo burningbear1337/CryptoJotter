@@ -29,6 +29,7 @@ extension DetailsPresenter: IDetailsPresenter {
         self.view = view
         view.setupCoins(coin: self.coin)
         let urlString = urlForCoin(coin: self.coin)
+        print(urlString)
         self.networkService.fetchCoinData(urlsString: urlString) { (result: Result<CoinDetailsModel?, Error>) in
             switch result {
             case .success(let details):
@@ -37,12 +38,13 @@ extension DetailsPresenter: IDetailsPresenter {
                 print(error)
             }
         }
+
     }
 }
 
 private extension DetailsPresenter {
     func urlForCoin(coin: CoinModel?) -> String {
-        guard let coin = coin else { return ""}
-        return "https://api.coingecko.com/api/v3/coins/\(String(describing: coin.name?.lowercased()))?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
+        guard let coin = coin?.name?.lowercased() else { return "" }
+        return "https://api.coingecko.com/api/v3/coins/\(coin)?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
     }
 }

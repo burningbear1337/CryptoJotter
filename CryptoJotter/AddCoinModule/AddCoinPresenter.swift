@@ -12,6 +12,7 @@ protocol IAddCoinPresenter: AnyObject {
 }
 
 final class AddCoinPresenter {
+    private weak var view: IAddCoinView?
     private var networkService: INetworkService
     private var coreDataUtility: ICoreDataUtility
     private var coins: [CoinModel] = []
@@ -84,13 +85,14 @@ private extension AddCoinPresenter {
         
         self.addCoinPublisher.subscribe(view as! ISubscriber)
         
-        self.networkService.fetchCoinsList(urlsString: urlString) { [weak self] (result: Result<[CoinModel], Error>) in
+        self.networkService.fetchCoinsList(urlsString: self.urlString) { [weak self] (result: Result<[CoinModel], Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let coins):
                 self.coins = coins
+                //self.addCoinPublisher.newData = coins
             case .failure(let error):
-                print(error)
+                print("❌ \(error)")
             }
         }
         
@@ -105,7 +107,7 @@ private extension AddCoinPresenter {
     func converterFromItemToModel(coinItems: [CoinItem]) -> [CoinModel]
     {
         coinItems.map { coinItem in
-            CoinModel(id: nil, symbol: coinItem.symbol ?? "", name: coinItem.symbol ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: nil, marketCapRank: coinItem.rank, fullyDilutedValuation: nil, totalVolume: nil, high24H: nil, low24H: nil, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: nil, marketCapChangePercentage24H: nil, circulatingSupply: nil, totalSupply: nil, maxSupply: nil, ath: nil, athChangePercentage: nil, athDate: nil, atl: nil, atlChangePercentage: nil, atlDate: nil, lastUpdated: nil, priceChangePercentage24HInCurrency: nil)
+            CoinModel(id: "1", symbol: coinItem.symbol ?? "", name: coinItem.symbol ?? "", image: coinItem.image ?? "", currentPrice: coinItem.currentPrice, marketCap: 1, marketCapRank: coinItem.rank, fullyDilutedValuation: 1, totalVolume: 1, high24H: 1, low24H: 1, priceChange24H: coinItem.priceChange24H, priceChangePercentage24H: coinItem.priceChange24H, marketCapChange24H: 1, marketCapChangePercentage24H: 1, circulatingSupply: 1, totalSupply: 1, maxSupply: 1, ath: 1, athChangePercentage: 1, athDate: "1", atl: 1, atlChangePercentage: 1, atlDate: "1", lastUpdated: "1", priceChangePercentage24HInCurrency: 1)
         }
     }
 }

@@ -26,6 +26,14 @@ final class NetworkService: INetworkService {
                 completion(.failure(error))
             }
             
+            guard let response = response as? HTTPURLResponse else {
+                return
+            }
+            
+            if (response.statusCode >= 200) && response.statusCode < 300 {
+                print("\(URLError.badURL)")
+            }
+            
             guard let data = data else { return }
             
             do {
@@ -42,9 +50,9 @@ final class NetworkService: INetworkService {
     
     func fetchCoinData<T>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
         
-        guard let urlsString = urlsString else { return }
+        guard let url = urlsString else { return }
         
-        guard let url = URL(string: urlsString) else { return }
+        guard let url = URL(string: url) else { print("bad url"); return }
         
         let request = URLRequest(url: url)
         
