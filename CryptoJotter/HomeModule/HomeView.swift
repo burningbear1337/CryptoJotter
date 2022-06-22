@@ -9,8 +9,8 @@ import UIKit
 
 protocol IHomeView: AnyObject {
     var tapOnCell: ((CoinModel)->())? { get set }
-    var sortByRank: (()->())? { get set }
-    var sortByPrice: (()->())? { get set }
+    var sortByRank: (()->(Bool))? { get set }
+    var sortByPrice: (()->(Bool))? { get set }
     var reloadData: (()->())? { get set }
     var textFieldDataWorkflow: ((String) -> ())? { get set }
 }
@@ -32,7 +32,7 @@ final class HomeView: UIView, IHomeView {
     private lazy var filterByRankButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Rank", for: .normal)
+        button.setTitle("Rank ▼", for: .normal)
         button.titleLabel?.font = AppFont.regular13.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
@@ -66,8 +66,8 @@ final class HomeView: UIView, IHomeView {
     }
     
     var tapOnCell: ((CoinModel)->())?
-    var sortByRank: (()->())?
-    var sortByPrice: (()->())?
+    var sortByRank: (()->(Bool))?
+    var sortByPrice: (()->(Bool))?
     var reloadData: (()->())?
     var textFieldDataWorkflow: ((String) -> ())?
     
@@ -178,14 +178,22 @@ private extension HomeView {
     }
     
     @objc func sortByRankTapped() {
-        self.sortByRank?()
+        self.sortByRank?() == true ?
+        self.filterByRankButton.setTitle("Rank ▲", for: .normal) :
+        self.filterByRankButton.setTitle("Rank ▼", for: .normal)
+        self.filterByPriceButton.setTitle("Price", for: .normal)
     }
     
     @objc func sortByPriceTapped() {
-        self.sortByPrice?()
+        self.sortByPrice?() == true ?
+        self.filterByPriceButton.setTitle("Price ▼", for: .normal) :
+        self.filterByPriceButton.setTitle("Price ▲", for: .normal)
+        self.filterByRankButton.setTitle("Rank", for: .normal)
     }
     
     @objc func reloadDataTapped() {
         self.reloadData?()
+        self.filterByRankButton.setTitle("Rank ▼", for: .normal)
+        self.filterByPriceButton.setTitle("Price", for: .normal)
     }
 }

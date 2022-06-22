@@ -47,13 +47,15 @@ extension HomePresenter: IHomePresenter {
         
         view.textFieldDataWorkflow = { [weak self] text in
             if text != "" {
-                self?.mainPublisher.newData = self?.mainPublisher.newData?.filter({
-                    let text = text.uppercased()
-                    guard let symbol = $0.symbol?.uppercased() else { return false }
-                    guard let name = $0.name?.uppercased() else { return false }
-                    return (symbol.contains(text) || name.contains(text))
-                })
-
+                let publishedCoins = self?.coins
+                let filteredCoins = publishedCoins?
+                    .filter({
+                        let text = text.uppercased()
+                        guard let symbol = $0.symbol?.uppercased() else { return false }
+                        guard let name = $0.name?.uppercased() else { return false }
+                        return (symbol.contains(text) || (name.contains(text)))
+                    })
+                self?.mainPublisher.newData = filteredCoins
             }
             if text == "" {
                 self?.mainPublisher.newData = self?.coins
@@ -78,17 +80,28 @@ private extension HomePresenter {
                 self.mainPublisher.newData = coins
                 self.coins = coins
                 view.sortByRank = {
-                    self.sortByRank == true ?
-                    self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0}) :
-                    self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
-                    self.sortByRank.toggle()
+                    if self.sortByRank {
+                        self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
+                        self.sortByRank.toggle()
+                        return true
+                        
+                    } else {
+                        self.mainPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
+                        self.sortByRank.toggle()
+                        return false
+                    }
                 }
                 
                 view.sortByPrice = {
-                    self.sortByPrice == true ?
-                    self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0}) :
-                    self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0})
-                    self.sortByPrice.toggle()
+                    if self.sortByPrice {
+                        self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0})
+                        self.sortByPrice.toggle()
+                        return true
+                    } else {
+                        self.mainPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0})
+                        self.sortByPrice.toggle()
+                        return false
+                    }
                 }
             case .failure(let error):
                 print(error.localizedDescription)

@@ -28,7 +28,7 @@ final class PortfolioPresenter {
     private var increaseByRank: Bool = true
     private var increaseByPrice: Bool = true
     private var increaseByHoldings: Bool = true
-
+    
     
     init(router: IPortfolioRouter, coreDataUtility: ICoreDataUtility, networkService: INetworkService) {
         self.router = router
@@ -48,16 +48,25 @@ extension PortfolioPresenter: IPortfolioPresenter {
         }
         
         view.textFieldDataWorkflow = { [weak self] text in
+            
             if text != "" {
-                self?.portfolioPublisher.newData = self?.portfolioPublisher.newData?.filter({
-                    let text = text.uppercased()
-                    guard let symbol = $0.symbol?.uppercased() else { return false }
-                    guard let name = $0.name?.uppercased() else { return false }
-                    return (symbol.contains(text) || name.contains(text))
-                })
+                let publishedCoins = self?.coins
+                    .filter({ coinModel in
+                        guard let index = self?.coinItems.firstIndex(where: { coin in
+                            coin.symbol == coinModel.symbol
+                        }) else { return false }
+                        return coinModel.symbol == self?.coinItems[index].symbol
+                    })
+                self?.portfolioPublisher.newData = publishedCoins?
+                    .filter({
+                        let text = text.uppercased()
+                        guard let symbol = $0.symbol?.uppercased() else { return false }
+                        guard let name = $0.name?.uppercased() else { return false }
+                        return (symbol.contains(text) || name.contains(text))
+                    })
             }
             if text == "" {
-                self?.portfolioPublisher.newData = self?.coins
+                self?.fetchData(view: view)
             }
         }
         
@@ -83,53 +92,68 @@ extension PortfolioPresenter: IPortfolioPresenter {
         }
         
         view.sortByRank = {
-            self.increaseByRank == true ?
-            self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0 }) :
-            self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0 })
-            self.increaseByRank.toggle()
+            if self.increaseByRank {
+                self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0})
+                self.increaseByRank.toggle()
+                return true
+                
+            } else {
+                self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 < $1.marketCapRank ?? 0})
+                self.increaseByRank.toggle()
+                return false
+            }
         }
         
         view.sortByPrice = {
-            self.increaseByPrice == true ?
-            self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0 }) :
-            self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0 })
-            self.increaseByPrice.toggle()
+            if self.increaseByPrice {
+                self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 > $1.currentPrice ?? 0})
+                self.increaseByPrice.toggle()
+                return true
+            } else {
+                self.portfolioPublisher.newData?.sort(by: { $0.currentPrice ?? 0 < $1.currentPrice ?? 0})
+                self.increaseByPrice.toggle()
+                return false
+            }
         }
         
         view.sortByHoldings = {
-            self.increaseByHoldings == true ?
-            self.portfolioPublisher.newData?
-                .sort(by: { coin1, coin2 in
-                    var coin1Value = 0.0
-                    var coin2Value = 0.0
-                    
-                    if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
-                        coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
-                    }
-                    
-                    if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
-                        coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
-                    }
-                    
-                    return (coin1Value < coin2Value)
-                }) :
-            self.portfolioPublisher.newData?
-                .sort(by: { coin1, coin2 in
-                    var coin1Value = 0.0
-                    var coin2Value = 0.0
-                    
-                    if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
-                        coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
-                    }
-                    
-                    if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
-                        coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
-                    }
-                    
-                    return (coin1Value > coin2Value)
-                })
-            
-            self.increaseByHoldings.toggle()
+            if self.increaseByHoldings {
+                self.portfolioPublisher.newData?
+                    .sort(by: { coin1, coin2 in
+                        var coin1Value = 0.0
+                        var coin2Value = 0.0
+                        
+                        if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
+                            coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
+                        }
+                        
+                        if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
+                            coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
+                        }
+                        
+                        return (coin1Value < coin2Value)
+                    })
+                self.increaseByHoldings.toggle()
+                return true
+            } else {
+                self.portfolioPublisher.newData?
+                    .sort(by: { coin1, coin2 in
+                        var coin1Value = 0.0
+                        var coin2Value = 0.0
+                        
+                        if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
+                            coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
+                        }
+                        
+                        if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
+                            coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
+                        }
+                        
+                        return (coin1Value > coin2Value)
+                    })
+                self.increaseByHoldings.toggle()
+                return false
+            }
         }
     }
     
@@ -167,4 +191,4 @@ private extension PortfolioPresenter {
         }
     }
 }
- 
+

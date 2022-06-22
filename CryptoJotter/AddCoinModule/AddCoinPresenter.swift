@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol IAddCoinPresenter: AnyObject {
     func sinkDataToView(view: IAddCoinView)
@@ -81,16 +82,17 @@ extension AddCoinPresenter: IAddCoinPresenter {
 }
 
 private extension AddCoinPresenter {
+    
     func fetchData(view: IAddCoinView) {
-        
-        self.addCoinPublisher.subscribe(view as! ISubscriber)
+        if !self.addCoinPublisher.subscribers.contains(where: { $0 === view }) {
+            self.addCoinPublisher.subscribe(view as! ISubscriber)
+        }
         
         self.networkService.fetchCoinsList(urlsString: self.urlString) { [weak self] (result: Result<[CoinModel], Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let coins):
                 self.coins = coins
-                //self.addCoinPublisher.newData = coins
             case .failure(let error):
                 print("❌ \(error)")
             }

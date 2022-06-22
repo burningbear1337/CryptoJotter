@@ -26,14 +26,6 @@ final class NetworkService: INetworkService {
                 completion(.failure(error))
             }
             
-            guard let response = response as? HTTPURLResponse else {
-                return
-            }
-            
-            if (response.statusCode >= 200) && response.statusCode < 300 {
-                print("\(URLError.badURL)")
-            }
-            
             guard let data = data else { return }
             
             do {
@@ -52,7 +44,7 @@ final class NetworkService: INetworkService {
         
         guard let url = urlsString else { return }
         
-        guard let url = URL(string: url) else { print("bad url"); return }
+        guard let url = URL(string: url) else { return }
         
         let request = URLRequest(url: url)
         

@@ -57,6 +57,11 @@ final class AddCoinView: UIView, IAddCoinView {
         return label
     }()
     
+    private lazy var coinImage: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    
     private lazy var coinsAmountTextField: UITextField = {
         let textField = UITextField()
         textField.layer.cornerRadius = 10
@@ -144,7 +149,6 @@ extension AddCoinView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell()}
         guard let coin = self.coins?[indexPath.row] else { return UICollectionViewCell()}
-        
         cell.injectData(coin: coin)
         return cell
     }
@@ -195,6 +199,12 @@ private extension AddCoinView {
         self.currentPriceValue.text = "$\(self.coin?.currentPrice?.convertToStringWith2Decimals() ?? "0.00")"
         self.coinDepositValue.text = "$" + ((self.coin?.currentPrice ?? 0) * (Double(self.clickedOnCoin?(coin) ?? "") ?? 0.00)).convertToStringWith2Decimals()
         self.coinsAmountTextField.placeholder = self.clickedOnCoin?(coin)
+        let coinImageService = CoinImageService(coin: coin)
+        coinImageService.setCoinImage { image in
+            DispatchQueue.main.async {
+                self.coinImage.image = image
+            }
+        }
     }
     
     func setupLayout() {
@@ -227,7 +237,6 @@ private extension AddCoinView {
         self.collectionView.dataSource = self
         self.collectionView.backgroundColor = .clear
         self.collectionView.showsHorizontalScrollIndicator = false
-        
     }
     
     func setupCollectionLayout() {
@@ -263,14 +272,24 @@ private extension AddCoinView {
             self.coinHoldingsTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
         ])
         
+        self.addSubview(self.coinImage)
+        self.coinImage.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.coinImage.centerYAnchor.constraint(equalTo: self.coinHoldingsTitle.centerYAnchor),
+            self.coinImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.coinImage.heightAnchor.constraint(equalToConstant: 26),
+            self.coinImage.widthAnchor.constraint(equalToConstant: 26),
+        ])
+        
         self.addSubview(self.coinsAmountTextField)
         self.coinsAmountTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.coinsAmountTextField.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 30),
-            self.coinsAmountTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.coinsAmountTextField.trailingAnchor.constraint(equalTo: self.coinImage.leadingAnchor,constant: -5),
             self.coinsAmountTextField.widthAnchor.constraint(equalToConstant: 105)
 
         ])
+        
         
         self.addSubview(self.coinDepositTitle)
         self.coinDepositTitle.translatesAutoresizingMaskIntoConstraints = false

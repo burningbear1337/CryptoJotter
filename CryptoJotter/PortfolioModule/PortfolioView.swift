@@ -13,9 +13,9 @@ protocol IPortfolioView: AnyObject {
     var deleteCoinFromPortfolio: ((CoinModel)->())? { get set }
     var editCoinFromPortfolio:((CoinModel)->())? { get set }
     var routeToDetails: ((CoinModel)->())? { get set }
-    var sortByRank: (()->())? { get set }
-    var sortByHoldings: (()->())? { get set }
-    var sortByPrice: (()->())? { get set }
+    var sortByRank: (()->(Bool))? { get set }
+    var sortByHoldings: (()->(Bool))? { get set }
+    var sortByPrice: (()->(Bool))? { get set }
 }
 
 final class PortfolioView: UIView, IPortfolioView {
@@ -38,7 +38,7 @@ final class PortfolioView: UIView, IPortfolioView {
     private lazy var filterByRankButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Rank", for: .normal)
+        button.setTitle("Rank ▼", for: .normal)
         button.titleLabel?.font = AppFont.regular13.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
@@ -79,9 +79,9 @@ final class PortfolioView: UIView, IPortfolioView {
     var deleteCoinFromPortfolio: ((CoinModel)->())?
     var editCoinFromPortfolio:((CoinModel)->())?
     var routeToDetails: ((CoinModel)->())?
-    var sortByRank: (()->())?
-    var sortByHoldings: (()->())?
-    var sortByPrice: (()->())?
+    var sortByRank: (()->(Bool))?
+    var sortByHoldings: (()->(Bool))?
+    var sortByPrice: (()->(Bool))?
     
     init(vc: UIViewController) {
         self.vc = vc
@@ -214,15 +214,28 @@ private extension PortfolioView {
     }
     
     @objc func sortByRankTapped() {
-        self.sortByRank?()
+        self.sortByRank?() == true ?
+        self.filterByRankButton.setTitle("Rank ▲", for: .normal) :
+        self.filterByRankButton.setTitle("Rank ▼", for: .normal)
+        self.filterByPriceButton.setTitle("Price", for: .normal)
+        self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
     }
     
+    
     @objc func sortByPriceTapped() {
-        self.sortByPrice?()
+        self.sortByPrice?() == true ?
+        self.filterByPriceButton.setTitle("Price ▼", for: .normal) :
+        self.filterByPriceButton.setTitle("Price ▲", for: .normal)
+        self.filterByRankButton.setTitle("Rank", for: .normal)
+        self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
     }
     
     @objc func sortByHoldingsTapped() {
-        self.sortByHoldings?()
+        self.sortByHoldings?() == true ?
+        self.filterByHoldingsButton.setTitle("Holdings ▲", for: .normal) :
+        self.filterByHoldingsButton.setTitle("Holdings ▼", for: .normal)
+        self.filterByPriceButton.setTitle("Price", for: .normal)
+        self.filterByRankButton.setTitle("Rank", for: .normal)
     }
 }
 
