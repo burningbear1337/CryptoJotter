@@ -11,6 +11,7 @@ protocol IPortfolioView: AnyObject {
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var coinItemHoldings: ((CoinModel)->(String?))? { get set }
     var deleteCoinFromPortfolio: ((CoinModel)->())? { get set }
+    var editCoinFromPortfolio:((CoinModel)->())? { get set }
     var routeToDetails: ((CoinModel)->())? { get set }
     var sortByRank: (()->())? { get set }
     var sortByHoldings: (()->())? { get set }
@@ -76,6 +77,7 @@ final class PortfolioView: UIView, IPortfolioView {
     var textFieldDataWorkflow: ((String) -> ())?
     var coinItemHoldings: ((CoinModel)->(String?))?
     var deleteCoinFromPortfolio: ((CoinModel)->())?
+    var editCoinFromPortfolio:((CoinModel)->())?
     var routeToDetails: ((CoinModel)->())?
     var sortByRank: (()->())?
     var sortByHoldings: (()->())?
@@ -119,11 +121,25 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
         60
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .normal, title: nil) { _, _, _ in
             guard let coin = self.coins?[indexPath.row] else { return }
             self.deleteCoinFromPortfolio?(coin)
         }
+        delete.backgroundColor = UIColor.theme.redColor
+        delete.image = UIImage(systemName: "trash")
+        
+        let edit = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            guard let coin = self.coins?[indexPath.row] else { return }
+            self.editCoinFromPortfolio?(coin)
+        }
+        edit.backgroundColor = UIColor.theme.secondaryBackgroundColor
+        edit.image = UIImage(systemName: "pencil")
+        
+        let actions = UISwipeActionsConfiguration(actions: [delete, edit])
+        
+        return actions
     }
 }
 

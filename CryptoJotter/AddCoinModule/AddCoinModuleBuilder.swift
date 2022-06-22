@@ -8,6 +8,7 @@
 import UIKit
 
 final class AddCoinModuleBuilder: IBuilder {
+    
     func build() -> UIViewController {
         let networkService = NetworkService()
         let coreDataUtility = CoreDataUtility()

@@ -78,6 +78,10 @@ extension PortfolioPresenter: IPortfolioPresenter {
             }
         }
         
+        view.editCoinFromPortfolio = { [weak self] coin in
+            self?.router.routeToAddCoinViewController(vc: vc)
+        }
+        
         view.sortByRank = {
             self.increaseByRank == true ?
             self.portfolioPublisher.newData?.sort(by: { $0.marketCapRank ?? 0 > $1.marketCapRank ?? 0 }) :
@@ -92,9 +96,41 @@ extension PortfolioPresenter: IPortfolioPresenter {
             self.increaseByPrice.toggle()
         }
         
-//        view.sortByHoldings = {
-//            self.increaseByHoldings.toggle()
-//        }
+        view.sortByHoldings = {
+            self.increaseByHoldings == true ?
+            self.portfolioPublisher.newData?
+                .sort(by: { coin1, coin2 in
+                    var coin1Value = 0.0
+                    var coin2Value = 0.0
+                    
+                    if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
+                        coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
+                    }
+                    
+                    if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
+                        coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
+                    }
+                    
+                    return (coin1Value < coin2Value)
+                }) :
+            self.portfolioPublisher.newData?
+                .sort(by: { coin1, coin2 in
+                    var coin1Value = 0.0
+                    var coin2Value = 0.0
+                    
+                    if let index1 = self.coinItems.firstIndex(where: {$0.symbol == coin1.symbol}) {
+                        coin1Value = (coin1.currentPrice ?? 0.0) * self.coinItems[index1].amount
+                    }
+                    
+                    if let index2 = self.coinItems.firstIndex(where: {$0.symbol == coin2.symbol}) {
+                        coin2Value = (coin2.currentPrice ?? 0.0) * self.coinItems[index2].amount
+                    }
+                    
+                    return (coin1Value > coin2Value)
+                })
+            
+            self.increaseByHoldings.toggle()
+        }
     }
     
     func addNewCoin(vc: UIViewController) {
