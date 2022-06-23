@@ -67,9 +67,25 @@ final class PortfolioView: UIView, IPortfolioView {
         return button
     }()
     
+    private lazy var emptyPortfolioText: UILabel = {
+        let label = UILabel()
+        label.text = "Your portfolio is empty!\n\n Start adding some coins you are interested in!"
+        label.textColor = UIColor.theme.accentColor
+        label.textAlignment = .center
+        label.font = AppFont.semibold17.font
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
     private var coins: [CoinModel]? {
         didSet {
             DispatchQueue.main.async {
+                if self.coins?.count == 0 {
+                    self.emptyPortfolioText.layer.opacity = 1
+                } else {
+                    self.emptyPortfolioText.layer.opacity = 0
+                }
                 self.tableView.reloadData()
             }
         }
@@ -172,6 +188,7 @@ private extension PortfolioView {
         self.setupSearchBar()
         self.setupFilters()
         self.setupTableView()
+        self.setupEmptyLabel()
     }
     
     
@@ -190,8 +207,8 @@ private extension PortfolioView {
     func setupFilters() {
         self.addSubview(self.filterByRankButton)
         NSLayoutConstraint.activate([
-            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10)
+            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 8)
         ])
         
         self.addSubview(self.filterByHoldingsButton)
@@ -202,7 +219,7 @@ private extension PortfolioView {
         
         self.addSubview(self.filterByPriceButton)
         NSLayoutConstraint.activate([
-            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
             self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor)
         ])
     }
@@ -214,6 +231,16 @@ private extension PortfolioView {
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    func setupEmptyLabel() {
+        self.addSubview(self.emptyPortfolioText)
+        self.emptyPortfolioText.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.emptyPortfolioText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.emptyPortfolioText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.emptyPortfolioText.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
     

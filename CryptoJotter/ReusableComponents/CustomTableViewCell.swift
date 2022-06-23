@@ -13,6 +13,7 @@ final class CustomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = AppFont.regular13.font
         label.textColor = UIColor.theme.secondaryColor
+        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
     }()
@@ -26,6 +27,7 @@ final class CustomTableViewCell: UITableViewCell {
     private lazy var coinName: UILabel = {
         let label = UILabel()
         label.font = AppFont.semibold17.font
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor.theme.accentColor
         return label
     }()
@@ -33,6 +35,8 @@ final class CustomTableViewCell: UITableViewCell {
     private lazy var coinPrice: UILabel = {
         let label = UILabel()
         label.font = AppFont.semibold15.font
+        label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor.theme.accentColor
         return label
     }()
@@ -41,6 +45,7 @@ final class CustomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = AppFont.semibold15.font
         label.textColor = UIColor.theme.secondaryColor
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -48,13 +53,16 @@ final class CustomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = AppFont.regular13.font
         label.textColor = UIColor.theme.secondaryColor
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     private lazy var coinPriceChange24H: UILabel = {
         let label = UILabel()
         label.font = AppFont.regular13.font
+        label.textAlignment = .right
         label.textColor = UIColor.theme.secondaryColor
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
         
@@ -115,7 +123,7 @@ private extension CustomTableViewCell {
         self.contentView.addSubview(self.coinIndex)
         self.coinIndex.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinIndex.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            self.coinIndex.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
             self.coinIndex.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
@@ -127,7 +135,7 @@ private extension CustomTableViewCell {
             self.coinImage.heightAnchor.constraint(equalToConstant: 35),
             self.coinImage.widthAnchor.constraint(equalToConstant: 35),
             self.coinImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            self.coinImage.leadingAnchor.constraint(equalTo: self.coinIndex.trailingAnchor, constant: 10),
+            self.coinImage.leadingAnchor.constraint(equalTo: self.coinIndex.trailingAnchor, constant: 8),
         ])
     }
     
@@ -135,7 +143,7 @@ private extension CustomTableViewCell {
         self.contentView.addSubview(self.coinName)
         self.coinName.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinName.leadingAnchor.constraint(equalTo: self.coinImage.trailingAnchor,constant: 10),
+            self.coinName.leadingAnchor.constraint(equalTo: self.coinImage.trailingAnchor,constant: 8),
             self.coinName.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
@@ -162,8 +170,9 @@ private extension CustomTableViewCell {
         self.contentView.addSubview(self.coinPrice)
         self.coinPrice.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinPrice.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            self.coinPrice.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
             self.coinPrice.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+//            self.coinPrice.leadingAnchor.constraint(equalTo: self.holdings.trailingAnchor, constant: 8)
         ])
     }
     
@@ -171,7 +180,8 @@ private extension CustomTableViewCell {
         self.contentView.addSubview(self.coinPriceChange24H)
         self.coinPriceChange24H.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinPriceChange24H.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            //self.coinPriceChange24H.leadingAnchor.constraint(equalTo: self.amountOfCoins.trailingAnchor),
+            self.coinPriceChange24H.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
             self.coinPriceChange24H.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
         ])
     }

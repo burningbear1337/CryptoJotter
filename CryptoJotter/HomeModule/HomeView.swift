@@ -89,7 +89,6 @@ extension HomeView: ISubscriber {
     }
 }
 
-
 extension HomeView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -132,7 +131,6 @@ extension HomeView: UITextFieldDelegate {
     }
 }
 
-
 private extension HomeView {
     
     func setupLayout() {
@@ -153,20 +151,20 @@ private extension HomeView {
         
         self.addSubview(self.filterByRankButton)
         NSLayoutConstraint.activate([
-            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10),
+            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 8),
         ])
                 
         self.addSubview(self.filterByPriceButton)
         NSLayoutConstraint.activate([
             self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor),
-            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
         ])
         
         self.addSubview(self.reloadDataButton)
                 NSLayoutConstraint.activate([
                     self.reloadDataButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor),
-                    self.reloadDataButton.trailingAnchor.constraint(equalTo: self.filterByPriceButton.leadingAnchor, constant: -10)
+                    self.reloadDataButton.trailingAnchor.constraint(equalTo: self.filterByPriceButton.leadingAnchor, constant: -8)
                 ])
         
         self.addSubview(self.tableView)
