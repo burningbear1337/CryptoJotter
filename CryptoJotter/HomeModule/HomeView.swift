@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IHomeView: AnyObject {
+    
     var tapOnCell: ((CoinModel)->())? { get set }
     var sortByRank: (()->(Bool))? { get set }
     var sortByPrice: (()->(Bool))? { get set }
@@ -82,6 +83,7 @@ final class HomeView: UIView, IHomeView {
 }
 
 extension HomeView: ISubscriber {
+    
     func update(newData: [CoinModel]) {
         self.coins = newData
     }
@@ -132,6 +134,7 @@ extension HomeView: UITextFieldDelegate {
 
 
 private extension HomeView {
+    
     func setupLayout() {
         self.backgroundColor = UIColor.theme.backgroundColor
         self.setupTableViewLayout()

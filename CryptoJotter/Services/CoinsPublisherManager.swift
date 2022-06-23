@@ -8,10 +8,12 @@
 import Foundation
 
 protocol ISubscriber: AnyObject {
+    
     func update(newData: [CoinModel])
 }
 
 protocol IPublisher: AnyObject {
+    
     var newData: [CoinModel]? { get }
     var subscribers: [ISubscriber] { get set }
     
@@ -22,6 +24,7 @@ protocol IPublisher: AnyObject {
 }
 
 final class CoinsPublisherManager {
+    
     var newData: [CoinModel]? {
         didSet {
             self.notify(self.newData ?? [])

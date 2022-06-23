@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IDetailsView: AnyObject {
+    
     func setupCoins(coin: CoinModel?)
     func setCoinsDetailsData(coinDetails: CoinDetailsModel?)
     var sortByCoinName: (()->())? { get set }
@@ -49,6 +50,7 @@ final class CustomDetailsView: UIView {
     private lazy var priceChange24HPercantage = StatisticsElement()
     private lazy var currentPrice = StatisticsElement()
     private lazy var marketCapRank = StatisticsElement()
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.theme.accentColor
@@ -57,6 +59,7 @@ final class CustomDetailsView: UIView {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
+    
     private lazy var linkButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = AppFont.semibold15.font

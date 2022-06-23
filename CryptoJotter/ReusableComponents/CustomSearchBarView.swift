@@ -24,6 +24,7 @@ final class CustomSearchBarView: UIView, UITextFieldDelegate {
 }
 
 private extension CustomSearchBarView {
+    
     func setuptextField() {
         self.textField.translatesAutoresizingMaskIntoConstraints = false
         self.textField.backgroundColor = UIColor.theme.backgroundColor

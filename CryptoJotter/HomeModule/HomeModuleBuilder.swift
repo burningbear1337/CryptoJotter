@@ -9,10 +9,12 @@
 import UIKit
 
 protocol IBuilder: AnyObject {
+    
     func build() -> UIViewController
 }
 
 final class HomeModuleBuilder: IBuilder {
+    
     func build() -> UIViewController {
         let networkService = NetworkService()
         let router = HomeRouter()

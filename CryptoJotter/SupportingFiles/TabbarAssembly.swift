@@ -8,6 +8,7 @@
 import UIKit
 
 enum TabbarAssembly {
+    
     static func build() -> UITabBarController {
         
         let allCoinsList = UINavigationController(rootViewController: HomeModuleBuilder().build())

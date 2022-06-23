@@ -6,9 +6,10 @@
 //
 
 import Foundation
-import UIKit
+
 
 protocol IDetailsPresenter: AnyObject {
+    
     func sinkDataToView(view: IDetailsView)
 }
 
@@ -41,6 +42,7 @@ extension DetailsPresenter: IDetailsPresenter {
 }
 
 private extension DetailsPresenter {
+    
     func urlForCoin(coin: CoinModel?) -> String {
         guard let coin = coin?.name?.lowercased() else { return "" }
         return "https://api.coingecko.com/api/v3/coins/\(coin)?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"

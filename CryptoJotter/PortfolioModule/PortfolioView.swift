@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IPortfolioView: AnyObject {
+    
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var coinItemHoldings: ((CoinModel)->(String?))? { get set }
     var deleteCoinFromPortfolio: ((CoinModel)->())? { get set }
@@ -95,12 +96,14 @@ final class PortfolioView: UIView, IPortfolioView {
 }
 
 extension PortfolioView: ISubscriber {
+    
     func update(newData: [CoinModel]) {
         self.coins = newData
     }
 }
 
 extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.coins?.count ?? 0
     }
@@ -144,6 +147,7 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension PortfolioView: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let previousText:NSString = textField.text! as NSString
         let updatedText = previousText.replacingCharacters(in: range, with: string)

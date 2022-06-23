@@ -8,8 +8,9 @@
 import Foundation
 
 protocol INetworkService: AnyObject {
+    
     func fetchCoinsList<T:Codable>(urlsString: String, completion: @escaping (Result<[T],Error>)->())
-    func fetchCoinData<T: Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
+    func fetchCoinData<T:Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
 }
 
 final class NetworkService: INetworkService {

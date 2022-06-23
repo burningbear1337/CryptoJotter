@@ -9,10 +9,12 @@ import Foundation
 import UIKit
 
 protocol ICoinImageService: AnyObject {
+    
     func setCoinImage(completion: @escaping (UIImage)->())
 }
 
 final class CoinImageService {
+    
     private var coin: CoinModel
     private var filemanager = FileManagerService.shared
     private let folderName = "CoinJotter_images"
@@ -24,6 +26,7 @@ final class CoinImageService {
     }
 }
 extension CoinImageService: ICoinImageService {
+    
     func setCoinImage(completion: @escaping (UIImage)->()) {
         if let savedImage = self.filemanager.fetchImage(imageName: self.imageName, folderName: self.folderName){
             completion(savedImage)
@@ -32,12 +35,12 @@ extension CoinImageService: ICoinImageService {
                 completion(image)
                 self.filemanager.saveImage(image: image, imageName: self.imageName, folderName: self.folderName)
             }
-            
         }
     }
 }
 
 private extension CoinImageService {
+    
     private func fetchCoinImage(completion: @escaping (UIImage)->()){
         guard let url = URL(string: self.coin.image ?? "") else { return }
         let request = URLRequest(url: url)
@@ -56,5 +59,4 @@ private extension CoinImageService {
             completion(image)
         }.resume()
     }
-
 }

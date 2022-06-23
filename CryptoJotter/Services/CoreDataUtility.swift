@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol ICoreDataUtility: AnyObject {
+    
     func fetchPortfolio(completion: @escaping ([CoinItem])->())
     func addCoinToPortfolio(coin: CoinModel, amount: Double)
     func deleteCoinFromPortfolio(coin: CoinItem)

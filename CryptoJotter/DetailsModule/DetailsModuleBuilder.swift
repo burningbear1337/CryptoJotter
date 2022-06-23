@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IDetailsBuilder: AnyObject {
+    
     func build() -> UIViewController
 }
 

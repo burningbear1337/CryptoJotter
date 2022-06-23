@@ -8,6 +8,7 @@
 import UIKit
 
 enum AppFont {
+    
     case semibold17
     case semibold15
     case regular13

@@ -8,6 +8,7 @@
 import Foundation
 
 extension Double {
+    
     private var fractionDigits2: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.usesGroupingSeparator = true
@@ -36,6 +37,7 @@ extension Double {
 }
 
 extension String {
+    
     var removeHTMLSymbols: String {
         return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }

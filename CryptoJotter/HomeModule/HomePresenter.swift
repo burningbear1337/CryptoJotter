@@ -13,6 +13,7 @@ protocol IHomePresenter: AnyObject {
 }
 
 final class HomePresenter {
+    
     private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h"
     
     private weak var view: IHomeView?
@@ -33,6 +34,7 @@ final class HomePresenter {
 }
 
 extension HomePresenter: IHomePresenter {
+    
     func sinkDataToView(view: IHomeView, vc: UIViewController) {
         
         self.fetchData(view: view)
@@ -65,6 +67,7 @@ extension HomePresenter: IHomePresenter {
 }
 
 private extension HomePresenter {
+    
     func fetchData(view : IHomeView) {
         
         self.view = view

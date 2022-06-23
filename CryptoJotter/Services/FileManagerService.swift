@@ -41,6 +41,7 @@ final class FileManagerService {
 }
 
 private extension FileManagerService {
+    
     func urlForFolder(folderName: String) -> URL? {
         guard let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
         return url.appendingPathComponent(folderName)
@@ -63,5 +64,4 @@ private extension FileManagerService {
             }
         }
     }
-    
 }

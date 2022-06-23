@@ -8,10 +8,12 @@
 
 import UIKit
 extension UIColor {
+    
     static let theme = ColorTheme()
 }
 
 struct ColorTheme {
+    
     let accentColor = UIColor(named: "AccentColor")
     let secondaryColor = UIColor(named: "SecondaryColor")
     let redColor = UIColor(named: "RedColor")

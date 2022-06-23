@@ -8,6 +8,7 @@
 import Foundation
 
 struct CoinDetailsModel: Codable {
+    
     let name: String?
     let description: Description?
     let links: Links?
@@ -22,10 +23,12 @@ struct CoinDetailsModel: Codable {
 }
 
 struct Description: Codable {
+    
     let en: String?
 }
 
 struct Links: Codable {
+    
     let homepage: [String]?
     let blockchainSite: [String]?
 

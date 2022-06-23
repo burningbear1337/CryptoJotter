@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IAddCoinView: AnyObject {
+    
     var textFieldDataWorkflow: ((String) -> ())? { get set }
     var saveButtonTap:((CoinModel, Double)->())? { get set }
     var clickedOnCoin: ((CoinModel)->(String))? { get set }
@@ -290,7 +291,6 @@ private extension AddCoinView {
 
         ])
         
-        
         self.addSubview(self.coinDepositTitle)
         self.coinDepositTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -326,6 +326,7 @@ private extension AddCoinView {
         self.coinDepositValue.layer.opacity = value
         self.coinsAmountTextField.layer.opacity = value
         self.saveButton.layer.opacity = value
+        self.coinImage.layer.opacity = value
         self.coinsAmountTextField.attributedPlaceholder = NSAttributedString(
             string: "",
             attributes: [
