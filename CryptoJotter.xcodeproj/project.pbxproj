@@ -42,6 +42,7 @@
 		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
 		D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF72858B17E009FA900 /* FileManagerService.swift */; };
 		D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF92858BA99009FA900 /* CoinImageService.swift */; };
+		D1EEE5372864A514001B6EC8 /* FiltersPlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EEE5362864A514001B6EC8 /* FiltersPlateView.swift */; };
 		D1EEE704285CC1AE00651E67 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */; };
 		D1F66483284EEE5400932153 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66482284EEE5400932153 /* PortfolioViewController.swift */; };
 		D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F66484284EF8BD00932153 /* DetailsViewController.swift */; };
@@ -88,6 +89,7 @@
 		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
 		D1EE1DF72858B17E009FA900 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		D1EE1DF92858BA99009FA900 /* CoinImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinImageService.swift; sourceTree = "<group>"; };
+		D1EEE5362864A514001B6EC8 /* FiltersPlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersPlateView.swift; sourceTree = "<group>"; };
 		D1EEE703285CC1AE00651E67 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
 		D1F66482284EEE5400932153 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		D1F66484284EF8BD00932153 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				D12F4F312848DE650027B9A1 /* CustomTableViewCell.swift */,
 				D1813736285C1016000334DA /* CustomCollectionViewCell.swift */,
 				D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */,
+				D1EEE5362864A514001B6EC8 /* FiltersPlateView.swift */,
 			);
 			path = ReusableComponents;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				D12F4F222848D4B20027B9A1 /* HomeView.swift in Sources */,
 				D138A4CA285B235E0054E455 /* LaunchViewController.swift in Sources */,
 				D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */,
+				D1EEE5372864A514001B6EC8 /* FiltersPlateView.swift in Sources */,
 				D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */,
 				D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */,
 				D11B16B42859F075001D181F /* Portfolio.xcdatamodeld in Sources */,

@@ -21,12 +21,23 @@ protocol IPortfolioView: AnyObject {
 
 final class PortfolioView: UIView, IPortfolioView {
     
+    enum Constants {
+        static let cellID = "portfolioCell"
+        static let tableCellHeight: CGFloat = 60
+        static let searchBarPadding: CGFloat = 20
+        static let searchBarHeight: CGFloat = 55
+        static let defaultPadding: CGFloat = 8
+        static let emptyPortfolioPadding: CGFloat = 20
+    }
+    
     private var customSearchBar = CustomSearchBarView()
+    
+    private lazy var filtersPlateView = FiltersPlateView(showHoldings: true)
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "portfolioCell")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: Constants.cellID)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.delegate = self
@@ -35,37 +46,6 @@ final class PortfolioView: UIView, IPortfolioView {
     }()
     
     private var vc: UIViewController?
-    
-    private lazy var filterByRankButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Rank ▼", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
-        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
-        button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var filterByHoldingsButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Holdings", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
-        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
-        button.addTarget(self, action: #selector(sortByHoldingsTapped), for: .touchUpInside)
-        return button
-    }()
-
-    
-    private lazy var filterByPriceButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Price", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
-        button.setTitleColor(UIColor.theme.greenColor, for: .normal)
-        button.addTarget(self, action: #selector(sortByPriceTapped), for: .touchUpInside)
-        return button
-    }()
     
     private lazy var emptyPortfolioText: UILabel = {
         let label = UILabel()
@@ -125,7 +105,7 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as? CustomTableViewCell else { return UITableViewCell()}
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath) as? CustomTableViewCell else { return UITableViewCell()}
         guard let coin = coins?[indexPath.row] else { return UITableViewCell()}
         cell.injectCoinModel(coin: coin, holdings: self.coinItemHoldings?(coin))
         return cell
@@ -137,7 +117,7 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
+        Constants.tableCellHeight
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -191,43 +171,33 @@ private extension PortfolioView {
         self.setupEmptyLabel()
     }
     
-    
     func setupSearchBar() {
         self.customSearchBar.textField.delegate = self
         self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.customSearchBar)
         NSLayoutConstraint.activate([
-            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
+            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constants.searchBarPadding),
+            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.searchBarPadding),
+            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.searchBarPadding),
+            self.customSearchBar.heightAnchor.constraint(equalToConstant: Constants.searchBarHeight),
         ])
     }
     
     func setupFilters() {
-        self.addSubview(self.filterByRankButton)
+        self.filtersPlateView.filtersPlateViewDelegate = self
+        self.addSubview(self.filtersPlateView)
+        self.filtersPlateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.filterByRankButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            self.filterByRankButton.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 8)
-        ])
-        
-        self.addSubview(self.filterByHoldingsButton)
-        NSLayoutConstraint.activate([
-            self.filterByHoldingsButton.leadingAnchor.constraint(equalTo: self.centerXAnchor),
-            self.filterByHoldingsButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor)
-        ])
-        
-        self.addSubview(self.filterByPriceButton)
-        NSLayoutConstraint.activate([
-            self.filterByPriceButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-            self.filterByPriceButton.centerYAnchor.constraint(equalTo: self.filterByRankButton.centerYAnchor)
+            self.filtersPlateView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor,constant: Constants.defaultPadding),
+            self.filtersPlateView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultPadding),
+            self.filtersPlateView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultPadding),
         ])
     }
     
     func setupTableView() {
         self.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.filterByRankButton.bottomAnchor),
+            self.tableView.topAnchor.constraint(equalTo: self.filtersPlateView.bottomAnchor),
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
@@ -238,36 +208,30 @@ private extension PortfolioView {
         self.addSubview(self.emptyPortfolioText)
         self.emptyPortfolioText.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.emptyPortfolioText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.emptyPortfolioText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.emptyPortfolioText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.emptyPortfolioPadding),
+            self.emptyPortfolioText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.emptyPortfolioPadding),
             self.emptyPortfolioText.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
-    
-    @objc func sortByRankTapped() {
-        self.sortByRank?() == true ?
-        self.filterByRankButton.setTitle("Rank ▲", for: .normal) :
-        self.filterByRankButton.setTitle("Rank ▼", for: .normal)
-        self.filterByPriceButton.setTitle("Price", for: .normal)
-        self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
+}
+
+extension PortfolioView: IFiltersPlateView {
+    func filterByRank() -> Bool {
+        guard let result = self.sortByRank?() else { return false }
+        return result
     }
     
-    
-    @objc func sortByPriceTapped() {
-        self.sortByPrice?() == true ?
-        self.filterByPriceButton.setTitle("Price ▼", for: .normal) :
-        self.filterByPriceButton.setTitle("Price ▲", for: .normal)
-        self.filterByRankButton.setTitle("Rank", for: .normal)
-        self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
+    func filterByPrice() -> Bool {
+        guard let result = self.sortByPrice?() else { return false }
+        return result
     }
     
-    @objc func sortByHoldingsTapped() {
-        self.sortByHoldings?() == true ?
-        self.filterByHoldingsButton.setTitle("Holdings ▲", for: .normal) :
-        self.filterByHoldingsButton.setTitle("Holdings ▼", for: .normal)
-        self.filterByPriceButton.setTitle("Price", for: .normal)
-        self.filterByRankButton.setTitle("Rank", for: .normal)
+    func filterByHoldings() -> Bool {
+        guard let result = self.sortByHoldings?() else { return false }
+        return result
     }
+    
+    func reloadCoinsList() {}
 }
 
 
