@@ -27,7 +27,7 @@ final class PortfolioView: UIView, IPortfolioView {
         static let tableCellHeight: CGFloat = 60
         static let searchBarPadding: CGFloat = 20
         static let searchBarHeight: CGFloat = 55
-        static let defaultPadding: CGFloat = 8
+        static let defaultPadding: CGFloat = 16
         static let emptyPortfolioPadding: CGFloat = 20
         
         static let deleteImageName = "trash"
@@ -201,7 +201,7 @@ private extension PortfolioView {
     func setupTableView() {
         self.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.filtersPlateView.bottomAnchor),
+            self.tableView.topAnchor.constraint(equalTo: self.filtersPlateView.bottomAnchor, constant: Constants.defaultPadding),
             self.tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),

@@ -23,7 +23,7 @@ final class HomeView: UIView, IHomeView {
         static let tableCellHeight: CGFloat = 60
         static let searchBarPadding: CGFloat = 20
         static let searchBarHeight: CGFloat = 55
-        static let defaultPadding: CGFloat = 8
+        static let defaultPadding: CGFloat = 16
     }
     
     private var customSearchBar = CustomSearchBarView()

@@ -26,7 +26,7 @@ final class FiltersPlateView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Rank ▼", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
+        button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.addTarget(self, action: #selector(sortByRankTapped), for: .touchUpInside)
         return button
@@ -36,7 +36,7 @@ final class FiltersPlateView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Holdings", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
+        button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.addTarget(self, action: #selector(sortByHoldingsTapped), for: .touchUpInside)
         return button
@@ -47,7 +47,7 @@ final class FiltersPlateView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Price", for: .normal)
-        button.titleLabel?.font = AppFont.regular13.font
+        button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.addTarget(self, action: #selector(sortByPriceTapped), for: .touchUpInside)
         return button
@@ -104,7 +104,9 @@ private extension FiltersPlateView {
             NSLayoutConstraint.activate([
                 self.reloadDataButton.topAnchor.constraint(equalTo: self.topAnchor),
                 self.reloadDataButton.trailingAnchor.constraint(equalTo: self.filterByPriceButton.leadingAnchor, constant: -Constants.defaultPadding),
-                self.reloadDataButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+                self.reloadDataButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                self.reloadDataButton.heightAnchor.constraint(equalToConstant: 24),
+                self.reloadDataButton.widthAnchor.constraint(equalToConstant: 24),
             ])
         }
 
@@ -120,13 +122,17 @@ private extension FiltersPlateView {
     
     @objc func sortByPriceTapped() {
         self.filtersPlateViewDelegate?.filterByPrice() == true ?
-        self.filterByPriceButton.setTitle("Price ▼", for: .normal) :
-        self.filterByPriceButton.setTitle("Price ▲", for: .normal)
+        self.filterByPriceButton.setTitle("▲ Price", for: .normal) :
+        self.filterByPriceButton.setTitle("▲ Price", for: .normal)
         self.filterByRankButton.setTitle("Rank", for: .normal)
         self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
     }
     
     @objc func reloadDataTapped() {
+        UIView.animate(withDuration: 3, delay: 0.3) {
+            self.reloadDataButton.transform = CGAffineTransform(rotationAngle: .pi)
+            self.reloadDataButton.transform = .identity
+        }
         self.filtersPlateViewDelegate?.reloadCoinsList()
         self.filterByRankButton.setTitle("Rank ▼", for: .normal)
         self.filterByPriceButton.setTitle("Price", for: .normal)
