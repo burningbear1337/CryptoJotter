@@ -113,6 +113,11 @@ private extension FiltersPlateView {
     }
     
     @objc func sortByRankTapped() {
+        self.filterByRankButton.alpha = 0.1
+        UIView.animate(withDuration: 0.5, delay: 0) {
+            self.filterByRankButton.alpha = 1
+        }
+
         self.filtersPlateViewDelegate?.filterByRank()  == true ?
         self.filterByRankButton.setTitle("Rank ▲", for: .normal) :
         self.filterByRankButton.setTitle("Rank ▼", for: .normal)
@@ -121,15 +126,20 @@ private extension FiltersPlateView {
     }
     
     @objc func sortByPriceTapped() {
+        self.filterByPriceButton.alpha = 0.1
+        UIView.animate(withDuration: 0.5, delay: 0) {
+            self.filterByPriceButton.alpha = 1
+        }
+        
         self.filtersPlateViewDelegate?.filterByPrice() == true ?
         self.filterByPriceButton.setTitle("▲ Price", for: .normal) :
-        self.filterByPriceButton.setTitle("▲ Price", for: .normal)
+        self.filterByPriceButton.setTitle("▼ Price", for: .normal)
         self.filterByRankButton.setTitle("Rank", for: .normal)
         self.filterByHoldingsButton.setTitle("Holdings", for: .normal)
     }
     
     @objc func reloadDataTapped() {
-        UIView.animate(withDuration: 3, delay: 0.3) {
+        UIView.animate(withDuration: 2.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3) {
             self.reloadDataButton.transform = CGAffineTransform(rotationAngle: .pi)
             self.reloadDataButton.transform = .identity
         }
