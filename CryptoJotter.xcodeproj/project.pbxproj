@@ -24,8 +24,6 @@
 		D12F4F2A2848D4D60027B9A1 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F292848D4D60027B9A1 /* HomeRouter.swift */; };
 		D12F4F302848DA130027B9A1 /* HomeModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F2F2848DA130027B9A1 /* HomeModuleBuilder.swift */; };
 		D12F4F322848DE650027B9A1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12F4F312848DE650027B9A1 /* CustomTableViewCell.swift */; };
-		D138A4CA285B235E0054E455 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D138A4C9285B235E0054E455 /* LaunchViewController.swift */; };
-		D138A4CC285B248B0054E455 /* LaunchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D138A4CB285B248B0054E455 /* LaunchPresenter.swift */; };
 		D13E1180284F6C8000D5EEDA /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13E117F284F6C8000D5EEDA /* PortfolioView.swift */; };
 		D1584F2328571F7100D6A069 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1584F2228571F7100D6A069 /* Converters.swift */; };
 		D161425B2851053200CE22D9 /* CoinDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D161425A2851053200CE22D9 /* CoinDetailsModel.swift */; };
@@ -71,8 +69,6 @@
 		D12F4F292848D4D60027B9A1 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		D12F4F2F2848DA130027B9A1 /* HomeModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleBuilder.swift; sourceTree = "<group>"; };
 		D12F4F312848DE650027B9A1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
-		D138A4C9285B235E0054E455 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
-		D138A4CB285B248B0054E455 /* LaunchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPresenter.swift; sourceTree = "<group>"; };
 		D13E117F284F6C8000D5EEDA /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		D1584F2228571F7100D6A069 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		D161425A2851053200CE22D9 /* CoinDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailsModel.swift; sourceTree = "<group>"; };
@@ -205,8 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				D12F4F172848C8140027B9A1 /* LaunchScreen.storyboard */,
-				D138A4C9285B235E0054E455 /* LaunchViewController.swift */,
-				D138A4CB285B248B0054E455 /* LaunchPresenter.swift */,
 			);
 			path = LaunchModule;
 			sourceTree = "<group>";
@@ -342,7 +336,6 @@
 				D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */,
 				D169337F28490AA100C24B88 /* ColorScheme.swift in Sources */,
 				D12F4F222848D4B20027B9A1 /* HomeView.swift in Sources */,
-				D138A4CA285B235E0054E455 /* LaunchViewController.swift in Sources */,
 				D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */,
 				D1EEE5372864A514001B6EC8 /* FiltersPlateView.swift in Sources */,
 				D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */,
@@ -355,7 +348,6 @@
 				D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */,
 				D1A48F8F285B8988002FE5FA /* AddCoinModuleBuilder.swift in Sources */,
 				D1584F2328571F7100D6A069 /* Converters.swift in Sources */,
-				D138A4CC285B248B0054E455 /* LaunchPresenter.swift in Sources */,
 				D12F4F0D2848C8130027B9A1 /* AppDelegate.swift in Sources */,
 				D12F4F302848DA130027B9A1 /* HomeModuleBuilder.swift in Sources */,
 				D124D4F92849CA0200E63B5A /* NetworkService.swift in Sources */,
