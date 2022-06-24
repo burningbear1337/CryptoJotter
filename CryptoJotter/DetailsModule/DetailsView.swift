@@ -17,6 +17,16 @@ protocol IDetailsView: AnyObject {
 
 final class CustomDetailsView: UIView {
     
+    private enum Constants {
+        static let coinNamePadding: CGFloat = 20
+        static let defaultPadding: CGFloat = 8
+        static let defaultSpacing: CGFloat = 20
+        static let iconFrameSize: CGFloat = 24
+        static let blocksSpacing: CGFloat = 70
+        
+        static let linkButtonTitleText = "Home website"
+    }
+    
     private lazy var scrollView:UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +114,7 @@ private extension CustomDetailsView {
             if coinDetails?.links?.homepage == nil {
                 self.linkButton.setTitle("", for: .normal)
             } else {
-                self.linkButton.setTitle("Home website", for: .normal)
+                self.linkButton.setTitle(Constants.linkButtonTitleText, for: .normal)
             }
         }
     }
@@ -191,7 +201,7 @@ private extension CustomDetailsView {
     func setupCoinNameLabel() {
         self.scrollView.addSubview(self.coinNameLabel)
         NSLayoutConstraint.activate([
-            self.coinNameLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 20),
+            self.coinNameLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: Constants.coinNamePadding),
             self.coinNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
         ])
     }
@@ -200,9 +210,9 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.coinImage)
         NSLayoutConstraint.activate([
             self.coinImage.centerYAnchor.constraint(equalTo: self.coinNameLabel.centerYAnchor),
-            self.coinImage.trailingAnchor.constraint(equalTo: self.coinNameLabel.leadingAnchor, constant: -10),
-            self.coinImage.heightAnchor.constraint(equalToConstant: 24),
-            self.coinImage.widthAnchor.constraint(equalToConstant: 24),
+            self.coinImage.trailingAnchor.constraint(equalTo: self.coinNameLabel.leadingAnchor, constant: -Constants.defaultPadding),
+            self.coinImage.heightAnchor.constraint(equalToConstant: Constants.iconFrameSize),
+            self.coinImage.widthAnchor.constraint(equalToConstant: Constants.iconFrameSize),
         ])
     }
     
@@ -210,9 +220,9 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.low24H)
         self.low24H.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.low24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.low24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
-            self.low24H.topAnchor.constraint(equalTo: self.coinImage.bottomAnchor, constant: 20)
+            self.low24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.low24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing),
+            self.low24H.topAnchor.constraint(equalTo: self.coinImage.bottomAnchor, constant: Constants.defaultSpacing)
         ])
     }
     
@@ -222,7 +232,7 @@ private extension CustomDetailsView {
         NSLayoutConstraint.activate([
             self.high24H.topAnchor.constraint(equalTo: self.low24H.topAnchor),
             self.high24H.leadingAnchor.constraint(equalTo: self.low24H.trailingAnchor),
-            self.high24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+            self.high24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing),
         ])
     }
     
@@ -230,9 +240,9 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.priceChange24H)
         self.priceChange24H.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.priceChange24H.topAnchor.constraint(equalTo: self.low24H.bottomAnchor, constant: 70),
-            self.priceChange24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.priceChange24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+            self.priceChange24H.topAnchor.constraint(equalTo: self.low24H.bottomAnchor, constant: Constants.blocksSpacing),
+            self.priceChange24H.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.priceChange24H.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing),
         ])
     }
     
@@ -242,7 +252,7 @@ private extension CustomDetailsView {
         NSLayoutConstraint.activate([
             self.priceChange24HPercantage.topAnchor.constraint(equalTo: self.priceChange24H.topAnchor),
             self.priceChange24HPercantage.leadingAnchor.constraint(equalTo: self.priceChange24H.trailingAnchor),
-            self.priceChange24HPercantage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20)
+            self.priceChange24HPercantage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing)
         ])
     }
     
@@ -250,9 +260,9 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.currentPrice)
         self.currentPrice.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.currentPrice.topAnchor.constraint(equalTo: self.priceChange24H.bottomAnchor, constant: 70),
-            self.currentPrice.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.currentPrice.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20),
+            self.currentPrice.topAnchor.constraint(equalTo: self.priceChange24H.bottomAnchor, constant: Constants.blocksSpacing),
+            self.currentPrice.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.currentPrice.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing),
         ])
     }
     
@@ -262,7 +272,7 @@ private extension CustomDetailsView {
         NSLayoutConstraint.activate([
             self.marketCapRank.topAnchor.constraint(equalTo: self.currentPrice.topAnchor),
             self.marketCapRank.leadingAnchor.constraint(equalTo: self.currentPrice.trailingAnchor),
-            self.marketCapRank.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 20)
+            self.marketCapRank.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - Constants.defaultSpacing)
         ])
     }
     
@@ -270,9 +280,9 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.descriptionLabel)
         self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.descriptionLabel.topAnchor.constraint(equalTo: self.currentPrice.bottomAnchor, constant: 70),
-            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.currentPrice.bottomAnchor, constant: Constants.blocksSpacing),
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultSpacing),
         ])
     }
     
@@ -281,8 +291,8 @@ private extension CustomDetailsView {
         self.linkButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.linkButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 30),
-            self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -20)
+            self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -Constants.defaultSpacing)
         ])
     }
     

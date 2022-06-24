@@ -9,6 +9,10 @@ import UIKit
 
 final class CustomSearchBarView: UIView, UITextFieldDelegate {
     
+    private enum Constants {
+        static let placeholderText = "Type in coin name or symbol..."
+    }
+    
     lazy var textField = UITextField()
     
     init() {
@@ -30,7 +34,7 @@ private extension CustomSearchBarView {
         self.textField.backgroundColor = UIColor.theme.backgroundColor
         self.textField.layer.cornerRadius = 10
         let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 16, height: .zero))
-        self.textField.placeholder = "Type in coin name or symbol..."
+        self.textField.placeholder = Constants.placeholderText
         self.textField.clearButtonMode = .always
         self.textField.leftViewMode = .always
         self.textField.leftView = emptyView

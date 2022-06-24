@@ -16,12 +16,34 @@ protocol IAddCoinView: AnyObject {
 
 final class AddCoinView: UIView, IAddCoinView {
     
+    private enum Constants {
+        static let cellID = "collectionCell"
+        
+        static let searchBarPadding: CGFloat = 20
+        static let searchBarHeight: CGFloat = 55
+        static let collectionViewHeight: CGFloat = 60
+        static let defaultPadding: CGFloat = 20
+        static let spacingForCoinData: CGFloat = 30
+        static let imageFrame:CGFloat = 26
+        static let coinImageLeadingPadding:CGFloat = 5
+        static let textFieldWidth: CGFloat = 105
+        static let buttonHeigh: CGFloat = 55
+        
+        static let currentPriceText = "Current Price:"
+        static let coinHoldingsText = "Your holdings:"
+        static let coinDepositText = "Your deposit:"
+        static let defaultCoinDepositText = "$0.00"
+        
+        static let saveButtonTitleText = "Save"
+        static let saveButtonUpdateTitleText = "UPDATED ✅"
+    }
+    
     private lazy var customSearchBar = CustomSearchBarView()
     private lazy var collectionView = UICollectionView()
     
     private lazy var currentPriceTitle: UILabel = {
         let label = UILabel()
-        label.text = "Current Price:"
+        label.text = Constants.currentPriceText
         label.font = AppFont.semibold17.font
         label.textAlignment = .left
         label.textColor = UIColor.theme.accentColor
@@ -40,7 +62,7 @@ final class AddCoinView: UIView, IAddCoinView {
     
     private lazy var coinHoldingsTitle: UILabel = {
         let label = UILabel()
-        label.text = "Your holdings:"
+        label.text = Constants.coinHoldingsText
         label.font = AppFont.semibold17.font
         label.textAlignment = .left
         label.textColor = UIColor.theme.accentColor
@@ -50,7 +72,7 @@ final class AddCoinView: UIView, IAddCoinView {
     
     private lazy var coinDepositTitle: UILabel = {
         let label = UILabel()
-        label.text = "Your deposit:"
+        label.text = Constants.coinDepositText
         label.font = AppFont.semibold17.font
         label.textAlignment = .left
         label.textColor = UIColor.theme.accentColor
@@ -83,7 +105,7 @@ final class AddCoinView: UIView, IAddCoinView {
         let label = UILabel()
         label.font = AppFont.semibold17.font
         label.textAlignment = .right
-        label.text = "$0.00"
+        label.text = Constants.defaultCoinDepositText
         label.textColor = UIColor.theme.accentColor
         label.layer.opacity = 0
         return label
@@ -101,7 +123,7 @@ final class AddCoinView: UIView, IAddCoinView {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.layer.backgroundColor = UIColor.theme.secondaryBackgroundColor?.cgColor
-        button.setTitle("SAVE", for: .normal)
+        button.setTitle(Constants.saveButtonTitleText, for: .normal)
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
         button.titleLabel?.font = AppFont.semibold17.font
         button.layer.borderColor = UIColor.theme.greenColor?.cgColor
@@ -148,7 +170,7 @@ extension AddCoinView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell()}
+        guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellID, for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell()}
         guard let coin = self.coins?[indexPath.row] else { return UICollectionViewCell()}
         cell.injectData(coin: coin)
         return cell
@@ -221,10 +243,10 @@ private extension AddCoinView {
         self.customSearchBar.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.customSearchBar)
         NSLayoutConstraint.activate([
-            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.customSearchBar.heightAnchor.constraint(equalToConstant: 55),
+            self.customSearchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constants.searchBarPadding),
+            self.customSearchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.searchBarPadding),
+            self.customSearchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.searchBarPadding),
+            self.customSearchBar.heightAnchor.constraint(equalToConstant: Constants.searchBarHeight),
         ])
     }
     
@@ -233,7 +255,7 @@ private extension AddCoinView {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width/4.5, height: UIScreen.main.bounds.width/4.5)
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        self.collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        self.collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellID)
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.backgroundColor = .clear
@@ -244,10 +266,10 @@ private extension AddCoinView {
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.collectionView)
         NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: 10),
+            self.collectionView.topAnchor.constraint(equalTo: self.customSearchBar.bottomAnchor, constant: Constants.defaultPadding*0.4),
             self.collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.collectionView.heightAnchor.constraint(equalToConstant: 100)
+            self.collectionView.heightAnchor.constraint(equalToConstant: Constants.collectionViewHeight)
         ])
     }
         
@@ -255,54 +277,54 @@ private extension AddCoinView {
         self.addSubview(self.currentPriceTitle)
         self.currentPriceTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.currentPriceTitle.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 20),
-            self.currentPriceTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
+            self.currentPriceTitle.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: Constants.defaultPadding),
+            self.currentPriceTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultPadding)
         ])
         
         self.addSubview(self.currentPriceValue)
         self.currentPriceValue.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.currentPriceValue.centerYAnchor.constraint(equalTo: self.currentPriceTitle.centerYAnchor),
-            self.currentPriceValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 )
+            self.currentPriceValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultPadding )
         ])
         
         self.addSubview(self.coinHoldingsTitle)
         self.coinHoldingsTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinHoldingsTitle.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 30),
-            self.coinHoldingsTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.coinHoldingsTitle.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: Constants.spacingForCoinData),
+            self.coinHoldingsTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultPadding),
         ])
         
         self.addSubview(self.coinImage)
         self.coinImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.coinImage.centerYAnchor.constraint(equalTo: self.coinHoldingsTitle.centerYAnchor),
-            self.coinImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            self.coinImage.heightAnchor.constraint(equalToConstant: 26),
-            self.coinImage.widthAnchor.constraint(equalToConstant: 26),
+            self.coinImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultPadding),
+            self.coinImage.heightAnchor.constraint(equalToConstant: Constants.imageFrame),
+            self.coinImage.widthAnchor.constraint(equalToConstant: Constants.imageFrame),
         ])
         
         self.addSubview(self.coinsAmountTextField)
         self.coinsAmountTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinsAmountTextField.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: 30),
-            self.coinsAmountTextField.trailingAnchor.constraint(equalTo: self.coinImage.leadingAnchor,constant: -5),
-            self.coinsAmountTextField.widthAnchor.constraint(equalToConstant: 105)
+            self.coinsAmountTextField.topAnchor.constraint(equalTo: self.currentPriceTitle.bottomAnchor, constant: Constants.spacingForCoinData),
+            self.coinsAmountTextField.trailingAnchor.constraint(equalTo: self.coinImage.leadingAnchor,constant: -Constants.coinImageLeadingPadding),
+            self.coinsAmountTextField.widthAnchor.constraint(equalToConstant: Constants.textFieldWidth)
 
         ])
         
         self.addSubview(self.coinDepositTitle)
         self.coinDepositTitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.coinDepositTitle.topAnchor.constraint(equalTo: self.coinHoldingsTitle.bottomAnchor, constant: 30),
-            self.coinDepositTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            self.coinDepositTitle.topAnchor.constraint(equalTo: self.coinHoldingsTitle.bottomAnchor, constant: Constants.spacingForCoinData),
+            self.coinDepositTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultPadding),
         ])
         
         self.addSubview(self.coinDepositValue)
         self.coinDepositValue.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.coinDepositValue.centerYAnchor.constraint(equalTo: self.coinDepositTitle.centerYAnchor),
-            self.coinDepositValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20 )
+            self.coinDepositValue.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultPadding )
         ])
     }
     
@@ -310,11 +332,11 @@ private extension AddCoinView {
         self.saveButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.saveButton)
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.coinDepositTitle.bottomAnchor, constant: 20),
+            self.saveButton.topAnchor.constraint(equalTo: self.coinDepositTitle.bottomAnchor, constant: Constants.defaultPadding),
             self.saveButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.saveButton.heightAnchor.constraint(equalToConstant: 55),
-            self.saveButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.saveButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
+            self.saveButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeigh),
+            self.saveButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultPadding),
+            self.saveButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultPadding)
         ])
     }
     
@@ -342,10 +364,10 @@ private extension AddCoinView {
             let holdings = self.holdings else { return }
         self.saveButtonTap?(coin, holdings)
         self.injectDataToInterface(coin: coin)
-        self.saveButton.setTitle("UPDATED ✅", for: .normal)
+        self.saveButton.setTitle(Constants.saveButtonUpdateTitleText, for: .normal)
         self.coinsAmountTextField.text = ""
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.saveButton.setTitle("SAVE", for: .normal)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.saveButton.setTitle(Constants.saveButtonTitleText, for: .normal)
         }
     }
 }

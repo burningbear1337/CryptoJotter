@@ -21,13 +21,17 @@ protocol IPortfolioView: AnyObject {
 
 final class PortfolioView: UIView, IPortfolioView {
     
-    enum Constants {
+    private enum Constants {
         static let cellID = "portfolioCell"
+        
         static let tableCellHeight: CGFloat = 60
         static let searchBarPadding: CGFloat = 20
         static let searchBarHeight: CGFloat = 55
         static let defaultPadding: CGFloat = 8
         static let emptyPortfolioPadding: CGFloat = 20
+        
+        static let deleteImageName = "trash"
+        static let editImageName = "pencil"
     }
     
     private var customSearchBar = CustomSearchBarView()
@@ -127,14 +131,14 @@ extension PortfolioView: UITableViewDelegate, UITableViewDataSource {
             self.deleteCoinFromPortfolio?(coin)
         }
         delete.backgroundColor = UIColor.theme.redColor
-        delete.image = UIImage(systemName: "trash")
+        delete.image = UIImage(systemName: Constants.deleteImageName)
         
         let edit = UIContextualAction(style: .normal, title: nil) { _, _, _ in
             guard let coin = self.coins?[indexPath.row] else { return }
             self.editCoinFromPortfolio?(coin)
         }
         edit.backgroundColor = UIColor.theme.secondaryBackgroundColor
-        edit.image = UIImage(systemName: "pencil")
+        edit.image = UIImage(systemName: Constants.editImageName)
         
         let actions = UISwipeActionsConfiguration(actions: [delete, edit])
         

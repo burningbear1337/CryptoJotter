@@ -18,7 +18,7 @@ protocol IHomeView: AnyObject {
 
 final class HomeView: UIView, IHomeView {
     
-    enum Constants {
+    private enum Constants {
         static let cellID = "cell"
         static let tableCellHeight: CGFloat = 60
         static let searchBarPadding: CGFloat = 20
