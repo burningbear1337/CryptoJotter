@@ -33,11 +33,13 @@
 		D182FCA62850D17F007E5994 /* StatisticsElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D182FCA52850D17F007E5994 /* StatisticsElement.swift */; };
 		D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369932850510100E98D64 /* PortfolioPresenter.swift */; };
 		D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18369952850510700E98D64 /* PortfolioRouter.swift */; };
+		D193798928659D7500A16AB6 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D193798828659D7500A16AB6 /* LaunchView.swift */; };
+		D193798F2865A2BC00A16AB6 /* TabBarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D193798E2865A2BC00A16AB6 /* TabBarAssembly.swift */; };
 		D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */; };
 		D1A48F8B285B8792002FE5FA /* AddCoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8A285B8792002FE5FA /* AddCoinView.swift */; };
 		D1A48F8D285B886E002FE5FA /* AddCoinPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8C285B886E002FE5FA /* AddCoinPresenter.swift */; };
 		D1A48F8F285B8988002FE5FA /* AddCoinModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A48F8E285B8988002FE5FA /* AddCoinModuleBuilder.swift */; };
-		D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* TabbarAssembly.swift */; };
+		D1D44D75284E64E9008555DE /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D44D74284E64E9008555DE /* LoadingViewController.swift */; };
 		D1EE1DF82858B17E009FA900 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF72858B17E009FA900 /* FileManagerService.swift */; };
 		D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1DF92858BA99009FA900 /* CoinImageService.swift */; };
 		D1EEE5372864A514001B6EC8 /* FiltersPlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EEE5362864A514001B6EC8 /* FiltersPlateView.swift */; };
@@ -78,11 +80,13 @@
 		D182FCA52850D17F007E5994 /* StatisticsElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsElement.swift; sourceTree = "<group>"; };
 		D18369932850510100E98D64 /* PortfolioPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPresenter.swift; sourceTree = "<group>"; };
 		D18369952850510700E98D64 /* PortfolioRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRouter.swift; sourceTree = "<group>"; };
+		D193798828659D7500A16AB6 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		D193798E2865A2BC00A16AB6 /* TabBarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarAssembly.swift; sourceTree = "<group>"; };
 		D1A48F88285B3C7F002FE5FA /* CustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBarView.swift; sourceTree = "<group>"; };
 		D1A48F8A285B8792002FE5FA /* AddCoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinView.swift; sourceTree = "<group>"; };
 		D1A48F8C285B886E002FE5FA /* AddCoinPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinPresenter.swift; sourceTree = "<group>"; };
 		D1A48F8E285B8988002FE5FA /* AddCoinModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinModuleBuilder.swift; sourceTree = "<group>"; };
-		D1D44D74284E64E9008555DE /* TabbarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarAssembly.swift; sourceTree = "<group>"; };
+		D1D44D74284E64E9008555DE /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		D1EE1DF72858B17E009FA900 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		D1EE1DF92858BA99009FA900 /* CoinImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinImageService.swift; sourceTree = "<group>"; };
 		D1EEE5362864A514001B6EC8 /* FiltersPlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersPlateView.swift; sourceTree = "<group>"; };
@@ -190,7 +194,7 @@
 			children = (
 				D12F4F0C2848C8130027B9A1 /* AppDelegate.swift */,
 				D12F4F0E2848C8130027B9A1 /* SceneDelegate.swift */,
-				D1D44D74284E64E9008555DE /* TabbarAssembly.swift */,
+				D193798E2865A2BC00A16AB6 /* TabBarAssembly.swift */,
 				D12F4F152848C8140027B9A1 /* Assets.xcassets */,
 				D138A4CD285B24900054E455 /* LaunchModule */,
 			);
@@ -200,6 +204,8 @@
 		D138A4CD285B24900054E455 /* LaunchModule */ = {
 			isa = PBXGroup;
 			children = (
+				D193798828659D7500A16AB6 /* LaunchView.swift */,
+				D1D44D74284E64E9008555DE /* LoadingViewController.swift */,
 				D12F4F172848C8140027B9A1 /* LaunchScreen.storyboard */,
 			);
 			path = LaunchModule;
@@ -320,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D18369942850510100E98D64 /* PortfolioPresenter.swift in Sources */,
+				D193798F2865A2BC00A16AB6 /* TabBarAssembly.swift in Sources */,
 				D1F66489284F150A00932153 /* DetailsView.swift in Sources */,
 				D12F4F2A2848D4D60027B9A1 /* HomeRouter.swift in Sources */,
 				D1A48F8D285B886E002FE5FA /* AddCoinPresenter.swift in Sources */,
@@ -335,11 +342,12 @@
 				D11B16BB285A0363001D181F /* CoreDataUtility.swift in Sources */,
 				D18369962850510700E98D64 /* PortfolioRouter.swift in Sources */,
 				D169337F28490AA100C24B88 /* ColorScheme.swift in Sources */,
+				D193798928659D7500A16AB6 /* LaunchView.swift in Sources */,
 				D12F4F222848D4B20027B9A1 /* HomeView.swift in Sources */,
 				D1A48F89285B3C7F002FE5FA /* CustomSearchBarView.swift in Sources */,
 				D1EEE5372864A514001B6EC8 /* FiltersPlateView.swift in Sources */,
 				D1F66485284EF8BD00932153 /* DetailsViewController.swift in Sources */,
-				D1D44D75284E64E9008555DE /* TabbarAssembly.swift in Sources */,
+				D1D44D75284E64E9008555DE /* LoadingViewController.swift in Sources */,
 				D11B16B42859F075001D181F /* Portfolio.xcdatamodeld in Sources */,
 				D13E1180284F6C8000D5EEDA /* PortfolioView.swift in Sources */,
 				D1EE1DFA2858BA99009FA900 /* CoinImageService.swift in Sources */,

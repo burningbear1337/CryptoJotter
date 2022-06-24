@@ -18,10 +18,10 @@ final class AddCoinView: UIView, IAddCoinView {
     
     private enum Constants {
         static let cellID = "collectionCell"
+        static let collectionViewHeight: CGFloat = 100
         
         static let searchBarPadding: CGFloat = 20
         static let searchBarHeight: CGFloat = 55
-        static let collectionViewHeight: CGFloat = 60
         static let defaultPadding: CGFloat = 20
         static let spacingForCoinData: CGFloat = 30
         static let imageFrame:CGFloat = 26

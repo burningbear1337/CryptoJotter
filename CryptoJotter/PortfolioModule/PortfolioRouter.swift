@@ -16,12 +16,13 @@ protocol IPortfolioRouter: AnyObject {
 final class PortfolioRouter: IPortfolioRouter {
     
     func routeToDetailsViewController(vc: UIViewController, coin: CoinModel) {
-        vc.present(DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build(), animated: true)
+        let nextVC = DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build()
+        nextVC.modalTransitionStyle = .flipHorizontal
+        vc.present(nextVC, animated: true)
     }
     
     func routeToAddCoinViewController(vc: UIViewController) {
-        vc.navigationController?.pushViewController(AddCoinModuleBuilder().build(), animated: true)
+        let nextVC = AddCoinModuleBuilder().build()
+        vc.navigationController?.pushViewController(nextVC, animated: true)
     }
-    
-    
 }

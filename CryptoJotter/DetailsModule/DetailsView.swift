@@ -23,6 +23,7 @@ final class CustomDetailsView: UIView {
         static let defaultSpacing: CGFloat = 20
         static let iconFrameSize: CGFloat = 24
         static let blocksSpacing: CGFloat = 70
+        static let homepageTopPadding: CGFloat = 30
         
         static let linkButtonTitleText = "Home website"
     }
@@ -281,8 +282,8 @@ private extension CustomDetailsView {
         self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.descriptionLabel.topAnchor.constraint(equalTo: self.currentPrice.bottomAnchor, constant: Constants.blocksSpacing),
-            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
-            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultSpacing),
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing * 1.5),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.defaultSpacing * 1.5),
         ])
     }
     
@@ -290,8 +291,8 @@ private extension CustomDetailsView {
         self.scrollView.addSubview(self.linkButton)
         self.linkButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.linkButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 30),
-            self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing),
+            self.linkButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: Constants.homepageTopPadding),
+            self.linkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.defaultSpacing * 1.5),
             self.linkButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -Constants.defaultSpacing)
         ])
     }

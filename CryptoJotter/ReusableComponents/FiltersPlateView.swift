@@ -150,6 +150,11 @@ private extension FiltersPlateView {
     }
     
     @objc func sortByHoldingsTapped() {
+        self.filterByHoldingsButton.alpha = 0.1
+        UIView.animate(withDuration: 0.5, delay: 0) {
+            self.filterByHoldingsButton.alpha = 1
+        }
+
         self.filtersPlateViewDelegate?.filterByHoldings() == true ?
         self.filterByHoldingsButton.setTitle("Holdings ▲", for: .normal) :
         self.filterByHoldingsButton.setTitle("Holdings ▼", for: .normal)

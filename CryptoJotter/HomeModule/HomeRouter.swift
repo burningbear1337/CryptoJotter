@@ -15,6 +15,8 @@ protocol IHomeRouter: AnyObject {
 final class HomeRouter: IHomeRouter {
     
     func routeToDetails(_ vc: UIViewController, coin: CoinModel) {
-        vc.present(DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build(), animated: true)
+        let nextVC = DetailsModuleBuilder().routeCoinToNextViewController(coin: coin).build()
+        nextVC.modalTransitionStyle = .flipHorizontal
+        vc.present(nextVC, animated: true)
     }
 }
