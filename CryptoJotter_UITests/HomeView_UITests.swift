@@ -14,12 +14,12 @@ class HomeView_UITests: XCTestCase {
         
     func test_customSearchBar_exists() {
         
-        self.app.launch()
+        app.launch()
         
-        let navTitle = self.app.staticTexts["Live Prices"]
+        let navTitle = app.staticTexts["Live Prices"]
         XCTAssertTrue(navTitle.waitForExistence(timeout: 5))
         
-        let textField = self.app.textFields["Type in coin name or symbol..."]
+        let textField = app.textFields["Type in coin name or symbol..."]
         XCTAssertTrue(textField.waitForExistence(timeout: 5))
         
         textField.tap()
@@ -28,17 +28,36 @@ class HomeView_UITests: XCTestCase {
     
     func test_tapYourPortfolioButton_exists() {
         
-        self.app.launch()
+        app.launch()
         
-        let tabbarButton1 = self.app.tabBars["Tab Bar"].buttons["Live Prices"]
-        let tabbarButton2 = self.app.tabBars["Tab Bar"].buttons["Your Portfolio"]
+        let tabbarButton1 = app.tabBars["Tab Bar"].buttons["Live Prices"]
+        let tabbarButton2 = app.tabBars["Tab Bar"].buttons["Your Portfolio"]
         
         XCTAssertTrue(tabbarButton1.waitForExistence(timeout: 5))
         XCTAssertTrue(tabbarButton2.waitForExistence(timeout: 5))
     }
     
-    func test_filtersPlateView() {
+    func test_HomeViewElementsExistance() {
         
+        app.launch()
+        
+        let yourPortfolio = app.tabBars["Tab Bar"].buttons["Your Portfolio"]
+        XCTAssertTrue(yourPortfolio.waitForExistence(timeout: 5))
+        
+        let livePrices = app.tabBars["Tab Bar"].buttons["Live Prices"]
+        XCTAssertTrue(livePrices.exists)
+        
+        let filterByRankButton = app.buttons["filterByRankButton"]
+        XCTAssertTrue(filterByRankButton.exists)
+        
+        let filterByHoldingsButton = app.buttons["filterByHoldingsButton"]
+        XCTAssertFalse(filterByHoldingsButton.exists)
+        
+        let reloadDataButton = app.buttons["reloadDataButton"]
+        XCTAssertTrue(reloadDataButton.exists)
+        
+        let filterByPriceButton = app.buttons["filterByPriceButton"]
+        XCTAssertTrue(filterByPriceButton.exists)
     }
     
 }

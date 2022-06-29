@@ -36,6 +36,7 @@ final class FiltersPlateView: UIView {
     private lazy var filterByHoldingsButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "filterByHoldingsButton"
         button.setTitle("Holdings", for: .normal)
         button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
@@ -47,6 +48,7 @@ final class FiltersPlateView: UIView {
     private lazy var filterByPriceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "filterByPriceButton"
         button.setTitle("Price", for: .normal)
         button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)
@@ -57,6 +59,7 @@ final class FiltersPlateView: UIView {
     private lazy var reloadDataButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "reloadDataButton"
         button.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath"), for: .normal)
         button.addTarget(self, action: #selector(reloadDataTapped), for: .touchUpInside)
         return button
