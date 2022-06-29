@@ -16,6 +16,9 @@ class HomeView_UITests: XCTestCase {
         
         self.app.launch()
         
+        let navTitle = self.app.staticTexts["Live Prices"]
+        XCTAssertTrue(navTitle.waitForExistence(timeout: 5))
+        
         let textField = self.app.textFields["Type in coin name or symbol..."]
         XCTAssertTrue(textField.waitForExistence(timeout: 5))
         

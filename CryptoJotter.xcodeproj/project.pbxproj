@@ -15,6 +15,7 @@
 		D1054F68286C491B005259C0 /* CryptoJotter_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */; };
 		D1054F6A286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */; };
 		D1054F71286C4964005259C0 /* HomeView_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F70286C4964005259C0 /* HomeView_UITests.swift */; };
+		D1054F73286C6FD8005259C0 /* AddCoinModule_UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F72286C6FD8005259C0 /* AddCoinModule_UITest.swift */; };
 		D11B16B42859F075001D181F /* Portfolio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B22859F075001D181F /* Portfolio.xcdatamodeld */; };
 		D11B16B62859F0E5001D181F /* PortfolioModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */; };
 		D11B16B92859FCD1001D181F /* AddCoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B82859FCD1001D181F /* AddCoinViewController.swift */; };
@@ -87,6 +88,7 @@
 		D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoJotter_UITests.swift; sourceTree = "<group>"; };
 		D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoJotter_UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D1054F70286C4964005259C0 /* HomeView_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView_UITests.swift; sourceTree = "<group>"; };
+		D1054F72286C6FD8005259C0 /* AddCoinModule_UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinModule_UITest.swift; sourceTree = "<group>"; };
 		D11B16B32859F075001D181F /* Portfolio.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Portfolio.xcdatamodel; sourceTree = "<group>"; };
 		D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioModuleBuilder.swift; sourceTree = "<group>"; };
 		D11B16B82859FCD1001D181F /* AddCoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */,
 				D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */,
 				D1054F70286C4964005259C0 /* HomeView_UITests.swift */,
+				D1054F72286C6FD8005259C0 /* AddCoinModule_UITest.swift */,
 			);
 			path = CryptoJotter_UITests;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 			files = (
 				D1054F68286C491B005259C0 /* CryptoJotter_UITests.swift in Sources */,
 				D1054F71286C4964005259C0 /* HomeView_UITests.swift in Sources */,
+				D1054F73286C6FD8005259C0 /* AddCoinModule_UITest.swift in Sources */,
 				D1054F6A286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
