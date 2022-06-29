@@ -28,7 +28,7 @@ class HomePresenter_Tests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Loading data within 5 sec.")
                         
-        self.networkService = MockNetworkService()
+        self.networkService = MockNetworkService(coins: nil)
         self.homeRouter = HomeRouter()
         self.homePresenter = HomePresenter(networkService: self.networkService, router: self.homeRouter)
         
@@ -38,12 +38,34 @@ class HomePresenter_Tests: XCTestCase {
                 self.coins = returnedCoins
                 expectation.fulfill()
             case .failure(_):
-                break
+                XCTFail()
             }
         }
         
         wait(for: [expectation], timeout: 5)
         XCTAssertGreaterThan(self.coins.count, 0)
+    }
+    
+    func test_HomePresenter_sinkDataToView_failure() {
+        
+        let expectation = XCTestExpectation(description: "Can't load within 5 sec")
+        
+        self.networkService = MockNetworkService(coins: [])
+        self.homeRouter = HomeRouter()
+        self.homePresenter = HomePresenter(networkService: self.networkService, router: self.homeRouter)
+        
+        self.networkService.fetchCoinsList(urlsString: "") { (result: Result<[CoinModel], Error>) in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                print(error)
+                expectation.fulfill()
+            }
+        }
+        
+        wait(for: [expectation], timeout: 5)
+        XCTAssertEqual(self.coins.count, 0)
     }
 }
 
