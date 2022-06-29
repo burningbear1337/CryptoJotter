@@ -14,7 +14,7 @@ protocol IDetailsBuilder: AnyObject {
 
 final class DetailsModuleBuilder: IDetailsBuilder {
     
-    var coin: CoinModel?
+    private var coin: CoinModel?
 
     func routeCoinToNextViewController(coin: CoinModel?) -> IDetailsBuilder {
         self.coin = coin

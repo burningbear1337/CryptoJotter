@@ -24,6 +24,7 @@ class NetworkService_Tests: XCTestCase {
         
         var coins = [CoinModel]()
         let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h"
+                
         let expectation = XCTestExpectation(description: "Load data within 5 seconds.")
         
         self.networkService?.fetchCoinsList(urlsString: urlString, completion: { (result: Result<[CoinModel], Error>) in
@@ -43,8 +44,9 @@ class NetworkService_Tests: XCTestCase {
     func test_fetchCoinsList_failure_wrongURL() {
         
         var someError: Error?
-        //не верное урл
+        
         let urlString = "https://api.coingecko.com/pi/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h"
+        
         let expectation = XCTestExpectation(description: "NO data loaded within 5 seconds.")
         
         self.networkService?.fetchCoinsList(urlsString: urlString, completion: { (result: Result<[CoinModel], Error>) in

@@ -25,6 +25,7 @@ final class FiltersPlateView: UIView {
     private lazy var filterByRankButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "filterByRankButton"
         button.setTitle("Rank ▼", for: .normal)
         button.titleLabel?.font = AppFont.semibold15.font
         button.setTitleColor(UIColor.theme.greenColor, for: .normal)

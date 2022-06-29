@@ -11,6 +11,10 @@
 		D1054F58286C0C0C005259C0 /* NetworkService_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F57286C0C0C005259C0 /* NetworkService_Tests.swift */; };
 		D1054F5A286C13BF005259C0 /* HomePresenter_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F59286C13BF005259C0 /* HomePresenter_Tests.swift */; };
 		D1054F5C286C235C005259C0 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F5B286C235C005259C0 /* MockNetworkService.swift */; };
+		D1054F60286C2EC4005259C0 /* HomeRouter_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F5F286C2EC4005259C0 /* HomeRouter_Tests.swift */; };
+		D1054F68286C491B005259C0 /* CryptoJotter_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */; };
+		D1054F6A286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */; };
+		D1054F71286C4964005259C0 /* HomeView_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1054F70286C4964005259C0 /* HomeView_UITests.swift */; };
 		D11B16B42859F075001D181F /* Portfolio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B22859F075001D181F /* Portfolio.xcdatamodeld */; };
 		D11B16B62859F0E5001D181F /* PortfolioModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */; };
 		D11B16B92859FCD1001D181F /* AddCoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B16B82859FCD1001D181F /* AddCoinViewController.swift */; };
@@ -63,6 +67,13 @@
 			remoteGlobalIDString = D12F4F082848C8130027B9A1;
 			remoteInfo = CryptoJotter;
 		};
+		D1054F6B286C491B005259C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D12F4F012848C8130027B9A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D12F4F082848C8130027B9A1;
+			remoteInfo = CryptoJotter;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +82,11 @@
 		D1054F57286C0C0C005259C0 /* NetworkService_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService_Tests.swift; sourceTree = "<group>"; };
 		D1054F59286C13BF005259C0 /* HomePresenter_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter_Tests.swift; sourceTree = "<group>"; };
 		D1054F5B286C235C005259C0 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		D1054F5F286C2EC4005259C0 /* HomeRouter_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter_Tests.swift; sourceTree = "<group>"; };
+		D1054F65286C491B005259C0 /* CryptoJotter_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoJotter_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoJotter_UITests.swift; sourceTree = "<group>"; };
+		D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoJotter_UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D1054F70286C4964005259C0 /* HomeView_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView_UITests.swift; sourceTree = "<group>"; };
 		D11B16B32859F075001D181F /* Portfolio.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Portfolio.xcdatamodel; sourceTree = "<group>"; };
 		D11B16B52859F0E5001D181F /* PortfolioModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioModuleBuilder.swift; sourceTree = "<group>"; };
 		D11B16B82859FCD1001D181F /* AddCoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +141,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1054F62286C491B005259C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D12F4F062848C8130027B9A1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,10 +161,10 @@
 		D1054F4F286C0BE9005259C0 /* CryptoJotter_Tests */ = {
 			isa = PBXGroup;
 			children = (
-				D1054F5D286C2396005259C0 /* MockServices */,
 				D1054F50286C0BE9005259C0 /* CryptoJotter_Tests.swift */,
 				D1054F57286C0C0C005259C0 /* NetworkService_Tests.swift */,
-				D1054F59286C13BF005259C0 /* HomePresenter_Tests.swift */,
+				D1054F5D286C2396005259C0 /* MockServices */,
+				D1054F5E286C2EA3005259C0 /* HomeModule_Tests */,
 			);
 			path = CryptoJotter_Tests;
 			sourceTree = "<group>";
@@ -152,6 +175,25 @@
 				D1054F5B286C235C005259C0 /* MockNetworkService.swift */,
 			);
 			path = MockServices;
+			sourceTree = "<group>";
+		};
+		D1054F5E286C2EA3005259C0 /* HomeModule_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				D1054F59286C13BF005259C0 /* HomePresenter_Tests.swift */,
+				D1054F5F286C2EC4005259C0 /* HomeRouter_Tests.swift */,
+			);
+			path = HomeModule_Tests;
+			sourceTree = "<group>";
+		};
+		D1054F66286C491B005259C0 /* CryptoJotter_UITests */ = {
+			isa = PBXGroup;
+			children = (
+				D1054F67286C491B005259C0 /* CryptoJotter_UITests.swift */,
+				D1054F69286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift */,
+				D1054F70286C4964005259C0 /* HomeView_UITests.swift */,
+			);
+			path = CryptoJotter_UITests;
 			sourceTree = "<group>";
 		};
 		D11B16B72859FCB4001D181F /* AddCoinModule */ = {
@@ -184,6 +226,7 @@
 			children = (
 				D12F4F0B2848C8130027B9A1 /* CryptoJotter */,
 				D1054F4F286C0BE9005259C0 /* CryptoJotter_Tests */,
+				D1054F66286C491B005259C0 /* CryptoJotter_UITests */,
 				D12F4F0A2848C8130027B9A1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -193,6 +236,7 @@
 			children = (
 				D12F4F092848C8130027B9A1 /* CryptoJotter.app */,
 				D1054F4E286C0BE9005259C0 /* CryptoJotter_Tests.xctest */,
+				D1054F65286C491B005259C0 /* CryptoJotter_UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,6 +367,24 @@
 			productReference = D1054F4E286C0BE9005259C0 /* CryptoJotter_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D1054F64286C491B005259C0 /* CryptoJotter_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1054F6D286C491B005259C0 /* Build configuration list for PBXNativeTarget "CryptoJotter_UITests" */;
+			buildPhases = (
+				D1054F61286C491B005259C0 /* Sources */,
+				D1054F62286C491B005259C0 /* Frameworks */,
+				D1054F63286C491B005259C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1054F6C286C491B005259C0 /* PBXTargetDependency */,
+			);
+			name = CryptoJotter_UITests;
+			productName = CryptoJotter_UITests;
+			productReference = D1054F65286C491B005259C0 /* CryptoJotter_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D12F4F082848C8130027B9A1 /* CryptoJotter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D12F4F1D2848C8140027B9A1 /* Build configuration list for PBXNativeTarget "CryptoJotter" */;
@@ -354,6 +416,10 @@
 						CreatedOnToolsVersion = 13.4.1;
 						TestTargetID = D12F4F082848C8130027B9A1;
 					};
+					D1054F64286C491B005259C0 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = D12F4F082848C8130027B9A1;
+					};
 					D12F4F082848C8130027B9A1 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -374,12 +440,20 @@
 			targets = (
 				D12F4F082848C8130027B9A1 /* CryptoJotter */,
 				D1054F4D286C0BE9005259C0 /* CryptoJotter_Tests */,
+				D1054F64286C491B005259C0 /* CryptoJotter_UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D1054F4C286C0BE9005259C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1054F63286C491B005259C0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -404,8 +478,19 @@
 			files = (
 				D1054F5C286C235C005259C0 /* MockNetworkService.swift in Sources */,
 				D1054F58286C0C0C005259C0 /* NetworkService_Tests.swift in Sources */,
+				D1054F60286C2EC4005259C0 /* HomeRouter_Tests.swift in Sources */,
 				D1054F51286C0BE9005259C0 /* CryptoJotter_Tests.swift in Sources */,
 				D1054F5A286C13BF005259C0 /* HomePresenter_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1054F61286C491B005259C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1054F68286C491B005259C0 /* CryptoJotter_UITests.swift in Sources */,
+				D1054F71286C4964005259C0 /* HomeView_UITests.swift in Sources */,
+				D1054F6A286C491B005259C0 /* CryptoJotter_UITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +549,11 @@
 			target = D12F4F082848C8130027B9A1 /* CryptoJotter */;
 			targetProxy = D1054F52286C0BE9005259C0 /* PBXContainerItemProxy */;
 		};
+		D1054F6C286C491B005259C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D12F4F082848C8130027B9A1 /* CryptoJotter */;
+			targetProxy = D1054F6B286C491B005259C0 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -511,6 +601,40 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CryptoJotter.app/CryptoJotter";
+			};
+			name = Release;
+		};
+		D1054F6E286C491B005259C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.berezovskiy.CryptoJotter-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CryptoJotter;
+			};
+			name = Debug;
+		};
+		D1054F6F286C491B005259C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.berezovskiy.CryptoJotter-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CryptoJotter;
 			};
 			name = Release;
 		};
@@ -692,6 +816,15 @@
 			buildConfigurations = (
 				D1054F54286C0BE9005259C0 /* Debug */,
 				D1054F55286C0BE9005259C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1054F6D286C491B005259C0 /* Build configuration list for PBXNativeTarget "CryptoJotter_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1054F6E286C491B005259C0 /* Debug */,
+				D1054F6F286C491B005259C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

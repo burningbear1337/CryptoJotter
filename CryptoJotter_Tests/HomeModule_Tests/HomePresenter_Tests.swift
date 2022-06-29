@@ -24,7 +24,7 @@ class HomePresenter_Tests: XCTestCase {
         self.homePresenter = nil
     }
 
-    func test_HomePresenter_sinkDataToView_success() {
+    func test_HomePresenter_sinkDataToView_FetchingData_success() {
         
         let expectation = XCTestExpectation(description: "Loading data within 5 sec.")
                         
@@ -46,7 +46,7 @@ class HomePresenter_Tests: XCTestCase {
         XCTAssertGreaterThan(self.coins.count, 0)
     }
     
-    func test_HomePresenter_sinkDataToView_failure() {
+    func test_HomePresenter_sinkDataToView_FetchingData_failure() {
         
         let expectation = XCTestExpectation(description: "Can't load within 5 sec")
         
