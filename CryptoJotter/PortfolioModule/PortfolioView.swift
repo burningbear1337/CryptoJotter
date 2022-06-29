@@ -53,7 +53,7 @@ final class PortfolioView: UIView, IPortfolioView {
     
     private lazy var emptyPortfolioText: UILabel = {
         let label = UILabel()
-        label.text = "Nothings found here..."
+        label.text = "Nothing found here..."
         label.textColor = UIColor.theme.accentColor
         label.textAlignment = .center
         label.font = AppFont.semibold17.font
@@ -68,13 +68,13 @@ final class PortfolioView: UIView, IPortfolioView {
                 if self.coins?.count == 0 {
                     UIView.animate(withDuration: 0.5, delay: 0) {
                         self.emptyPortfolioText.layer.opacity = 1
-                        self.filtersPlateView.alpha = 0
                     }
+                    self.filtersPlateView.alpha = 0
                 } else {
                     UIView.animate(withDuration: 0.5, delay: 0) {
-                        self.emptyPortfolioText.layer.opacity = 0
                         self.filtersPlateView.alpha = 1
-                    }
+                        self.emptyPortfolioText.layer.opacity = 0
+                    } 
                 }
                 self.tableView.reloadData()
             }

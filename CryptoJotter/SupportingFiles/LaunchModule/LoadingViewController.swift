@@ -31,7 +31,7 @@ final class LoadingViewController: UIViewController {
 
 private extension LoadingViewController {
     func setupTransition() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
             let nextVC = TabbarAssembly.build()
             nextVC.modalPresentationStyle = .fullScreen
             nextVC.modalTransitionStyle = .crossDissolve

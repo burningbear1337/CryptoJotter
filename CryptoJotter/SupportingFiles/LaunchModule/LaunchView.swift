@@ -88,21 +88,22 @@ private extension LaunchView {
         self.addSubview(self.loadingTextLabel)
         self.loadingTextLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.loadingTextLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 20),
+            self.loadingTextLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -150),
             self.loadingTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
     func animateView() {
         self.loadingTextLabel.alpha = 0
-        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3) {
+        UIView.animate(withDuration: 3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3) {
 
             self.loadingTextLabel.transform = CGAffineTransform(translationX: 0, y: -150)
             self.loadingTextLabel.alpha = 1
         }
-        
-        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3) {
+        self.coinsImageView.alpha = 0
+        UIView.animate(withDuration: 3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3) {
             self.coinsImageView.transform = CGAffineTransform(translationX: 0, y: -20)
+            self.coinsImageView.alpha = 1
         }
     }
 }
