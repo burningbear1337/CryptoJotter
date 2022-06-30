@@ -20,7 +20,7 @@ class AddCoinModule_UITest: XCTestCase {
         
         app.navigationBars["Your Portfolio"].buttons["Add to home screen"].tap()
         
-        let searchBar = app.textFields["Type in coin name or symbol..."]
+        let searchBar = app.textFields["customSearchBarTextField"]
         XCTAssertTrue(searchBar.waitForExistence(timeout: 5))
         searchBar.tap()
         searchBar.typeText("btc")
@@ -30,6 +30,24 @@ class AddCoinModule_UITest: XCTestCase {
         app.staticTexts["Current Price:"].tap()
         app.staticTexts["Your holdings:"].tap()
         app.staticTexts["Your deposit:"].tap()
+        
+        let coinsAmountTextField = app.textFields["coinsAmountTextField"]
+        coinsAmountTextField.tap()
+        coinsAmountTextField.typeText("\(Double.random(in: 0...1.00))")
+        XCTAssertTrue(coinsAmountTextField.exists)
+        
+        app.buttons["Save"].tap()
+        
+        sleep(1)
+        
+        searchBar.tap()
+        searchBar.typeText("eth")
+        app.collectionViews.cells.containing(.staticText, identifier: "Ethereum").element.tap()
+        coinsAmountTextField.tap()
+        coinsAmountTextField.typeText("\(Double.random(in: 0...1.00))")
+        XCTAssertTrue(coinsAmountTextField.exists)
+        
+        sleep(1)
         
         app.buttons["Save"].tap()
     }

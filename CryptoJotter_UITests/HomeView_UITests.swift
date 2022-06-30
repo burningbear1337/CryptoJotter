@@ -19,23 +19,16 @@ class HomeView_UITests: XCTestCase {
         let navTitle = app.staticTexts["Live Prices"]
         XCTAssertTrue(navTitle.waitForExistence(timeout: 5))
         
-        let textField = app.textFields["Type in coin name or symbol..."]
-        XCTAssertTrue(textField.waitForExistence(timeout: 5))
+        let textField = app.textFields["customSearchBarTextField"]
+        XCTAssertTrue(textField.exists)
         
         textField.tap()
         textField.typeText("Btc")
+        app.tables.cells.staticTexts["BTC"].tap()
+        
+        app.scrollViews.containing(.staticText, identifier:"Bitcoin").element.swipeDown()
     }
     
-    func test_tapYourPortfolioButton_exists() {
-        
-        app.launch()
-        
-        let tabbarButton1 = app.tabBars["Tab Bar"].buttons["Live Prices"]
-        let tabbarButton2 = app.tabBars["Tab Bar"].buttons["Your Portfolio"]
-        
-        XCTAssertTrue(tabbarButton1.waitForExistence(timeout: 5))
-        XCTAssertTrue(tabbarButton2.waitForExistence(timeout: 5))
-    }
     
     func test_HomeViewElementsExistance() {
         

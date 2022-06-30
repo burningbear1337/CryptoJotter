@@ -31,6 +31,7 @@ private extension CustomSearchBarView {
     
     func setuptextField() {
         self.textField.translatesAutoresizingMaskIntoConstraints = false
+        self.textField.accessibilityIdentifier = "customSearchBarTextField"
         self.textField.backgroundColor = UIColor.theme.backgroundColor
         self.textField.layer.cornerRadius = 10
         let emptyView = UIView(frame: .init(x: .zero, y: .zero, width: 16, height: .zero))

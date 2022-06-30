@@ -30,7 +30,7 @@ extension DetailsPresenter: IDetailsPresenter {
         self.view = view
         view.setupCoins(coin: self.coin)
         let urlString = urlForCoin(coin: self.coin)
-        self.networkService.fetchCoinData(urlsString: urlString) { (result: Result<CoinDetailsModel?, Error>) in
+        self.networkService.fetchCoinData(urlsString: urlString) { (result: Result<CoinDetailsModel, Error>) in
             switch result {
             case .success(let details):
                 view.setCoinsDetailsData(coinDetails: details)

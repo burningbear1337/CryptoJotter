@@ -87,6 +87,7 @@ final class AddCoinView: UIView, IAddCoinView {
     
     private lazy var coinsAmountTextField: UITextField = {
         let textField = UITextField()
+        textField.accessibilityIdentifier = "coinsAmountTextField"
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
         textField.keyboardType = .decimalPad

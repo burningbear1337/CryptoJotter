@@ -8,61 +8,70 @@
 import Foundation
 
 protocol INetworkService: AnyObject {
-    
-    func fetchCoinsList<T:Codable>(urlsString: String, completion: @escaping (Result<[T],Error>)->())
-    func fetchCoinData<T:Codable>(urlsString: String?, completion: @escaping (Result<T?,Error>)->())
+    func fetchCoinsList(urlsString: String, completion: @escaping (Result<[CoinModel],Error>)->())
+    func fetchCoinData(urlsString: String?, completion: @escaping (Result<CoinDetailsModel,Error>)->())
 }
 
 final class NetworkService: INetworkService {
     
-    func fetchCoinsList<T>(urlsString: String, completion: @escaping (Result<[T], Error>) -> ()) where T : Decodable, T : Encodable {
+    func fetchCoinsList(urlsString: String, completion: @escaping (Result<[CoinModel], Error>) -> ()){
         
         guard let url = URL(string: urlsString) else { return }
         
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let error = error {
+        URLSession.shared.request(url: url, expecting: [CoinModel].self) { (result: Result<[CoinModel], Error>) in
+            switch result {
+            case .success(let coins):
+                completion(.success(coins))
+            case .failure(let error):
                 completion(.failure(error))
             }
-            
-            guard let data = data else { return }
-            
-            do {
-                let result = try JSONDecoder().decode([T].self, from: data)
-                completion(.success(result))
-            }
-            catch let error {
-                completion(.failure(error))
-                print(error)
-            }
-            
-        }.resume()
+        }
     }
     
-    func fetchCoinData<T>(urlsString: String?, completion: @escaping (Result<T?, Error>) -> ()) where T : Decodable, T : Encodable {
+    func fetchCoinData(urlsString: String?, completion: @escaping (Result<CoinDetailsModel, Error>) -> ()) {
         
         guard let url = urlsString else { return }
         
         guard let url = URL(string: url) else { return }
         
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let error = error {
+        URLSession.shared.request(url: url, expecting: CoinDetailsModel.self) { (result: Result<CoinDetailsModel, Error>) in
+            switch result {
+            case .success(let coin):
+                completion(.success(coin))
+            case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+}
+
+extension URLSession {
+    func request<T: Codable>(url: URL?, expecting: T.Type, completion: @escaping (Result<T, Error>)->()) {
+        guard let url = url else {
+            let error = NSError(domain: "Wrong url", code: 1, userInfo: nil)
+            completion(.failure(error))
+            return
+        }
+        
+        let task = dataTask(with: url) { data, _, error in
+            guard let data = data else {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    let error = NSError(domain: "Wrong data", code: 3, userInfo: nil)
+                    completion(.failure(error))
+                }
+                return
+            }
             
-            guard let data = data else { return }
             do {
-                let result = try JSONDecoder().decode(T.self, from: data)
+                let result = try JSONDecoder().decode(expecting, from: data)
                 completion(.success(result))
             }
-            catch let error {
-                completion(.failure(error))
+            catch {
+                print(error)
             }
-        }.resume()
+        }
+        task.resume()
     }
 }
